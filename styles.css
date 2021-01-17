@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Noto+Sans+KR&display=swap');
+@import "reset.css";
+
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  min-width:1024px;
+}
+
+#header {
+  background-color:rgb(233, 75, 75);
+  color:white;
+  height:100px;
+  padding:10px;
+}
+#sidebar{
+  background-color:#0a5353;
+  color:white;
+  width:200px;
+  height:300px;
+  float:left;
+}
+#section {
+  width:200px;
+  text-align:left;
+  float:left;
+  padding:10px;
+}
+#footer {
+  background-color:#FFCC00;
+  height:100px;
+  clear:both;
+  padding:10px;
+}
+#header, #sidebar, #section, #footer { text-align:center; }
+#header{ line-height:30px; }
+#footer { line-height:80px; }
+#sidebar, #section { line-height:50px; }
