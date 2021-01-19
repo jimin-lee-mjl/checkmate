@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.route('/') # 접속하는 url
 def index():
-  return render_template('home.html')
+  return render_template('index.html')
 
   @app.route('/todo_personal') # 접속하는 url
 def index():
