@@ -29,7 +29,7 @@ def index():
 
 @app.route('/todo-personal') 
 def todo_personal():
-  return render_template('todo-personal.html')
+  return render_template('todo_personal.html')
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
