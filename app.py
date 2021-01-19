@@ -23,13 +23,13 @@ def load_user(user_id):
   else:
     return users[1]
 
-@app.route('/') # 접속하는 url
+@app.route('/') 
 def index():
   return render_template('index.html')
 
-  @app.route('/todo_personal') # 접속하는 url
-def index():
-  return render_template('todo_personal.html')
+@app.route('/todo-personal') 
+def todo_personal():
+  return render_template('todo-personal.html')
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
