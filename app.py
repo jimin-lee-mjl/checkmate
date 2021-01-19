@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template,request, jsonify
 from flask_bootstrap import Bootstrap
 import json
 
