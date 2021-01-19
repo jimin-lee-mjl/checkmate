@@ -1,0 +1,37 @@
+[
+  {
+    "title": "New Year Eve",
+    "start": "2021-01-01"
+  },
+  {
+    "title": "Cloud class",
+    "start": "2021-01-21",
+    "end": "2021-01-21"
+  },
+  {
+    "title": "Crawling HW",
+    "start": "2021-01-18",
+    "end": "2021-01-18"
+  },
+  {
+    "name": "Elice",
+    "title": "Elice class",
+    "start": "2021-01-20",
+    "end": "2021-01-20"
+  },
+  {
+    "name": "Elice",
+    "title": "Elice class",
+    "start": "2021-01-23",
+    "end": "2021-01-23"
+  },
+  {
+    "title": "Project Meeting",
+    "start": "2021-01-21",
+    "end": "2021-01-21"
+  },
+  {
+    "title": "Birthday-Jungin",
+    "start": "2021-03-21"
+  }
+]

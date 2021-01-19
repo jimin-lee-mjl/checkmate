@@ -1,4 +1,5 @@
-from flask import Flask, render_template, redirect, url_for
+import json
+from flask import Flask, render_template, redirect, url_for, jsonify
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField
@@ -7,8 +8,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from login import LoginForm, SignupForm, User, users
 
-#Flask 객체 인스턴스 생성
 app = Flask(__name__)
+
 bootstrap = Bootstrap(app)
 app.config['SECRET_KEY'] = 'secrtidsfjo222'
 login_manager = LoginManager()
@@ -63,6 +64,22 @@ def logout():
 @login_required
 def dashboard():
   return render_template('dash_tp.html', name = current_user.username)
+
+@app.route('/calendar')
+def calendar():
+    return render_template("calendar.html")
+
+@app.route('/data')
+def return_data():
+    start_date = request.args.get('start', '')
+    end_date = request.args.get('end', '')
+
+    with open("events.json", "r") as input_data:
+        return input_data.read()
+# @app.route('/calendar')
+# def hello():
+#     return render_template("/calendar/calendar.html")
+
 
 if __name__=="__main__":
   app.run(debug=True)
