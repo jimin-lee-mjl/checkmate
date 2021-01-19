@@ -1,11 +1,11 @@
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect, url_for
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField
 from wtforms.validators import InputRequired, Email, Length
-from login import LoginForm, SignupForm, User, users
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
+from login import LoginForm, SignupForm, User, users
 
 #Flask 객체 인스턴스 생성
 app = Flask(__name__)
@@ -33,8 +33,7 @@ def signup():
     hashed_pw = generate_password_hash(form.password.data, method='sha256')
     new_user = User(form.username.data, form.email.data, hashed_pw)
     new_user.create_user()
-    return redirect('/login')
-
+    return redirect(url_for('login'))
   return render_template('signup_tp.html', form=form)
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -45,19 +44,16 @@ def login():
     if user:
       if check_password_hash(user.password, form.password.data):
         login_user(user, remember=form.remember_me.data)
-        return redirect('/dashboard')
+        return redirect(url_for('dashboard'))
       else:
           return "Invalid password"
-    # if IndexError:
-    #   return redirect('/signup') This part should be handled later
-
   return render_template('login_tp.html', form=form)
 
 @app.route('/logout')
 @login_required
 def logout():
   logout_user()
-  return redirect('/')
+  return redirect(url_for('index'))
 
 @app.route('/dashboard')
 @login_required
