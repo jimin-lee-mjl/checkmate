@@ -7,5 +7,9 @@ app = Flask(__name__)
 def index():
   return render_template('home.html')
 
+  @app.route('/todo_personal') # 접속하는 url
+def index():
+  return render_template('todo_personal.html')
+
 if __name__=="__main__":
   app.run(debug=True)

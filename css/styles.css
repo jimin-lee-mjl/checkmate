@@ -1,42 +1,40 @@
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Noto+Sans+KR&display=swap');
-@import "reset.css";
-
-
-* {
-  box-sizing: border-box;
-}
+@import "reset.css";    
+@import "todo_personal.css";  
+/* 개인 css */
 
 body {
   font-family: 'Noto Sans KR', sans-serif;
-  min-width:1024px;
+  line-height: 1.6;
 }
 
-#header {
-  background-color:rgb(233, 75, 75);
-  color:white;
-  height:100px;
-  padding:10px;
-}
+
 #sidebar{
-  background-color:#0a5353;
+  background-color:#a360da;
   color:white;
   width:200px;
-  height:300px;
+  height: 400px;
   float:left;
 }
-#section {
-  width:200px;
-  text-align:left;
-  float:left;
-  padding:10px;
-}
+
 #footer {
-  background-color:#FFCC00;
-  height:100px;
-  clear:both;
-  padding:10px;
+
+  height:24px; // Replace with the height your footer should be
+  width: 100%; // Don't change
+  background-image: none;
+  background-repeat: repeat;
+  background-attachment: scroll;
+  background-position: 0% 0%;
+  position: fixed;
+  bottom: 0pt;
+  left: 0pt;
+
+}   
+
+.footer_contents {
+
+  height:24px; // Replace with the height your footer should be
+  width: 1000px; // Visible width of footer
+  margin:auto;
+
 }
-#header, #sidebar, #section, #footer { text-align:center; }
-#header{ line-height:30px; }
-#footer { line-height:80px; }
-#sidebar, #section { line-height:50px; }
