@@ -24,7 +24,11 @@ def load_user(user_id):
 
 @app.route('/') # 접속하는 url
 def index():
-  return render_template('home.html')
+  return render_template('index.html')
+
+  @app.route('/todo_personal') # 접속하는 url
+def index():
+  return render_template('todo_personal.html')
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
