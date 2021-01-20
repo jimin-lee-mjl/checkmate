@@ -6,15 +6,35 @@ from wtforms import StringField, PasswordField, BooleanField
 from wtforms.validators import InputRequired, Email, Length
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
-from login import LoginForm, SignupForm, User, users
+from flask_sqlalchemy import SQLAlchemy
+from login import LoginForm, SignupForm, Users, users
+# requirements : pip install flask-wtf, flask-bootstrap, flask-login, email-validator, flask-sqlalchemy
+# to connect to mysql : sudo apt-get install python-dev default-libmysqlclient-dev libssl-dev (Ubuntu)
+#                       pip intall mysqlclient
+#                       pip install -U flask-mysqldb
 
 app = Flask(__name__)
 
 bootstrap = Bootstrap(app)
+
 app.config['SECRET_KEY'] = 'secrtidsfjo222'
+
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://elice:miniproject2@127.0.0.1:3306/elice"
+db = SQLAlchemy(app)
+
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(15), unique=True, nullable=False)
+    email = db.Column(db.String(50), unique=True, nullable=False)
+    password = db.Column(db.String(80), nullable=False)
+
+db.create_all()
+db.session.commit()
+
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -36,7 +56,7 @@ def signup():
   form = SignupForm()
   if form.validate_on_submit():
     hashed_pw = generate_password_hash(form.password.data, method='sha256')
-    new_user = User(form.username.data, form.email.data, hashed_pw)
+    new_user = Users(form.username.data, form.email.data, hashed_pw)
     new_user.create_user()
     return redirect(url_for('login'))
   return render_template('signup_tp.html', form=form)

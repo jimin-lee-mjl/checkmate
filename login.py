@@ -3,8 +3,6 @@ from wtforms import StringField, PasswordField, BooleanField
 from wtforms.validators import InputRequired, Email, Length
 from flask_login import UserMixin
 
-# flask-wtf, flask-bootstrap, (email_validator), flask-login
-
 users = []
 
 class LoginForm(FlaskForm):
@@ -17,7 +15,7 @@ class SignupForm(FlaskForm):
     username = StringField('username', validators=[InputRequired(), Length(min=4, max=15)])
     password = PasswordField('password', validators=[InputRequired(), Length(min=8, max=80)])
 
-class User(UserMixin):
+class Users(UserMixin):
     def __init__(self, username, email, password):
         self.id = len(users) + 1
         self.username = username
@@ -26,5 +24,5 @@ class User(UserMixin):
     def create_user(self):
         users.append(self)
 
-user1 = User('elice', 'elice@elice.com', 'rabbithole')
+user1 = Users('elice', 'elice@elice.com', 'rabbithole')
 user1.create_user()
