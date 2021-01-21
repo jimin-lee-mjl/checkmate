@@ -8,10 +8,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user, UserMixin
 from flask_sqlalchemy import SQLAlchemy
 from login import LoginForm, SignupForm
-# requirements : pip install flask-wtf, flask-bootstrap, flask-login, email-validator, flask-sqlalchemy
-# to connect to mysql : sudo apt-get install python-dev default-libmysqlclient-dev libssl-dev (Ubuntu)
-#                       pip intall mysqlclient
-#                       pip install -U flask-mysqldb
+
 
 app = Flask(__name__)
 
@@ -48,9 +45,9 @@ def load_user(user_id):
 def index():
   return render_template('index.html')
 
-# @app.route('/todo-personal') 
-# def todo_personal():
-#   return render_template('todo-personal.html')
+@app.route('/todo-personal') 
+def todo_personal():
+  return render_template('todo_personal.html')
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -95,20 +92,20 @@ def logout():
 def dashboard():
   return render_template('dash_tp.html', name = current_user.username)
 
+@app.route('/calendar')
+def calendar():
+    return render_template("calendar.html")
+
+@app.route('/data')
+def return_data():
+    start_date = request.args.get('start', '')
+    end_date = request.args.get('end', '')
+
+    with open("events.json", "r") as input_data:
+        return input_data.read()
 # @app.route('/calendar')
-# def calendar():
-#     return render_template("calendar.html")
-
-# @app.route('/data')
-# def return_data():
-#     start_date = request.args.get('start', '')
-#     end_date = request.args.get('end', '')
-
-#     with open("events.json", "r") as input_data:
-#         return input_data.read()
-# # @app.route('/calendar')
-# # def hello():
-# #     return render_template("/calendar/calendar.html")
+# def hello():
+#     return render_template("/calendar/calendar.html")
 
 
 if __name__=="__main__":
