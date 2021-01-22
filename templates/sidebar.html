@@ -5,12 +5,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <!-- ===== CSS ===== -->
-        <link rel="stylesheet" href="assets/css/styles.css">
-        
+        <!-- <link rel="stylesheet" href="css/sidebar.css"> -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='sidebar.css') }}">
+
         <title>Sidebar sub menus</title>
     </head>
     <body id="body-pd">
-        <div class="l-navbar" id="navbar">
+        <div class="l-navbar expander" id="navbar">
             <nav class="nav">
                 <div>
                     <div class="nav__brand">
@@ -33,9 +34,9 @@
                             <a href="#" class="nav__create"><ion-icon name="person-add-outline" class="nav__icon"></ion-icon></a>
                             <span class="nav__name">Group</span>
 
-                            <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
+                            <ion-icon name="chevron-down-outline" class="collapse__link md hydrated rotate"></ion-icon>
 
-                            <ul class="collapse__menu">
+                            <ul class="collapse__menu showCollapse">
                                 <a href="#" class="collapse__sublink">Elice</a>
                                 <a href="#" class="collapse__sublink">Study</a>
                             </ul>
@@ -44,9 +45,9 @@
                         <div class="nav__link collapse">
                             <a href="#" class="nav__create"><ion-icon name="duplicate-outline" class="nav__icon"></ion-icon></a>
                             <span class="nav__name">Personal</span>
-                            <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
+                            <ion-icon name="chevron-down-outline" class="collapse__link md hydrated rotate"></ion-icon>
 
-                            <ul class="collapse__menu">
+                            <ul class="collapse__menu showCollapse">
                                 <a href="#" class="collapse__sublink">Personal_TODO</a>
                             </ul>
                         </div>
@@ -82,6 +83,7 @@
         <script src="https://unpkg.com/ionicons@5.1.2/dist/ionicons.js"></script>
         
         <!-- ===== MAIN JS ===== -->
-        <script src="assets/js/main.js"></script>
+        <!-- <script src="js/sidebar.js"></script> -->
+        <script src="{{ url_for('static', filename='sidebar.js') }}"></script>
     </body>
 </html>
