@@ -11,7 +11,7 @@ app = Flask(__name__)
 
 bootstrap = Bootstrap(app)
 app.config['SECRET_KEY'] = 'secrtidsfjo222'
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://elice:miniproject2@127.0.0.1:3306/elice"
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://elice:miniproject2@localhost:3306/elice"
 db = SQLAlchemy(app)
 
 login_manager = LoginManager()
