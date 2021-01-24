@@ -19,5 +19,7 @@
   }
   ```
   - 3-3. '유저 이름', '비밀번호', '데이터베이스 이름'을 채워넣어 주세요. (이 파일은 git이 추적하지 않습니다.)
+4. flask run 명령을 실행하기 전에 service mysql start 명령을 통해 mysql을 실행시키고 flask를 실행시킵니다. 
+  - 4-1. service mysql start 명령이 작동하지 않는다면 sudo service mysql start 명령을 시도해보세요. 
 
 
