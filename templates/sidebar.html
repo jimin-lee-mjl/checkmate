@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="UTF-8">
+         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-        <!-- ===== CSS ===== -->
-        <!-- <link rel="stylesheet" href="css/sidebar.css"> -->
+        {% block header %}{% endblock %}
         <link rel="stylesheet" href="{{ url_for('static', filename='sidebar.css') }}">
-
+        
         <title>Sidebar sub menus</title>
+
     </head>
     <body id="body-pd">
         <div class="l-navbar expander" id="navbar">
@@ -58,6 +57,7 @@
                             <ion-icon name="folder-outline" class="nav__icon"></ion-icon>
                             <span class="nav__name">완료 저장소</span>
                         </a>
+                        
                         <!-- 설정 -->
                         <a href="#" class="nav__link">
                             <ion-icon name="settings-outline" class="nav__icon"></ion-icon>
@@ -78,12 +78,14 @@
             </nav>
         </div>
 
-        <h1>Componentes</h1>
+        {% block content %}{% endblock %}
+
         <!-- ===== IONICONS ===== -->
         <script src="https://unpkg.com/ionicons@5.1.2/dist/ionicons.js"></script>
         
         <!-- ===== MAIN JS ===== -->
         <!-- <script src="js/sidebar.js"></script> -->
         <script src="{{ url_for('static', filename='sidebar.js') }}"></script>
+        
     </body>
 </html>
