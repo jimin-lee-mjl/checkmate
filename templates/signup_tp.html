@@ -5,16 +5,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../static/login.css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700,800&display=swap" rel="stylesheet">
     <title>signup</title>
 </head>
 <body>
-    <form action="/auth/signup" method="POST">
-        <h2>Sign Up</h2>
-        {{ form.hidden_tag() }}
-        {{ wtf.form_field(form.username) }}
-        {{ wtf.form_field(form.email) }}
-        {{ wtf.form_field(form.password) }}
-        <button>Sign Up</button>
-    </form>
+    <div cont>
+        <div class="cont s-signup">
+            <div class="sub-cont">
+                <div class="img" style="background-color:#dfc3ed;">
+                    <div class="img-text m-in">
+                        <h2>One of us?</h2>
+                        <p>If you already has an account, just sign in. We've missed you!</p>
+                    </div>
+                    <div class="img-btn">
+                        <span class="m-in">Sign In</span>
+                    </div>
+                </div>
+                <div class="form sign-up" style="padding-top: 50px;>
+                    <form action="/auth/signup" method="POST">
+                        <h2>Sign Up</h2>
+                        {{ form.hidden_tag() }}
+                        <label>
+                            <span>{{ wtf.form_field(form.username) }}</span>
+                        </label>
+                        <label>
+                            <span>{{ wtf.form_field(form.email) }}</span>
+                        </label>
+                        <label>
+                            <span>{{ wtf.form_field(form.password) }}</span>
+                        </label>
+                        <button class="submit">Sign Up Now</button>
+                    </form>
+            
+                <div class="social-media">
+                    <ul>
+                    <li><img src="../static/login_images/facebook.png"></li>
+                    <li><img src="../static/login_images/twitter.png"></li>
+                    <li><img src="../static/login_images/linkedin.png"></li>
+                    <li><img src="../static/login_images/instagram.png"></li>
+                    </ul>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>    
 </body>
 </html>
