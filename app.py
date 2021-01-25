@@ -33,16 +33,16 @@ def create_app():
 
       with open("events.json", "r") as input_data:
           return input_data.read()
-  # @app.route('/calendar')
-  # def hello():
-  #     return render_template("/calendar/calendar.html")
 
   with app.app_context():
+    import db
+    db.init_db()
+
     import auth
     app.register_blueprint(auth.bp)
 
-    import db
-    db.init_db()
+    import todo
+    app.register_blueprint(todo.bp)
 
   if __name__=="__main__":
     app.run(debug=True)  
