@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Noto+Sans+KR&display=swap');
-@import "reset.css";    
+/* @import "reset.css";     */
 @import "todo_personal.css";  
 /* 개인 css */
 
@@ -9,13 +9,6 @@ body {
 }
 
 
-#sidebar{
-  background-color:#a360da;
-  color:white;
-  width:200px;
-  height: 400px;
-  float:left;
-}
 
 #footer {
 
