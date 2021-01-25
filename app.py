@@ -11,11 +11,15 @@ def create_app():
 
   @app.route('/') 
   def index():
-    return render_template('index.html')
+    return render_template('tasks.html')
 
-  @app.route('/todo-personal') 
-  def todo_personal():
-    return render_template('todo_personal.html')
+  @app.route('/tasks') 
+  def tasks():
+    return render_template('tasks.html')
+
+  @app.route('/tasks-group') 
+  def tasks_group():
+    return render_template('tasks_group.html')
 
   @app.route('/dashboard')
   @login_required

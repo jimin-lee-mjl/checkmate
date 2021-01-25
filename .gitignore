@@ -2,3 +2,4 @@ miniproject-env/
 .vscode/
 __pycache__/
 config.py
+workspace.code-workspace
