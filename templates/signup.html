@@ -14,15 +14,21 @@
         <div class="cont s-signup">
             <div class="sub-cont">
                 <div class="img" style="background-color:#dfc3ed;">
+                <!-- <style>
+                    .img {
+                        background-image: url( "../static/login_images/bg.jpg");
+                    }
+                </style> -->
                     <div class="img-text m-in">
                         <h2>One of us?</h2>
                         <p>If you already has an account, just sign in. We've missed you!</p>
                     </div>
                     <div class="img-btn">
-                        <span class="m-in">Sign In</span>
+                        <!-- <span class="m-in" onclick="login()">Sign In</span> -->
+                        <span><button type="button" class="m-in" onclick="{{ url_for('auth.login') }}">Sign In</button></span>
                     </div>
                 </div>
-                <div class="form sign-up" style="padding-top: 50px;>
+                <div class="form sign-up" style="padding-top: 50px";>
                     <form action="/auth/signup" method="POST">
                         <h2>Sign Up</h2>
                         {{ form.hidden_tag() }}

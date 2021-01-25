@@ -36,7 +36,7 @@ def signup():
             db.session.add(new_user)
             db.session.commit()
             return redirect(url_for('auth.login'))
-    return render_template('signup_tp.html', form=form)
+    return render_template('signup.html', form=form)
 
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
@@ -52,7 +52,7 @@ def login():
         else:
             login_user(user, remember=form.remember_me.data)
             return redirect(url_for('dashboard'))
-    return render_template('login_tp.html', form=form)
+    return render_template('login.html', form=form)
 
 @bp.route('/logout')
 @login_required
