@@ -1,0 +1,58 @@
+{% import "bootstrap/wtf.html" as wtf %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../static/login.css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700,800&display=swap" rel="stylesheet">
+    <title>login</title>
+</head>
+<body>
+    <div class="cont">
+        <div class="form sign-in" style="padding-top: 50px";>
+            <form action="/auth/login" method="POST">
+                <h2>Sign In</h2>
+                {{ form.hidden_tag() }}
+                <label>
+                    <span>{{ wtf.form_field(form.username) }}</span>
+                </label>
+                <label>
+                    <span>{{ wtf.form_field(form.password) }}</span>
+                </label>
+                {{ wtf.form_field(form.remember_me) }}
+                <button class="submit">Sign In</button>
+            </form>
+          
+            <p class="forgot-pass">Forgot Password ?</p>
+    
+          <div class="social-media">
+            <ul>
+              <li><img src="../static/login_images/facebook.png"></li>
+              <li><img src="../static/login_images/twitter.png"></li>
+              <li><img src="../static/login_images/linkedin.png"></li>
+              <li><img src="../static/login_images/instagram.png"></li>
+            </ul>
+          </div>
+        </div>
+    
+        <div class="sub-cont">
+          <div class="img" style="background-color:#dfc3ed;">
+            <!-- <style>
+                .img {
+                    background-image: url( "../static/login_images/bg.jpg" );
+                }
+            </style> -->
+            <div class="img-text m-up">
+              <h2>New here?</h2>
+              <p>Sign up and discover ssgreat amount of new opportunities!</p>
+            </div>
+            <div class="img-btn">
+              <span><button type="button" class="m-up" onclick="location.href='/auth/login'">Sign Up</button></span>
+            </div>
+          </div>
+        </div>
+      </div>
+</body>
+</html>
