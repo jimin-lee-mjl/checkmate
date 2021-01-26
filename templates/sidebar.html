@@ -18,11 +18,11 @@
                         <a href="#" class="nav__logo">TO DO LIST</a>
                     </div>
                     <div class="nav__list">
-                        <a href="#" class="nav__link active">
+                        <a href="#" class="nav__link active" onclick="location.href='/'">
                             <ion-icon name="home-outline" class="nav__icon"></ion-icon>
                             <span class="nav__name">Dashboard</span>
                         </a>
-                        <a href="#" class="nav__link">
+                        <a href="#" class="nav__link" onclick="location.href='/calendar'">
                             <ion-icon name="calendar-outline" class="nav__icon"></ion-icon>
                             <span class="nav__name">Calender</span>
                         </a>
@@ -30,7 +30,7 @@
                         <hr size="1" color="white" noshade>
 
                         <div class="nav__link collapse">
-                            <a href="#" class="nav__create"><ion-icon name="person-add-outline" class="nav__icon"></ion-icon></a>
+                            <a href="#" class="nav__create" onclick="location.href='/todo-personal'"><ion-icon name="person-add-outline" class="nav__icon"></ion-icon></a>
                             <span class="nav__name">Group</span>
 
                             <ion-icon name="chevron-down-outline" class="collapse__link md hydrated rotate"></ion-icon>
@@ -42,7 +42,7 @@
                         </div>
 
                         <div class="nav__link collapse">
-                            <a href="#" class="nav__create"><ion-icon name="duplicate-outline" class="nav__icon"></ion-icon></a>
+                            <a href="#" class="nav__create" onclick="location.href='/todo-personal'"><ion-icon name="duplicate-outline" class="nav__icon"></ion-icon></a>
                             <span class="nav__name">Personal</span>
                             <ion-icon name="chevron-down-outline" class="collapse__link md hydrated rotate"></ion-icon>
 
@@ -77,6 +77,38 @@
                 </div>
             </nav>
         </div>
+<!--         
+        <script type="text/javascript">
+            function addItem() {
+                // create the navbar element
+                // var li = $("<li></li>");
+                var a = $("<a href="#" class="collapse__sublink"></a>");
+                var navbar = $(".collapse__menu showCollapse");
+        
+                a.text("New List");
+                
+                // remove the JQM auto-init classes
+                // navbar.find("*").andSelf().each(function(){
+                //     $(this).removeClass(function(i, cn){
+                //         var matches = cn.match (/ui-[\w\-]+/g) || [];
+                //         return (matches.join (' '));
+                //     });
+                //     if ($(this).attr("class") == "") {
+                //         $(this).removeAttr("class");
+                //     }
+                // });
+        
+                // // destroy the navbar widget object
+                // navbar.navbar("destroy");
+        
+                // append the newly created element
+                li.appendTo($("#page1 ul"));
+        
+                // re-init the navbar
+                navbar.navbar();
+                console.log(navbar.data());
+            }
+        </script> -->
 
         {% block content %}{% endblock %}
 
