@@ -15,6 +15,12 @@ class User(UserMixin, db.Model):
       password = db.Column(db.String(80), nullable=False)
       institute = db.Column(db.String(45), nullable=True)
 
+class TodoList(UserMixin, db.Model):
+      id = db.Column(db.Integer, primary_key=True)
+      title = db.Column(db.String(20), nullable=False)
+      start = db.Column(db.String(20), nullable=False)
+      end = db.Column(db.String(20))
+
 # class Group(db.Model):
 #       id = db.Column(db.Integer, primary_key=True)
 #       username = db.Column(db.String(15), unique=True, nullable=False)
