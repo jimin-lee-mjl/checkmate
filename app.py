@@ -41,8 +41,8 @@ def create_app():
     import auth
     app.register_blueprint(auth.bp)
 
-    import todo
-    app.register_blueprint(todo.bp)
+    # import todo
+    # app.register_blueprint(todo.bp)
 
   if __name__=="__main__":
     app.run(debug=True)  
