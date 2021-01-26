@@ -14,25 +14,6 @@ class User(UserMixin, db.Model):
       username = db.Column(db.String(15), unique=True, nullable=False)
       email = db.Column(db.String(50), unique=True, nullable=False)
       password = db.Column(db.String(80), nullable=False)
-      institute = db.Column(db.String(45), nullable=True)
-
-# class Group(db.Model):
-#       id = db.Column(db.Integer, primary_key=True)
-#       username = db.Column(db.String(15), unique=True, nullable=False)
-#       institute = db.Column(db.String(45), nullable=True)
-
-# class TodoList(db.Model):
-#       id = db.Column(db.Integer, primary_key=True)
-#       title = db.Column(db.String(45), nullable=False)
-#       content = 
-#       due = 
-#       status = db.Column(db.String(45), nullable=True)
-
-# class Comment(db.Model):
-#       id = db.Column(db.Integer, primary_key=True)
-
-# class Member(db.Model):
-#       role = db.Column(db.String(45), nullable=False)
 
 def init_db():
     db.create_all()
