@@ -22,9 +22,6 @@ def create_app():
   def dashboard():
     return render_template('dash_tp.html', name = current_user.username)
 
-  @app.route('/calendar')
-  def calendar():
-      return render_template("calendar.html")
 
   @app.route('/data')
   def return_data():
@@ -33,13 +30,14 @@ def create_app():
 
       with open("events.json", "r") as input_data:
           return input_data.read()
-  # @app.route('/calendar')
-  # def hello():
-  #     return render_template("/calendar/calendar.html")
+  
 
   with app.app_context():
     import db
     db.init_db()
+
+    import cal
+    app.register_blueprint(cal.bp)
 
     import auth
     app.register_blueprint(auth.bp)
@@ -51,6 +49,4 @@ def create_app():
   return app
 
     
-
-
 
