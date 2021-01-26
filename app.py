@@ -26,9 +26,6 @@ def create_app():
   def dashboard():
     return render_template('dash_tp.html', name = current_user.username)
 
-  @app.route('/calendar')
-  def calendar():
-      return render_template("calendar.html")
 
   @app.route('/data')
   def return_data():
@@ -37,16 +34,29 @@ def create_app():
 
       with open("events.json", "r") as input_data:
           return input_data.read()
+<<<<<<< HEAD
+=======
+  
+>>>>>>> feature/calendar_db
 
   with app.app_context():
     import db
     db.init_db()
 
+<<<<<<< HEAD
     import auth
     app.register_blueprint(auth.bp)
 
     # import todo
     # app.register_blueprint(todo.bp)
+=======
+    import cal
+    app.register_blueprint(cal.bp)
+
+    import auth
+    app.register_blueprint(auth.bp)
+
+>>>>>>> feature/calendar_db
 
   if __name__=="__main__":
     app.run(debug=True)  
@@ -54,6 +64,4 @@ def create_app():
   return app
 
     
-
-
 
