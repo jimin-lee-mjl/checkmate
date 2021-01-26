@@ -23,9 +23,8 @@
                         <h2>One of us?</h2>
                         <p>If you already has an account, just sign in. We've missed you!</p>
                     </div>
-                    <div class="img-btn">
-                        <!-- <span class="m-in" onclick="login()">Sign In</span> -->
-                        <span><button type="button" class="m-in" onclick="{{ url_for('auth.login') }}">Sign In</button></span>
+                    <div class="img-btn" onclick="location.href='/auth/login'">
+                        <span class="m-in">Sign In</span>
                     </div>
                 </div>
                 <div class="form sign-up" style="padding-top: 50px";>
