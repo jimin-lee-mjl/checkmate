@@ -1,12 +1,14 @@
 import jsonify
-from sqlalchemy import text
+from db import TodoList, db
+from flask import Flask, json, request, jsonify, app
+from flask_mysqldb import MySQL,MySQLdb #pip install flask-mysqldb https://github.com/alexferl/flask-mysqldb
+from flask import current_app
 from flask import Blueprint
 from flask import render_template, redirect, url_for, current_app
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, login_user, logout_user, login_required
 from form import LoginForm, SignupForm
 from db import TodoList, db
-
 
 bp = Blueprint("calendar", __name__, url_prefix="/calendar")
 
@@ -22,14 +24,17 @@ def calendar():
 # @bp.route('/study')
 # def calendar():
 #     return render_template("calendar.html")
-
-#데이터베이스에서 데이터 읽어와서 파일에 저장
+list2 = []
+#데이터베이스에서 데이터 읽어와서 json파일에 저장
 @bp.route('/data')
 def get_data():
-  sql = text('select * from todo')
-  result = TodoList.query.filter(db.session.execute(sql)).all()
-  #nrow = len(result)
-  #return jsonify(result) 
-  #return statement.compile(result)
+  result = TodoList.query.filter(TodoList.id== 1).all()
+  
+  return str(result)
+def make_json():
+  with open('test.json', 'w') as outfile:
+    json.dump(get_data(), outfile, indent=4)
+
+
 
 
