@@ -1,4 +1,10 @@
 miniproject-env/
 .vscode/
+<<<<<<< HEAD
 pycache/
 config.py
+=======
+__pycache__/
+config.py
+workspace.code-workspace
+>>>>>>> feature/tasks
