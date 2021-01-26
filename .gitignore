@@ -1,4 +1,4 @@
 miniproject-env/
 .vscode/
-__pycache__/
+pycache/
 config.py
