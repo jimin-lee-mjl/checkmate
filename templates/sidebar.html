@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-         <meta charset="UTF-8">
+        <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         {% block header %}{% endblock %}
         <link rel="stylesheet" href="{{ url_for('static', filename='sidebar.css') }}">
-        
         <title>Sidebar sub menus</title>
 
     </head>
@@ -30,12 +29,11 @@
                         <hr size="1" color="white" noshade>
 
                         <div class="nav__link collapse">
-                            <a href="#" class="nav__create" onclick="location.href='/todo-personal'"><ion-icon name="person-add-outline" class="nav__icon"></ion-icon></a>
+                            <a href="#" class="nav__create" id="create_btn"><ion-icon name="person-add-outline" class="nav__icon"></ion-icon></a>
                             <span class="nav__name">Group</span>
-
                             <ion-icon name="chevron-down-outline" class="collapse__link md hydrated rotate"></ion-icon>
 
-                            <ul class="collapse__menu showCollapse">
+                            <ul class="collapse__menu showCollapse" id="ul_list">
                                 <a href="#" class="collapse__sublink">Elice</a>
                                 <a href="#" class="collapse__sublink">Study</a>
                             </ul>
@@ -77,38 +75,6 @@
                 </div>
             </nav>
         </div>
-<!--         
-        <script type="text/javascript">
-            function addItem() {
-                // create the navbar element
-                // var li = $("<li></li>");
-                var a = $("<a href="#" class="collapse__sublink"></a>");
-                var navbar = $(".collapse__menu showCollapse");
-        
-                a.text("New List");
-                
-                // remove the JQM auto-init classes
-                // navbar.find("*").andSelf().each(function(){
-                //     $(this).removeClass(function(i, cn){
-                //         var matches = cn.match (/ui-[\w\-]+/g) || [];
-                //         return (matches.join (' '));
-                //     });
-                //     if ($(this).attr("class") == "") {
-                //         $(this).removeAttr("class");
-                //     }
-                // });
-        
-                // // destroy the navbar widget object
-                // navbar.navbar("destroy");
-        
-                // append the newly created element
-                li.appendTo($("#page1 ul"));
-        
-                // re-init the navbar
-                navbar.navbar();
-                console.log(navbar.data());
-            }
-        </script> -->
 
         {% block content %}{% endblock %}
 
@@ -116,8 +82,8 @@
         <script src="https://unpkg.com/ionicons@5.1.2/dist/ionicons.js"></script>
         
         <!-- ===== MAIN JS ===== -->
-        <!-- <script src="js/sidebar.js"></script> -->
-        <script src="{{ url_for('static', filename='sidebar.js') }}"></script>
+        <script src="../static/sidebar.js"></script>
+        <!-- <script src="{{ url_for('static', filename='sidebar.js') }}"></script> -->
         
     </body>
 </html>
