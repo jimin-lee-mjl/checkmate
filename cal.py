@@ -24,7 +24,7 @@ def calendar():
 # @bp.route('/study')
 # def calendar():
 #     return render_template("calendar.html")
-list2 = []
+
 #데이터베이스에서 데이터 읽어와서 json파일에 저장
 @bp.route('/data')
 def get_data():
