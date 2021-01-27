@@ -31,8 +31,9 @@ class TodoList(db.Model):
       content = db.Column(db.Text, nullable=True)
       due = db.Column(db.DateTime, nullable=True)
       status = db.Column(db.String(45), nullable=True)
-      user_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=False)
-      group_id = db.Column(db.Integer, db.ForeignKey(Group.id), nullable=True)
+      user_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=True)
+      group_id = db.Column(db.Integer, nullable=True)
+      personal_id = db.Column(db.Integer, nullable=True)
 
 Member = db.Table(
       'Member', 
