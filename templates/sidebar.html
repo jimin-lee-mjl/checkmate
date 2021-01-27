@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-         <meta charset="UTF-8">
+        <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         {% block header %}{% endblock %}
         <link rel="stylesheet" href="{{ url_for('static', filename='sidebar.css') }}">
-        
         <title>Sidebar sub menus</title>
 
     </head>
@@ -18,11 +17,11 @@
                         <a href="#" class="nav__logo">TO DO LIST</a>
                     </div>
                     <div class="nav__list">
-                        <a href="#" class="nav__link active">
+                        <a href="#" class="nav__link active" onclick="location.href='/dashboard'">
                             <ion-icon name="home-outline" class="nav__icon"></ion-icon>
                             <span class="nav__name">Dashboard</span>
                         </a>
-                        <a href="#" class="nav__link">
+                        <a href="#" class="nav__link" onclick="location.href='/calendar/personal'">
                             <ion-icon name="calendar-outline" class="nav__icon"></ion-icon>
                             <span class="nav__name">Calender</span>
                         </a>
@@ -30,19 +29,18 @@
                         <hr size="1" color="white" noshade>
 
                         <div class="nav__link collapse">
-                            <a href="#" class="nav__create"><ion-icon name="person-add-outline" class="nav__icon"></ion-icon></a>
+                            <a href="#" class="nav__create" id="create_btn" onclick="location.href='/tasks-group'"><ion-icon name="person-add-outline" class="nav__icon"></ion-icon></a>
                             <span class="nav__name">Group</span>
-
                             <ion-icon name="chevron-down-outline" class="collapse__link md hydrated rotate"></ion-icon>
 
-                            <ul class="collapse__menu showCollapse">
+                            <ul class="collapse__menu showCollapse" id="ul_list">
                                 <a href="#" class="collapse__sublink">Elice</a>
                                 <a href="#" class="collapse__sublink">Study</a>
                             </ul>
                         </div>
 
                         <div class="nav__link collapse">
-                            <a href="#" class="nav__create"><ion-icon name="duplicate-outline" class="nav__icon"></ion-icon></a>
+                            <a href="#" class="nav__create" onclick="location.href='/tasks'"><ion-icon name="duplicate-outline" class="nav__icon"></ion-icon></a>
                             <span class="nav__name">Personal</span>
                             <ion-icon name="chevron-down-outline" class="collapse__link md hydrated rotate"></ion-icon>
 
@@ -70,7 +68,7 @@
                         <ion-icon name="person-circle-outline" class="nav__icon"></ion-icon>
                         <span class="nav__name">My profile</span>
                     </a>
-                    <a href="#" class="nav__link">
+                    <a href="#" class="nav__link" onclick="location.href='/auth/logout'">
                         <ion-icon name="log-out-outline" class="nav__icon"></ion-icon>
                         <span class="nav__name">Log Out</span>
                     </a>
@@ -84,8 +82,8 @@
         <script src="https://unpkg.com/ionicons@5.1.2/dist/ionicons.js"></script>
         
         <!-- ===== MAIN JS ===== -->
-        <!-- <script src="js/sidebar.js"></script> -->
-        <script src="{{ url_for('static', filename='sidebar.js') }}"></script>
+        <script src="../static/sidebar.js"></script>
+        <!-- <script src="{{ url_for('static', filename='sidebar.js') }}"></script> -->
         
     </body>
 </html>

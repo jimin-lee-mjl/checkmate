@@ -38,3 +38,20 @@ for(i=0;i<linkCollapse.length;i++){
 }
 
 
+//
+
+var create_btn = document.getElementById('create_btn'); 
+
+function action_add() {
+  var new_list = document.createElement("a");
+
+  new_list.innterHTML = "New List";
+
+  new_list.setAttribute("href","#");
+  new_list.setAttribute("class","collapse__sublink");
+
+  var parent_list = document.getElementById("ul_list");
+  parent_list.appendChild(new_list);
+};
+
+create_btn.addEventListener("click", action_add);  

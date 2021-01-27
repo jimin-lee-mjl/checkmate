@@ -13,7 +13,8 @@ login_manager.login_view = 'auth.login'
 
 
 error_msgs = {
-    "duplicate_user":"Username Exist. Try <a href='/auth/login'>Sign in</a>.",
+    "duplicate_user":"Username already exists. Try <a href='/auth/login'>Sign in</a>.",
+    "duplicate_email":"Email already exists. Try <a href='/auth/signup'>sign up</a> with a different email.",
     "user_not_exist":"User does not exist. Please <a href='/auth/signup'>sign up</a> first.",
     "wrong_password":"Invalid password. Try <a href='/auth/login'>sign in</a> again."
   }
@@ -26,9 +27,13 @@ def load_user(user_id):
 def signup():
     form = SignupForm()
     if form.validate_on_submit():
-        exist_user = User.query.filter(User.username == form.username.data).first()
-        if exist_user:
+        exist_username = User.query.filter(User.username == form.username.data).first()
+        exist_email = User.query.filter(User.email == form.email.data).first()
+        if exist_username:
             error = "duplicate_user"
+            return error_msgs[error]
+        elif exist_email:
+            error = "duplicate_email"
             return error_msgs[error]
         else:
             hashed_pw = generate_password_hash(form.password.data, method='sha256')
@@ -36,7 +41,7 @@ def signup():
             db.session.add(new_user)
             db.session.commit()
             return redirect(url_for('auth.login'))
-    return render_template('signup_tp.html', form=form)
+    return render_template('signup.html', form=form)
 
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
@@ -52,7 +57,7 @@ def login():
         else:
             login_user(user, remember=form.remember_me.data)
             return redirect(url_for('dashboard'))
-    return render_template('login_tp.html', form=form)
+    return render_template('login.html', form=form)
 
 @bp.route('/logout')
 @login_required

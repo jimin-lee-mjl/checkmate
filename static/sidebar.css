@@ -26,7 +26,7 @@
   box-sizing: border-box;
 }
 body{
-  position: relative;
+  /* position: relative; */
   margin: 0;
   padding: 2rem 0 0 16rem;
   font-family: var(--body-font);
