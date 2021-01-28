@@ -12,7 +12,7 @@ parser.add_argument('todo_id')
 parser.add_argument('status')
 parser.add_argument('due')
 
-class Personal(Resource):
+class PersonalTodo(Resource):
     def get(self, personal_id=1):
         result = []
         query = TodoList.query.filter_by(personal_id = personal_id).all()
@@ -46,9 +46,9 @@ class Personal(Resource):
         todo = TodoList.query.filter_by(id = args['todo_id']).first()
         db.session.delete(todo)
         db.session.commit()
-        return jsonify(status = 'success', result = {'id':args['todo_id'], 'title':args['title']})
+        return jsonify(status = 'success', result = {'id':todo.id, 'title':todo.title})
 
-class Group(Resource):
+class GroupTodo(Resource):
     def get(self, group_id):
         result = []
         query = TodoList.query.filter_by(group_id = group_id).all()
@@ -68,6 +68,7 @@ class Group(Resource):
         return jsonify(status = 'success', result = {'title':new_todo.title, 'content':new_todo.content})
 
     def put(self, group_id):
+        # current_user.Member.role = 1(owner)가 아니면 수정하지 못하게 하기 
         args = parser.parse_args()
         todo = TodoList.query.filter_by(id = args['todo_id']).first()
         todo.title = args['title']
@@ -82,7 +83,7 @@ class Group(Resource):
         todo = TodoList.query.filter_by(id = args['todo_id']).first()
         db.session.delete(todo)
         db.session.commit()
-        return jsonify(status = 'success', result = {'id':args['todo_id'], 'title':args['title']})
+        return jsonify(status = 'success', result = {'id':todo.id, 'title':todo.title})
 
-api.add_resource(Personal, '/personal/<personal_id>')
-api.add_resource(Group, '/group/<group_id>')
+api.add_resource(PersonalTodo, '/personal/<personal_id>')
+api.add_resource(GroupTodo, '/group/<group_id>')

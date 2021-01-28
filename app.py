@@ -46,6 +46,9 @@ def create_app():
     import todo
     app.register_blueprint(todo.bp)
 
+    import groups
+    app.register_blueprint(groups.bp)
+
     import cal
     app.register_blueprint(cal.bp)
 
