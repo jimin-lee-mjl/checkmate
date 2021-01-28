@@ -9,9 +9,9 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, login_user, logout_user, login_required
 from form import LoginForm, SignupForm
 from db import TodoListCal, db
+import sys
 
 bp = Blueprint("calendar", __name__, url_prefix="/calendar")
-
 
 @bp.route('/personal')
 def calendar():
@@ -25,16 +25,25 @@ def calendar():
 # def calendar():
 #     return render_template("calendar.html")
 
-#데이터베이스에서 데이터 읽어와서 json파일에 저장
+
 @bp.route('/datacal')
-def get_data():
-  result = TodoListCal.query.filter(TodoListCal.id== 1).all()
-  return str(result)
+# def get_data():
+#     result = TodoListCal.query.filter(TodoListCal.id== 1).all()
+#     return str(result)
 
-def make_json():
-  with open('test.json', 'w') as outfile:
-    json.dump(get_data(), outfile, indent=4)
+# def make_json():
+#     with open('events.json','w') as outfile:
+#         json.dump(get_data(),outfile,indent=4)
 
-
-
-
+def get_todo_cal():
+    todoListCal = TodoListCal.query.all()
+    a = []
+    for todoList in todoListCal:
+        hi = {
+        "title":todoList.title,
+        "start": todoList.start,
+        "end":todoList.end
+        }
+        a.append((hi))
+    print(json.dumps(a), file=sys.stdout)
+    return json.dumps(a)

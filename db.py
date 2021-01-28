@@ -48,6 +48,6 @@ class Comment(db.Model):
       group_id = db.Column(db.Integer, db.ForeignKey(Group.id), nullable=False)
 
 def init_db():
-      db.drop_all()
+      #db.drop_all()
       db.create_all()
       db.session.commit()
