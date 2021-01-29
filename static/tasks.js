@@ -8,6 +8,8 @@ $(".txtb").on("keyup",function(e){
         p.fadeOut(function(){
           p.remove();
         });
+
+        //
       });
 
       var check = $("<i class='fas fa-check'></i>").click(function(){
@@ -20,6 +22,8 @@ $(".txtb").on("keyup",function(e){
       });
 
       task.append(del,check);
+
+        // append to notcomplete task
       $(".notcomp").append(task);
         //to clear the input
       $(".txtb").val("");

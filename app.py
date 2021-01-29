@@ -43,8 +43,8 @@ def create_app():
     import auth
     app.register_blueprint(auth.bp)
 
-    # import todo
-    # app.register_blueprint(todo.bp)
+    import todo
+    app.register_blueprint(todo.bp)
 
     import cal
     app.register_blueprint(cal.bp)

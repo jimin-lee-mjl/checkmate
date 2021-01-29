@@ -1,26 +1,65 @@
 {% extends 'sidebar.html' %}
 
-<!-- <!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8"> -->
     {% block header %}
     <title>✍Todolist</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='tasks.css') }}">
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous"> -->
     {% endblock %}
-  <!-- </head>
-  <body> -->
+
     {% block content %}
+    <script>
+
+      // edit_list_title 함수 선언
+      function edit_list_title() {
+        let list_title = $("#list_title").val();
+        
+        $.ajax({
+          type: "PUT",
+          url: "/todo/<list_id>",
+          data: { title : list_title}
+        });
+      }
+
+      // enter 키 -> task 추가
+      $(".txtb").on("keyup",function(e){
+       //13  means enter button
+        if(e.keyCode == 13 && $(".txtb").val() != "")
+        {
+          let new_task = $(".txtb").val();
+
+          $.ajax({
+            type: "POST",
+            url: "/todo/<list_id>",
+            data: { content : new_task}
+          });
+        }
+      }
+
+
+      // task 삭제
+
+      var del = $("<i class='fas fa-trash-alt'></i>").click(function(){
+        var p = $(this).parent();
+        p.fadeOut(function(){
+          p.remove();
+        });
+      }
+
+      // $(".txtb").keydown(function(event) {
+      //   if (event.keyCode == 13) {
+      //           alert("엔터키를 눌렀습니다.");
+      //           this.form.submit();
+      //        }
+      // });
+
+    </script>
+
     <div>
       <header class="screen-header">
-        <a href="">
-          <h1 class="screen-header__title">Personal_TODO</h1>
-        </a>
-    </header>
+        <h1 class="screen-header__title" id="list_title" contentEditable="true" onclick="edit_list_title()">New_list</h1>
+        <!-- <h1 class="screen-header__title">Personal_TODO</h1> -->
+      </header>
     <div class="container">
-      <!-- <div class="today"></div> -->
       <input type="text" class="txtb" placeholder="➕ Add a task">
       
       <div class="notcomp">
@@ -34,7 +73,6 @@
 
     
 </div>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>   
     <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>    
     <script src="{{ url_for('static', filename='tasks.js') }}"></script>
