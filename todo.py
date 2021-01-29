@@ -11,7 +11,9 @@ parser.add_argument('title')
 parser.add_argument('content')
 parser.add_argument('todo_id')
 parser.add_argument('status')
+parser.add_argument('start_date')
 parser.add_argument('end_date')
+parser.add_argument('star')
 
 class PersonalTodo(Resource):
     def get(self, personal_id=1):
@@ -38,9 +40,11 @@ class PersonalTodo(Resource):
         todo.title = args['title']
         todo.content = args['content']
         todo.status = args['status']
+        todo.end_date = args['start_date']
         todo.end_date = args['end_date']
+        todo.end_date = args['star']
         db.session.commit()
-        return jsonify(status = 'success', result = {'title':todo.title, 'content':todo.content, 'status':todo.status, 'end_date':todo.end_date})
+        return jsonify(status = 'success', result = {'title':todo.title, 'content':todo.content, 'status':todo.status, 'start_date':todo.start_date, 'end_date':todo.end_date, 'isStarred':todo.is_starred})
 
     def delete(self, personal_id=1):
         args = parser.parse_args()

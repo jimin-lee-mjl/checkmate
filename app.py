@@ -14,7 +14,7 @@ def create_app():
     return render_template('tasks.html')
 
   @app.route('/tasks') 
-  @login_required
+  # @login_required
   def tasks():
     return render_template('tasks.html')
 

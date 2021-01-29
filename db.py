@@ -34,6 +34,7 @@ class TodoList(db.Model):
       start_date = db.Column(db.DateTime, default=db.func.now())
       end_date = db.Column(db.DateTime, nullable=True)
       status = db.Column(db.String(45), nullable=True)
+      is_starred = db.Column(db.Boolean, default=False)
       user_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=True)
       group_id = db.Column(db.Integer, nullable=True)
       personal_id = db.Column(db.Integer, nullable=True)
