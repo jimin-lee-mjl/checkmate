@@ -47,7 +47,7 @@ def signup():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter(User.email == form.email.data).first()
+        user = User.query.filter(User.username == form.username.data).first()
         if user is None:
             error = "user_not_exist"
             return error_msgs[error]
