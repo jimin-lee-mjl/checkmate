@@ -7,53 +7,7 @@
     {% endblock %}
 
     {% block content %}
-    <script>
-
-      // edit_list_title 함수 선언
-      function edit_list_title() {
-        let list_title = $("#list_title").val();
-        
-        $.ajax({
-          type: "PUT",
-          url: "/todo/<list_id>",
-          data: { title : list_title}
-        });
-      }
-
-      // enter 키 -> task 추가
-      $(".txtb").on("keyup",function(e){
-       //13  means enter button
-        if(e.keyCode == 13 && $(".txtb").val() != "")
-        {
-          let new_task = $(".txtb").val();
-
-          $.ajax({
-            type: "POST",
-            url: "/todo/<list_id>",
-            data: { content : new_task}
-          });
-        }
-      }
-
-
-      // task 삭제
-
-      var del = $("<i class='fas fa-trash-alt'></i>").click(function(){
-        var p = $(this).parent();
-        p.fadeOut(function(){
-          p.remove();
-        });
-      }
-
-      // $(".txtb").keydown(function(event) {
-      //   if (event.keyCode == 13) {
-      //           alert("엔터키를 눌렀습니다.");
-      //           this.form.submit();
-      //        }
-      // });
-
-    </script>
-
+    
     <div>
       <header class="screen-header">
         <h1 class="screen-header__title" id="list_title" contentEditable="true" onclick="edit_list_title()">New_list</h1>
@@ -72,6 +26,146 @@
     </div>
 
     
+    <script>
+
+      // del 선언
+      var del = $("<i class='fas fa-trash-alt'></i>").click(function(){
+        var p = $(this).parent();
+        p.fadeOut(function(){
+          p.remove();
+        });
+      });
+
+      // check 선언
+
+      var check = $("<i class='fas fa-check'></i>").click(function(){
+        var p = $(this).parent();
+        p.fadeOut(function(){
+          $(".comp").append(p);
+          p.fadeIn();
+        });
+        $(this).remove();
+      });
+
+      var server_url = '';
+      
+
+      //get todolist
+
+      function get_todolist() {
+        var url = server_url + '/todo/' + list_id;
+        fetch(url)
+          .then(
+            function(type){
+              return type.json();
+            }
+          )
+          .then(
+            function(result){
+              var task_notcomp = '';
+              var task_comp = '';
+              console.log(result);
+              
+              // get title
+              document.querySelector('header').innerHTML = `
+                <h1 class="screen-header__title" id="list_title" contentEditable="true" onclick="edit_list_title()">${result.title}</h1>
+              `;
+
+              // get content
+              for(var i=0; i<result.length; i++){
+                var content = result[i].content;
+                var due = result[i].due;
+                var status = result[i].status;
+
+                if (result[i].status === "notcomp") {
+                  task_notcomp += `<div class='task'>${due}${content}</div>`;
+                  task_notcomp.append(del, check);
+                } 
+                else {
+                  task_comp += `<div class='task'>${due}${content}</div>`;
+                  task_notcomp.append(del, check);
+                }
+              }
+
+              console.log(task_notcomp, task_comp);
+              document.querySelector('.notcomp').innerHTML = task_notcomp;
+              document.querySelector('.comp').innerHTML = task_comp;
+            }
+          );
+      } 
+
+      // edit_list_title -> PUT
+      function edit_list_title() {
+        var url = server_url + '/todo/' + list_id;
+        let list_title = $("#list_title").val();
+
+        fetch(url,{
+            method: "PUT",
+            body: JSON.stringify({
+              title: list_title
+            }),
+            headers:{
+              'Content-Type':'application/json'
+            }            
+          })
+          .then(
+            function(type){
+              return type.json();
+            }
+          )
+          .then(
+            function(result){
+              console.log(result);
+            }
+          )
+      }
+
+      // enter 키 -> task 추가 -> POST
+      $(".txtb").on("keyup",function(e){
+        //13  means enter button
+        if(e.keyCode == 13 && $(".txtb").val() != "")
+        {
+          var new_task = $(".txtb").val();
+          
+          fetch(url,{
+            method: "POST",
+            body: JSON.stringify({
+              content: new_task
+            }),
+            headers:{
+              'Content-Type':'application/json'
+            }            
+          })
+          .then(
+            function(type){
+              return type.json();
+            }
+          )
+          .then(
+            function(result){
+              console.log(result);
+            }
+          );
+
+          var task = $("<div class='task'></div>").text($(".txtb").val());
+          
+            // del, check append
+          task.append(del,check);
+
+            // append to notcomplete task
+          $(".notcomp").append(task);
+            //to clear the input
+          $(".txtb").val("");
+        }
+      }
+
+
+      // task 삭제
+
+      
+
+    </script>
+
 </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>   
     <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>    
