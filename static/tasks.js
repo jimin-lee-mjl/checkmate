@@ -1,8 +1,16 @@
+var id = 1;
+
 $(".txtb").on("keyup",function(e){
     //13  means enter button
     if(e.keyCode == 13 && $(".txtb").val() != "")
     {
       var task = $("<div class='task'></div>").text($(".txtb").val());
+
+      var star = $("<i class='far fa-star' id='"+id+"'></i>").click(function(){
+        $(this).removeClass('far fa-star');
+        $(this).addClass('fas fa-star');
+      });
+
       var del = $("<i class='fas fa-trash-alt'></i>").click(function(){
         var p = $(this).parent();
         p.fadeOut(function(){
@@ -19,7 +27,7 @@ $(".txtb").on("keyup",function(e){
         $(this).remove();
       });
 
-      task.append(del,check);
+      task.append(del,check,star);
       $(".notcomp").append(task);
         //to clear the input
       $(".txtb").val("");
