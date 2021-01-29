@@ -14,6 +14,7 @@ def create_app():
     return render_template('tasks.html')
 
   @app.route('/tasks') 
+  @login_required
   def tasks():
     return render_template('tasks.html')
 
@@ -46,11 +47,11 @@ def create_app():
     import todo
     app.register_blueprint(todo.bp)
 
-    import groups
-    app.register_blueprint(groups.bp)
+    # import groups
+    # app.register_blueprint(groups.bp)
 
-    import cal
-    app.register_blueprint(cal.bp)
+    # import cal
+    # app.register_blueprint(cal.bp)
 
 
   if __name__=="__main__":

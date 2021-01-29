@@ -13,18 +13,10 @@ class User(UserMixin, db.Model):
       username = db.Column(db.String(15), unique=True, nullable=False)
       email = db.Column(db.String(50), unique=True, nullable=False)
       password = db.Column(db.String(80), nullable=False)
-      institute = db.Column(db.String(45), nullable=True)
-
-class TodoListCal(db.Model):
-      id = db.Column(db.Integer, primary_key=True)
-      title = db.Column(db.String(20), nullable=False)
-      start = db.Column(db.String(20), nullable=False)
-      end = db.Column(db.String(20))
 
 class Group(db.Model):
       id = db.Column(db.Integer, primary_key=True)
       name = db.Column(db.String(15), unique=True, nullable=False)
-      institute = db.Column(db.String(45), nullable=True)
       members = db.relationship('User', secondary='Member', backref='group')
 
 Member = db.Table(
@@ -39,7 +31,8 @@ class TodoList(db.Model):
       id = db.Column(db.Integer, primary_key=True)
       title = db.Column(db.String(45), nullable=False)
       content = db.Column(db.Text, nullable=True)
-      due = db.Column(db.DateTime, nullable=True)
+      start_date = db.Column(db.DateTime, default=db.func.now())
+      end_date = db.Column(db.DateTime, nullable=True)
       status = db.Column(db.String(45), nullable=True)
       user_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=True)
       group_id = db.Column(db.Integer, nullable=True)
