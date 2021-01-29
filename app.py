@@ -30,11 +30,6 @@ def create_app():
 
   @app.route('/calendar/data')
   def return_data():
-      start_date = request.args.get('start', '')
-      end_date = request.args.get('end', '')
-      with open("events.json", "r") as input_data:
-        #return input_data.read()
-        print (input_data.read(), file=sys.stdout)
       return cal.get_todo_cal()
   
 

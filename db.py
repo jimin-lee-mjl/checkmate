@@ -19,6 +19,7 @@ class TodoListCal(UserMixin, db.Model):
       title = db.Column(db.String(20), nullable=False)
       start = db.Column(db.String(20), nullable=False)
       end = db.Column(db.String(20))
+      important = db.Column(db.String(20))
 
 class Group(db.Model):
       id = db.Column(db.Integer, primary_key=True)
