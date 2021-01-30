@@ -27,33 +27,14 @@
 
     
     <script>
-
-      // del 선언
-      var del = $("<i class='fas fa-trash-alt'></i>").click(function(){
-        var p = $(this).parent();
-        p.fadeOut(function(){
-          p.remove();
-        });
-      });
-
-      // check 선언
-
-      var check = $("<i class='fas fa-check'></i>").click(function(){
-        var p = $(this).parent();
-        p.fadeOut(function(){
-          $(".comp").append(p);
-          p.fadeIn();
-        });
-        $(this).remove();
-      });
-
+      //url 지정
       var server_url = '';
-      
+      var url = server_url + '/todo/' + list_id;
 
-      //get todolist
+
+      //get todolist -> GET
 
       function get_todolist() {
-        var url = server_url + '/todo/' + list_id;
         fetch(url)
           .then(
             function(type){
@@ -95,6 +76,7 @@
       } 
 
       // edit_list_title -> PUT
+
       function edit_list_title() {
         var url = server_url + '/todo/' + list_id;
         let list_title = $("#list_title").val();
@@ -117,7 +99,7 @@
             function(result){
               console.log(result);
             }
-          )
+          );
       }
 
       // enter 키 -> task 추가 -> POST
@@ -159,10 +141,68 @@
         }
       }
 
+      // check 선언
+      // click -> update task status -> PUT
+      var check = $("<i class='fas fa-check'></i>").click(function(){
+        var p = $(this).parent();
+        p.fadeOut(function(){
+          $(".comp").append(p);
+          p.fadeIn();
+        });
+        $(this).remove();
 
-      // task 삭제
+        //update task status
+        fetch(url,{
+            method: "PUT",
+            body: JSON.stringify({
+              status: "complete"
+            }),
+            headers:{
+              'Content-Type':'application/json'
+            }            
+          })
+          .then(
+            function(type){
+              return type.json();
+            }
+          )
+          .then(
+            function(result){
+              console.log(result);
+            }
+          );    
+      });
 
-      
+     // del 선언 
+     // click -> delete task -> DELETE
+     var del = $("<i class='fas fa-trash-alt'></i>").click(function(){
+        var p = $(this).parent();
+        p.fadeOut(function(){
+          p.remove();
+        });
+
+        //delete db
+        var del_content = $(this).parent().val();
+        fetch(url,{
+            method: "DELETE",
+            body: JSON.stringify({
+              content: del_content
+            }),
+            headers:{
+              'Content-Type':'application/json'
+            }            
+          })
+          .then(
+            function(type){
+              return type.json();
+            }
+          )
+          .then(
+            function(result){
+              console.log(result);
+            }
+          );          
+      });
 
     </script>
 

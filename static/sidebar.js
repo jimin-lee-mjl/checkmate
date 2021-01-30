@@ -42,39 +42,62 @@ for(i=0;i<linkCollapse.length;i++){
 var create_group_list_btn = document.getElementById('create_group_list_btn'); 
 
 function create_group_list() {
-var new_group_list = document.createElement("a");
-var br = document.createElement("br");
+  var new_group_list = document.createElement("a");
+  var br = document.createElement("br");
 
-new_group_list.innerHTML = "New_List";
+  new_group_list.innerHTML = "New_List";
 
-new_group_list.setAttribute("href","#");
-new_group_list.setAttribute("class","collapse__sublink");
-new_group_list.setAttribute("onclick","location.href='/tasks-group'");
+  new_group_list.setAttribute("href","#");
+  new_group_list.setAttribute("class","collapse__sublink");
+  new_group_list.setAttribute("onclick","location.href='/tasks-group'");
 
-var parent_group_list = document.getElementById("sub_group_list");
-parent_group_list.appendChild(new_group_list);
-parent_group_list.appendChild(br);
-};
-
-create_group_list_btn.addEventListener("click", create_group_list);  
+  var parent_group_list = document.getElementById("sub_group_list");
+  parent_group_list.appendChild(new_group_list);
+  parent_group_list.appendChild(br);
 
 
 /*===== create_new_personal_list =====*/ 
 var create_personal_list_btn = document.getElementById('create_personal_list_btn'); 
 
 function create_personal_list() {
-var new_personal_list = document.createElement("a");
-var br = document.createElement("br");
+  var new_personal_list = document.createElement("a");
+  var br = document.createElement("br");
 
-new_personal_list.innerHTML = "New_List";
+  new_personal_list.innerHTML = "New_List";
 
-new_personal_list.setAttribute("href","#");
-new_personal_list.setAttribute("class","collapse__sublink");
-new_personal_list.setAttribute("onclick","location.href='/tasks'");
+  new_personal_list.setAttribute("href","#");
+  new_personal_list.setAttribute("class","collapse__sublink");
+  new_personal_list.setAttribute("onclick","location.href='/tasks'");
 
-var parent_personal_list = document.getElementById("sub_personal_list");
-parent_personal_list.appendChild(new_personal_list);
-parent_personal_list.appendChild(br);
+  var parent_personal_list = document.getElementById("sub_personal_list");
+  parent_personal_list.appendChild(new_personal_list);
+  parent_personal_list.appendChild(br);
+
+  // create new list -> post to db
+  var url = server_url + '/todo/' + list_id;
+
+  fetch(url, {
+    method: "POST",
+    body: JSON.stringify({
+      // list_id는 sql에서 auto increment 하면 안 되나?
+      // 마지막 list_id를 알아야 하는데 이건 sql 파트가 맞을듯!
+      title: "New_List"
+      //여기서 색깔도 지정. 근데 이걸 db로 넘기는 건 아니니까.. 빼야 함..
+    }),
+    headers:{
+      'Content-Type':'application/json'
+    }
+  })
+  .then(
+    function(Type){
+      return type.json();
+    }
+  )
+  .then(
+    function(result){
+      console.log(result)
+    }
+  );
 };
 
 create_personal_list_btn.addEventListener("click", create_personal_list);  

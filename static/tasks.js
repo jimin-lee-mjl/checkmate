@@ -7,7 +7,7 @@ $(".txtb").on("keyup",function(e){
       //   var p = $(this).parent();
       //   p.fadeOut(function(){
       //     p.remove();
-      //   });
+      //   });S
       // });
 
       // var check = $("<i class='fas fa-check'></i>").click(function(){
