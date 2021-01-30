@@ -50,4 +50,6 @@ class Comment(db.Model):
 def init_db():
       db.drop_all()
       db.create_all()
+      # sample = TodoList(title="elice", content="hi")
+      # db.session.add(sample)        
       db.session.commit()

@@ -38,7 +38,5 @@ class Personal(Resource):
             todo.title = title_edited
         db.session.commit()
         return jsonify(status = 'success', result=result)
-
-    def del(self):
         
 api.add_resource(Personal, '/todo/<list_id>')
