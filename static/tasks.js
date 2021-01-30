@@ -1,16 +1,30 @@
 var id = 1;
+var isClicked = true;
 
 $(".txtb").on("keyup",function(e){
     //13  means enter button
     if(e.keyCode == 13 && $(".txtb").val() != "")
     {
+      // task
       var task = $("<div class='task'></div>").text($(".txtb").val());
 
-      var star = $("<i class='far fa-star' id='"+id+"'></i>").click(function(){
-        $(this).removeClass('far fa-star');
-        $(this).addClass('fas fa-star');
+      //star
+      var star = $(`<span id='star_${id}'><i class='far fa-star'></i></span>`).click(function(){
+        var p = $(this).parent();
+
+        if(isClicked) {
+          $(this).children(".fa-star").removeClass("far fa-star").addClass("fas fa-star");
+          p.css('background', '#371F54');
+          isClicked = false;
+          
+        } else {
+          $(this).children(".fa-star").removeClass("fas fa-star").addClass("far fa-star");
+          p.css('background', '#81589f9d');
+          isClicked = true;
+        }
       });
 
+      //delete
       var del = $("<i class='fas fa-trash-alt'></i>").click(function(){
         var p = $(this).parent();
         p.fadeOut(function(){
@@ -18,6 +32,7 @@ $(".txtb").on("keyup",function(e){
         });
       });
 
+      //check
       var check = $("<i class='fas fa-check'></i>").click(function(){
         var p = $(this).parent();
         p.fadeOut(function(){
@@ -28,11 +43,15 @@ $(".txtb").on("keyup",function(e){
       });
 
       task.append(del,check,star);
+
       $(".notcomp").append(task);
-        //to clear the input
+      //to clear the input
       $(".txtb").val("");
+      
+      id++;
     }
-  });
+});
+
 
   // var todayContainer = document.querySelector(".today");
   // var d = new Date();
@@ -60,5 +79,4 @@ $(".txtb").on("keyup",function(e){
   // var randomWord =
   //   randomWordArray[Math.floor(Math.random() * randomWordArray.length)];
   // todayContainer.innerHTML = randomWord + n;
-
 
