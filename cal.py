@@ -9,32 +9,29 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, login_user, logout_user, login_required
 from form import LoginForm, SignupForm
 from db import TodoListCal, db
-
+import sys
+#from db import User, db
 bp = Blueprint("calendar", __name__, url_prefix="/calendar")
-
 
 @bp.route('/personal')
 def calendar():
     return render_template("calendar.html")
 
-# @bp.route('/elice')
-# def calendar():
-#     return render_template("calendar.html")
-
-# @bp.route('/study')
-# def calendar():
-#     return render_template("calendar.html")
-
-#데이터베이스에서 데이터 읽어와서 json파일에 저장
 @bp.route('/datacal')
-def get_data():
-  result = TodoListCal.query.filter(TodoListCal.id== 1).all()
-  return str(result)
-
-def make_json():
-  with open('test.json', 'w') as outfile:
-    json.dump(get_data(), outfile, indent=4)
-
-
-
-
+#로그인 한 상태일 때만 캘린더 작동
+# @login_required
+def get_todo_cal():
+    #로그인 했을 때 유저별로 다른 캘린더를 보여줌(미완성)
+    #todoListCal = User.query.all(User.id == currentuser)
+    todoListCal = TodoListCal.query.all()
+    a = []
+    for todoList in todoListCal:
+        hi = {
+        "title":todoList.title,
+        "start": todoList.start,
+        "end":todoList.end,
+        "important": todoList.important
+        }
+        a.append((hi))
+    print(json.dumps(a), file=sys.stdout)
+    return json.dumps(a)
