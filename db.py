@@ -13,39 +13,30 @@ class User(UserMixin, db.Model):
       username = db.Column(db.String(15), unique=True, nullable=False)
       email = db.Column(db.String(50), unique=True, nullable=False)
       password = db.Column(db.String(80), nullable=False)
+      # todos = db.relationship('TodoList', backref='user', lazy=True)
 
-class Group(db.Model):
+class Category(db.Model):
       id = db.Column(db.Integer, primary_key=True)
-      name = db.Column(db.String(15), unique=True, nullable=False)
-      members = db.relationship('User', secondary='Member', backref='group')
-
-Member = db.Table(
-      'Member', 
-      db.Column('user_id', db.Integer, db.ForeignKey(User.id), primary_key=True),
-      db.Column('group_id', db.Integer, db.ForeignKey(Group.id), primary_key=True),
-      db.Column('role', db.Boolean, default=False)
-)
-# role -> owner : true, participants : false
+      name = db.Column(db.String(45), unique=True, nullable=False)
+      color = db.Column(db.String(45), default='navy')
+      # todos = db.relationship('TodoList', backref='category', lazy=True)
 
 class TodoList(db.Model):
       id = db.Column(db.Integer, primary_key=True)
-      title = db.Column(db.String(45), nullable=False)
-      content = db.Column(db.Text, nullable=True)
+      content = db.Column(db.Text, default="To do something")
       start_date = db.Column(db.DateTime, default=db.func.now())
       end_date = db.Column(db.DateTime, nullable=True)
-      status = db.Column(db.String(45), nullable=True)
-      is_starred = db.Column(db.Boolean, default=False)
+      status = db.Column(db.Boolean, default=False)
+      important = db.Column(db.Boolean, default=False)
       user_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=True)
-      group_id = db.Column(db.Integer, nullable=True)
-      personal_id = db.Column(db.Integer, nullable=True)
-
-class Comment(db.Model):
-      id = db.Column(db.Integer, primary_key=True)
-      content = db.Column(db.Text, nullable=False)
-      user_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=False)
-      group_id = db.Column(db.Integer, db.ForeignKey(Group.id), nullable=False)
+      category_id = db.Column(db.Integer, default=1)
+# status -> doing:false(0), done:true(1)
 
 def init_db():
       db.drop_all()
       db.create_all()
+      sample_category = Category(name="mine")
+      sample_todo = TodoList(content="elice")
+      db.session.add(sample_category)
+      db.session.add(sample_todo)
       db.session.commit()

@@ -11,10 +11,10 @@ parser.add_argument('name')
 parser.add_argument('username')
 parser.add_argument('role')
 
-class Groups(Resource):
+class Caegories(Resource):
     def get(self):
         result = []
-        query = Group.query.all()
+        query = Category.query.all()
         for g in query:
             result.append({'id':g.id, 'name':g.name})
         return jsonify(status = 'success', result = result)
