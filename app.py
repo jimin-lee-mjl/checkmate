@@ -1,4 +1,5 @@
 import json
+import sys
 from flask import Flask, render_template, redirect, url_for, jsonify, request
 from flask_bootstrap import Bootstrap
 from flask_login import login_required, current_user
@@ -14,6 +15,7 @@ def create_app():
     return render_template('tasks.html')
 
   @app.route('/tasks') 
+  # @login_required
   def tasks():
     return render_template('tasks.html')
 
@@ -27,13 +29,9 @@ def create_app():
     return render_template('dash_tp.html', name = current_user.username)
 
 
-  @app.route('/data')
+  @app.route('/calendar/data')
   def return_data():
-      start_date = request.args.get('start', '')
-      end_date = request.args.get('end', '')
-
-      with open("events.json", "r") as input_data:
-          return input_data.read()
+      return cal.get_todo_cal()
   
 
   with app.app_context():
@@ -43,12 +41,17 @@ def create_app():
     import auth
     app.register_blueprint(auth.bp)
 
+<<<<<<< HEAD
     import todo
     app.register_blueprint(todo.bp)
 
+=======
+>>>>>>> c468614fd4ea58431d47831bbf3dc43810c3c6f8
     import cal
     app.register_blueprint(cal.bp)
 
+    import todo
+    app.register_blueprint(todo.bp)
 
   if __name__=="__main__":
     app.run(debug=True)  

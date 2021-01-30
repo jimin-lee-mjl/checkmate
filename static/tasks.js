@@ -205,9 +205,15 @@ $(".txtb").on("keyup",function(e){
     task_box.append(task, due);
     task_box.append(del, check);
 
+<<<<<<< HEAD
       // append to notcomplete task
     $(".notcomp").append(task_box);
       //to clear the input
     $(".txtb").val("");
   }
 });
+=======
+
+
+
+>>>>>>> c468614fd4ea58431d47831bbf3dc43810c3c6f8
