@@ -15,6 +15,7 @@ def create_app():
     return render_template('tasks.html')
 
   @app.route('/tasks') 
+  # @login_required
   def tasks():
     return render_template('tasks.html')
 
@@ -43,6 +44,8 @@ def create_app():
     import cal
     app.register_blueprint(cal.bp)
 
+    import todo
+    app.register_blueprint(todo.bp)
 
   if __name__=="__main__":
     app.run(debug=True)  
