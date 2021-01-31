@@ -24,15 +24,14 @@ def get_todo_cal():
     todoListCal = TodoListCal.query.all()
     a = []
     is_important = ''
+    
+    todoListCal = TodoListCal.query.all()
+    a = []
     for todoList in todoListCal:
         if todoList.important == 1:
             is_important = "important"
         else:
             is_important = ''
-
-    todoListCal = TodoListCal.query.all()
-    a = []
-    for todoList in todoListCal:
         hi = {
         "title":todoList.title,
         "start": todoList.start,

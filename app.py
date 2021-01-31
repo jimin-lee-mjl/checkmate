@@ -19,7 +19,7 @@ def create_app():
   @app.route('/dashboard')
   @login_required
   def dashboard():
-    return render_template('dash_tp.html', name = current_user.username)
+    return render_template('dash.html', name = current_user.username)
 
 
   @app.route('/calendar/data')
