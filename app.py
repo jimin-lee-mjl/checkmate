@@ -25,7 +25,7 @@ def create_app():
   @app.route('/calendar/data')
   def return_data():
       return cal.get_todo_cal()
-  
+  ####
 
   with app.app_context():
     import db
@@ -39,6 +39,9 @@ def create_app():
 
     import todo
     app.register_blueprint(todo.bp)
+
+    import dash
+    app.register_blueprint(dash.bp)
 
   if __name__=="__main__":
     app.run(debug=True)  

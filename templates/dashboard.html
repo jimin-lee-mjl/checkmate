@@ -1,0 +1,18 @@
+{% extends 'sidebar.html' %}
+<!-- <!DOCTYPE html>
+<html lang="en">
+  <head> -->
+    {% block content %}
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='tasks_group.css') }}">
+  </head>
+  <body>
+    <h1>Dash Board</h1>
+    <div>
+      <div class="today"></div>
+      <!-- <p>{{table_text}}</p> -->
+    </div>
+  </body>
+  <script src="{{ url_for('static', filename='dash.js') }}"></script>
+{% endblock %}
+<!-- </html> -->
