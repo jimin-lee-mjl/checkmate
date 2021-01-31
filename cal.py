@@ -21,8 +21,15 @@ def calendar():
 #로그인 한 상태일 때만 캘린더 작동
 # @login_required
 def get_todo_cal():
-    #로그인 했을 때 유저별로 다른 캘린더를 보여줌(미완성)
-    #todoListCal = User.query.all(User.id == currentuser)
+    todoListCal = TodoListCal.query.all()
+    a = []
+    is_important = ''
+    for todoList in todoListCal:
+        if todoList.important == 1:
+            is_important = "important"
+        else:
+            is_important = ''
+
     todoListCal = TodoListCal.query.all()
     a = []
     for todoList in todoListCal:
@@ -30,7 +37,8 @@ def get_todo_cal():
         "title":todoList.title,
         "start": todoList.start,
         "end":todoList.end,
-        "important": todoList.important
+        "important": is_important,
+        "color" : todoList.color
         }
         a.append((hi))
     print(json.dumps(a), file=sys.stdout)
