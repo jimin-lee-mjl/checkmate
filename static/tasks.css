@@ -63,13 +63,7 @@
     cursor: pointer;
   }
 
-  .today {
-    font-size: 22px;
-    color : black;
-}
-  
   .comp .task{
     background: rgba(0,0,0,.5);
     color: #fff;
   }
-
