@@ -13,13 +13,12 @@ class User(UserMixin, db.Model):
       username = db.Column(db.String(15), unique=True, nullable=False)
       email = db.Column(db.String(50), unique=True, nullable=False)
       password = db.Column(db.String(80), nullable=False)
-      # todos = db.relationship('TodoList', backref='user', lazy=True)
 
 class Category(db.Model):
       id = db.Column(db.Integer, primary_key=True)
       name = db.Column(db.String(45), unique=True, nullable=False)
       color = db.Column(db.String(45), default='navy')
-      # todos = db.relationship('TodoList', backref='category', lazy=True)
+      user_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=True)
 
 class TodoList(db.Model):
       id = db.Column(db.Integer, primary_key=True)

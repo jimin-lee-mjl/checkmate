@@ -22,8 +22,7 @@ parser.add_argument('color')
 class Todo(Resource):
     def get(self, category_id=1):
         result = []
-        query = TodoList.query.filter_by(category_id = category_id).all()
-        # query = TodoList.query.filter((TodoList.category_id == category_id) & (TodoList.user_id == current_user.id)).all()
+        query = TodoList.query.filter((TodoList.category_id == category_id) & (TodoList.user_id == current_user.id)).all()
         for todo in query:
             result.append({'id':todo.id, 'content':todo.content, 'start_date':todo.start_date, 'end_date':todo.end_date, 'status':todo.status, 'important':todo.important})
         return jsonify(status = 'success', result=result)
@@ -33,7 +32,7 @@ class Todo(Resource):
         new_todo = TodoList()
         new_todo.content = args['content']
         new_todo.category_id = category_id
-        # new_todo.user_id = current_user.id 
+        new_todo.user_id = current_user.id 
         db.session.add(new_todo)
         db.session.commit()
         return jsonify(status = 'success', result = {'content':new_todo.content, 'start-date':new_todo.start_date})
@@ -59,7 +58,7 @@ class Todo(Resource):
 class Categories(Resource):
     def get(self):
         result = []
-        query = Category.query.all()
+        query = Category.query.filter_by(user_id = current_user.id).all()
         for category in query:
             result.append({'id':category.id, 'name':category.name, 'color':category.color})
         return jsonify(status = 'success', result = result)
@@ -69,6 +68,7 @@ class Categories(Resource):
         new_category = Category()
         new_category.name = args['name']
         new_category.color = args['color']
+        new_category.user_id = current_user.id
         db.session.add(new_category)
         db.session.commit()
         return jsonify(status = 'success', result = {'id':new_category.id, 'name':new_category.name, 'color':new_category.color})

@@ -10,17 +10,10 @@ def create_app():
   app.config['SECRET_KEY'] = 'secrtidsfjo222'
 
   @app.route('/') 
-  def index():
-    return render_template('tasks.html')
-
   @app.route('/tasks') 
-  # @login_required
+  @login_required
   def tasks():
     return render_template('tasks.html')
-
-  @app.route('/tasks-group') 
-  def tasks_group():
-    return render_template('tasks_group.html')
 
   @app.route('/dashboard')
   @login_required

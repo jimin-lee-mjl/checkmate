@@ -7,6 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../static/login.css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700,800&display=swap" rel="stylesheet">
+    <style>
+      .flashes {
+        color: red;
+      }
+    </style>
     <title>login</title>
 </head>
 <body>
@@ -24,6 +29,16 @@
                 {{ wtf.form_field(form.remember_me) }}
                 <button class="submit">Sign In</button>
             </form>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+                <div class='flashes' style="text-align: center;">
+                {% for category, message in messages %}
+                  <span class="{{ category }}">{{ message }}</span>
+                {% endfor %}
+                </div>
+              {% endif %}
+            {% endwith %}
           
             <p class="forgot-pass">Forgot Password ?</p>
     
