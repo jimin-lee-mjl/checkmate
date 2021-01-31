@@ -41,14 +41,8 @@ def create_app():
     import auth
     app.register_blueprint(auth.bp)
 
-<<<<<<< HEAD
-    import todo
-    app.register_blueprint(todo.bp)
-
-=======
->>>>>>> c468614fd4ea58431d47831bbf3dc43810c3c6f8
-    import cal
-    app.register_blueprint(cal.bp)
+    # import cal
+    # app.register_blueprint(cal.bp)
 
     import todo
     app.register_blueprint(todo.bp)

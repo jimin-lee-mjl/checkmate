@@ -27,13 +27,8 @@ class Todo(Resource):
         for todo in query:
             result.append({'id':todo.id, 'content':todo.content, 'start_date':todo.start_date, 'end_date':todo.end_date, 'status':todo.status, 'important':todo.important})
         return jsonify(status = 'success', result=result)
-<<<<<<< HEAD
-     
-    def post(self):
-=======
 
     def post(self, category_id=1):
->>>>>>> c468614fd4ea58431d47831bbf3dc43810c3c6f8
         args = parser.parse_args()
 
         new_todo = TodoList()
@@ -98,18 +93,3 @@ class Categories(Resource):
 api.add_resource(Todo, '/<category_id>')
 api.add_resource(Categories, '/')
 
-    #새로운 리스트의 제목 설정이나 다름없는데 put이 restful한가?
-
-<<<<<<< HEAD
-    def put(self):
-        args = parser.parse_args()
-        query = TodoList.query.all()
-        title_edited = args['title']
-        for todo in query:
-            todo.title = title_edited
-        db.session.commit()
-        return jsonify(status = 'success', result=result)
-        
-api.add_resource(Personal, '/todo/<list_id>')
-=======
->>>>>>> c468614fd4ea58431d47831bbf3dc43810c3c6f8

@@ -33,15 +33,10 @@ class TodoList(db.Model):
 # status -> doing:false(0), done:true(1)
 
 def init_db():
-      #db.drop_all()
+      db.drop_all()
       db.create_all()
-<<<<<<< HEAD
-      # sample = TodoList(title="elice", content="hi")
-      # db.session.add(sample)        
-=======
-      sample_category = Category(name="mine")
+      sample_category = Category(name="you")
       sample_todo = TodoList(content="elice")
       db.session.add(sample_category)
       db.session.add(sample_todo)
->>>>>>> c468614fd4ea58431d47831bbf3dc43810c3c6f8
       db.session.commit()
