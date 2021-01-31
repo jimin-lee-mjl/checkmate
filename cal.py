@@ -8,9 +8,7 @@ from flask import render_template, redirect, url_for, current_app
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, login_user, logout_user, login_required
 from form import LoginForm, SignupForm
-from db import TodoListCal, db
 import sys
-#from db import User, db
 bp = Blueprint("calendar", __name__, url_prefix="/calendar")
 
 @bp.route('/personal')
@@ -19,13 +17,12 @@ def calendar():
 
 @bp.route('/datacal')
 #로그인 한 상태일 때만 캘린더 작동
-# @login_required
+#@login_required
 def get_todo_cal():
-    todoListCal = TodoListCal.query.all()
+    todoListCal = TodoList.query.all()
     a = []
     is_important = ''
     
-    todoListCal = TodoListCal.query.all()
     a = []
     for todoList in todoListCal:
         if todoList.important == 1:
@@ -33,9 +30,9 @@ def get_todo_cal():
         else:
             is_important = ''
         hi = {
-        "title":todoList.title,
-        "start": todoList.start,
-        "end":todoList.end,
+        "title":todoList.content,
+        "start": todoList.start_date,
+        "end":todoList.end_date,
         "important": is_important,
         "color" : todoList.color
         }
