@@ -22,10 +22,6 @@ def create_app():
     flash('you are logged in', 'error') 
     return render_template('dash_tp.html', name = current_user.username)
 
-  @app.route('/sample')
-  def sample():
-    return render_template('sample.html')
-
   @app.route('/calendar/data')
   def return_data():
       return cal.get_todo_cal()

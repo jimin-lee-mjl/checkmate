@@ -117,3 +117,31 @@ else if ( window.location.pathname == '/calendar/personal' ){
   current_location.classList.add('active');
 }
 
+get_category();
+
+//url 지정
+var server_url = '';
+var url = server_url + '/todo/';
+
+//get_category
+function get_category() {
+    var url = server_url + '/todo/'
+    fetch(url)
+        .then(
+        function(type){
+            return type.json();
+        })
+        .then(
+        function(result){
+            var result = result.result;
+            for(var i=0; i<result.length; i++){
+                var name = result[i].name;
+                console.log(name);    
+                
+                // get titles
+                var category = $("<a href='#' class='collapse__sublink' id='category' onclick='location.href=\"/tasks\"'></a>").text(name);
+                var br = $("<br>");
+                $("#sub_personal_list").append(category, br);
+            }
+        });
+} 
