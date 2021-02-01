@@ -84,7 +84,6 @@ def authorize():
     token = google.authorize_access_token()  # Access token from google (needed to get user info)
     resp = google.get('userinfo')  # userinfo contains stuff u specificed in the scrope
     user_info = resp.json()
-    print(user_info)
     exist_user = User.query.filter_by(email = user_info['email']).first()
     if not exist_user:
         new_user = User()
