@@ -22,8 +22,7 @@ def get_todo_cal():
     todoListCal = TodoList.query.all()
     a = []
     is_important = ''
-    
-    a = []
+   
     for todoList in todoListCal:
         if todoList.important == 1:
             is_important = "important"

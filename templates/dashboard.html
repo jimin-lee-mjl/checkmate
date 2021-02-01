@@ -9,9 +9,15 @@
   <body>
     <h1>Dash Board</h1>
     <div>
+      <h3>응원메세지</h3>
       <div class="today"></div>
       <!-- <p>{{table_text}}</p> -->
+      <h3>중요한 일정</h3>
+      {% for im in important_list %}
+      <li> {{im['start']}} ~ {{im['end']}} : {{im['title']}} </li>
+
     </div>
+    {% endfor %}
   </body>
   <script src="{{ url_for('static', filename='dash.js') }}"></script>
 {% endblock %}

@@ -26,21 +26,21 @@ class TodoList(db.Model):
       content = db.Column(db.String(20), nullable=False)
       start_date = db.Column(db.String(20), nullable=False)
       end_date = db.Column(db.String(20),nullable=True)
-      status = db.Column(db.Boolean, default=False)
+      #status = db.Column(db.Boolean, default=False)
       important = db.Column(db.Boolean, default=False)
       color = db.Column(db.String(20))
-      user_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=True)
-      category_id = db.Column(db.Integer, default=1)
+      # user_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=True)
+      # category_id = db.Column(db.Integer, default=1)
 
 
       
 # status -> doing:false(0), done:true(1)
 
 def init_db():
-      db.drop_all()
+      # db.drop_all()
       db.create_all()
-      sample_category = Category(name="mine")
-      sample_todo = TodoList(content="elice")
-      db.session.add(sample_category)
-      db.session.add(sample_todo)
+      # sample_category = Category(name="mine")
+      # sample_todo = TodoList(content="elice")
+      # db.session.add(sample_category)
+      # db.session.add(sample_todo)
       db.session.commit()
