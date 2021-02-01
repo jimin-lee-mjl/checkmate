@@ -10,7 +10,7 @@
 
     <div>
       <header class="screen-header">
-        <h1 class="screen-header__title" id="list_title" contentEditable="true">New_list</h1>
+        <!-- <h1 class="screen-header__title" id="category_title" contentEditable="true">New_list</h1> -->
       </header>
     <div class="container">
       <input type="text" class="txtb" placeholder="➕ Add a task">
@@ -28,84 +28,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>   
     <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>   
     <script src="{{ url_for('static', filename='tasks.js') }}"></script>
-    
-    <script>
-      
-      //url 지정
-      var server_url = '';
-      var category_id = '';
-      var url = server_url + '/todo/' + category_id;
-    
-      //get todolist -> GET
-      get_todolist();
 
-      function get_todolist() {
-        var url = server_url + '/todo/'
-        fetch(url)
-          .then(
-            function(type){
-              return type.json();
-            }
-          )
-          .then(
-            function(result){
-              console.log(result.result[0].name);
-              console.log(result.result[0].id);
-
-              category_id = result.result[0].id;
-              console.log(category_id);
-
-              // get title
-              document.querySelector('header').innerHTML = `
-                <h1 class="screen-header__title" id="list_title" contentEditable="true" onclick="edit_list_title()">${result.result[0].name}</h1>
-              `;
-              get_todo();
-            }
-          );
-      }
-    
-      //get todo -> GET
-      function get_todo() {
-        var url = server_url + '/todo/'+ category_id;
-        console.log(category_id);
-        fetch(url)
-          .then(
-            function(type){
-              return type.json();
-            }
-          )
-          .then(
-            function(result){
-
-              console.log(result.result);
-              var result = result.result
-              console.log(result);
-              
-              // get content
-              var task_notcomp = '';
-              var task_comp = '';
-              for(var i=0; i<result.length; i++){
-                var content = result[i].content;
-                var status = result[i].status;
-
-                if (status === false) {
-                  var task = $("<div class='task'></div>").text(content);
-                  task.append(del, check);
-                  console.log(task[0]);
-                  $(".notcomp").append(task);
-                } 
-                else {
-                  var task = $("<div class='task'></div>").text(content);
-                  task.append(del, check);
-                  console.log(task);
-                  $(".comp").append(task);
-                }
-              }
-            }
-          );
-      } 
-      
-    </script>
 
     {% endblock %}
   </body>

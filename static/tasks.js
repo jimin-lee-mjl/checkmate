@@ -1,9 +1,104 @@
-// edit_list_title -> PUT
-$("#list_title")
+//get clicked category_id, category_name
+function getParameterByName(name) {
+  name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+  var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+          results = regex.exec(location.search);
+  return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
+var category_id = getParameterByName('category_id');
+var category_name = getParameterByName('category_name');
+console.log(category_id);
+console.log(category_name);
+
+//url 지정
+// var server_url = '';
+// var category_id = '';
+// var url = server_url + '/todo/' + category_id;
+
+//get todolist -> GET
+get_category_name();
+get_todo();
+
+function get_category_name() {
+  console.log(category_name);
+  document.querySelector('header').innerHTML = `
+          <h1 class="screen-header__title" id="category_title" contentEditable="true">${category_name}</h1>
+        `;
+}
+
+// function get_todolist() {
+//   var url = server_url + '/todo/'
+//   fetch(url,{category_id: clicked_category_id})
+//     .then(
+//       function(type){
+//         return type.json();
+//       }
+//     )
+//     .then(
+//       function(result){
+//         console.log(result);
+//         console.log(result.result[0].name);
+//         console.log(result.result[0].id);
+
+//         category_id = result.result[0].id;
+//         console.log(category_id);
+
+//         // get title
+//         document.querySelector('header').innerHTML = `
+//           <h1 class="screen-header__title" id="category_title" contentEditable="true">${result.result[0].name}</h1>
+//         `;
+//         get_todo();
+//       }
+//     );
+// }
+
+//get todo -> GET
+function get_todo() {
+  var url = '/todo/'+ category_id;
+  console.log(category_id);
+  fetch(url, {category_id: category_id})
+    .then(
+      function(type){
+        return type.json();
+      }
+    )
+    .then(
+      function(result){
+
+        console.log(result.result);
+        var result = result.result
+        console.log(result);
+        
+        // get content
+
+        for(var i=0; i<result.length; i++){
+          var content = result[i].content;
+          var status = result[i].status;
+
+          if (status === false) {
+            var task = $("<div class='task' contentEditable='true'></div>").text(content);
+            task.append(del, check);
+            console.log(task[0]);
+            $(".notcomp").append(task);
+          } 
+          else {
+            var task = $("<div class='task' contentEditable='true'></div>").text(content);
+            task.append(del, check);
+            console.log(task);
+            $(".comp").append(task);
+          }
+        }
+      }
+    );
+} 
+
+// edit_category_title -> PUT
+$("#category_title")
     // When you click on item, record into data("initialText") content of this item.
     .focus(function() {
         $(this).data("initialText", $(this).html());
-        console.log($(this).html());
+        console.log($("#category_title").html());
     })
     // When you leave an item...
     .blur(function() {
@@ -13,12 +108,13 @@ $("#list_title")
             console.log('New data when content change.');
             console.log($(this).html());
             
-            var list_title = $(this).html();
-            console.log(list_title);
+            var category_title = $(this).html();
+            console.log(category_title);
+            // var url = server_url + '/todo/' 
             // fetch(url,{
             //     method: "PUT",
             //     body: JSON.stringify({
-            //       title: list_title
+            //       name: category_title
             //     }),
             //     headers:{
             //       'Content-Type':'application/json'
@@ -35,7 +131,7 @@ $("#list_title")
             //     }
             //   );
         }
-    });
+  });
 
 
 // check 선언
@@ -53,25 +149,27 @@ var check = $("<i class='fas fa-check'></i>").click(function(){
   });
 
   //update task status
-  // fetch(url,{
-  //     method: "PUT",
-  //     body: JSON.stringify({
-  //       status: "complete"
-  //     }),
-  //     headers:{
-  //       'Content-Type':'application/json'
-  //     }            
-  //   })
-  //   .then(
-  //     function(type){
-  //       return type.json();
-  //     }
-  //   )
-  //   .then(
-  //     function(result){
-  //       console.log(result);
-  //     }
-  //   );    
+  var url = server_url + '/todo/'+ category_id;
+  console.log(url);
+  fetch(url,{
+      method: "PUT",
+      body: JSON.stringify({
+        status: "1"
+      }),
+      headers:{
+        'Content-Type':'application/json'
+      }            
+    })
+    .then(
+      function(type){
+        return type.json();
+      }
+    )
+    .then(
+      function(result){
+        console.log(result);
+      }
+    );    
 });
 
 // del 선언 
@@ -83,26 +181,26 @@ var del = $("<i class='fas fa-trash-alt'></i>").click(function(){
   });
 
   //delete db
-  // var del_content = $(this).parent().val();
-  // fetch(url,{
-  //     method: "DELETE",
-  //     body: JSON.stringify({
-  //       content: del_content
-  //     }),
-  //     headers:{
-  //       'Content-Type':'application/json'
-  //     }            
-  //   })
-  //   .then(
-  //     function(type){
-  //       return type.json();
-  //     }
-  //   )
-  //   .then(
-  //     function(result){
-  //       console.log(result);
-  //     }
-  //   );          
+  var del_content = $(this).parent().val();
+  fetch(url,{
+      method: "DELETE",
+      body: JSON.stringify({
+        content: del_content
+      }),
+      headers:{
+        'Content-Type':'application/json'
+      }            
+    })
+    .then(
+      function(type){
+        return type.json();
+      }
+    )
+    .then(
+      function(result){
+        console.log(result);
+      }
+    );          
 });
 
 // enter 키 -> task 추가 -> POST
@@ -110,7 +208,7 @@ $(".txtb").on("keyup",function(e){
   //13  means enter button
   if(e.keyCode == 13 && $(".txtb").val() != "")
   {
-    var new_task = $(".txtb").val();
+    var new_task_content = $(".txtb").val();
     
     // fetch(url,{
     //   method: "POST",
@@ -132,17 +230,15 @@ $(".txtb").on("keyup",function(e){
     //   }
     // );
 
-    var task_box = $("<div class='task'></div>");
-    var task = $("<div class ='task_content' contentEditable='true'></div>").text($(".txtb").val());
-    var due = $("<div class ='task_due' contentEditable='true'></div>").text("due date:");
-    // del, check append
+    var task = $("<div class ='task_content' contentEditable='true'></div>").text(new_task_content);
     
-    task_box.append(task, due);
-    task_box.append(del, check);
+    // del, check append
+    task.append(del, check);
 
       // append to notcomplete task
-    $(".notcomp").append(task_box);
+    $(".notcomp").append(task);
       //to clear the input
     $(".txtb").val("");
   }
 });
+

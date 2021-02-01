@@ -3,6 +3,10 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <META http-equiv="Pragma" content="no-cache"/>
+        <META http-equiv="Expires" content="0"/>
+        <META http-equiv="Cache-Control" content="no-cache"/>
+
         {% block header %}{% endblock %}
         <link rel="stylesheet" href="{{ url_for('static', filename='sidebar.css') }}">
         <title>Sidebar sub menus</title>
@@ -45,7 +49,7 @@
                             <ion-icon name="chevron-down-outline" class="collapse__link md hydrated rotate"></ion-icon>
 
                             <ul class="collapse__menu showCollapse" id="sub_personal_list">
-                                <a href="#" class="collapse__sublink" id="personal_list_1" onclick="location.href='/tasks'">Personal_TODO</a>
+                                <a href="#" class="collapse__sublink" id="category" onclick="location.href='/tasks'">Personal_TODO</a>
                             </ul>
                         </div>
 
@@ -77,11 +81,6 @@
         </div>
 
         {% block content %}{% endblock %}
-
-        
-        <script>
-
-        </script>
 
         <!-- ===== IONICONS ===== -->
         <script src="https://unpkg.com/ionicons@5.1.2/dist/ionicons.js"></script>

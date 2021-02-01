@@ -129,7 +129,7 @@ else if ( window.location.pathname == '/tasks' ){
   linkColor.forEach(l=> l.classList.remove('active'));
   current_location.classList.add('active');
   
-  var current_list = document.getElementById("personal_list_1");
+  var current_list = document.getElementById("category");
   current_list.classList.add('list_active');
 }
 
@@ -139,3 +139,34 @@ else if ( window.location.pathname == '/calendar/personal' ){
   linkColor.forEach(l=> l.classList.remove('active'));
   current_location.classList.add('active');
 }
+
+
+get_category();
+
+//url 지정
+var url = '/todo/';
+
+//get_category
+function get_category() {
+    var url = '/todo/'
+    fetch(url)
+        .then(
+        function(type){
+            return type.json();
+        })
+        .then(
+        function(result){
+            var result = result.result;
+            for(var i=0; i<result.length; i++){
+                var name = result[i].name;
+                var id = result[i].id;
+                console.log(name);    
+                
+                // get titles
+                var category = `<a href='#' class='collapse__sublink' id='category' onclick='location.href=\"/tasks?category_id=${id}&category_name=${name}\"'>${name}</a>`;
+                console.log(category);
+                var br = $("<br>");
+                $("#sub_personal_list").append(category, br);
+            }
+        });
+}    

@@ -20,15 +20,15 @@ parser.add_argument('name')
 parser.add_argument('color')
 
 class Todo(Resource):
-    def get(self, category_id=1):
+    def get(self, category_id):
         result = []
         query = TodoList.query.filter_by(category_id = category_id).all()
         # query = TodoList.query.filter((TodoList.category_id == category_id) & (TodoList.user_id == current_user.id)).all()
         for todo in query:
             result.append({'id':todo.id, 'content':todo.content, 'start_date':todo.start_date, 'end_date':todo.end_date, 'status':todo.status, 'important':todo.important})
         return jsonify(status = 'success', result=result)
-
-    def post(self, category_id=1):
+        
+    def post(self, category_id):
         args = parser.parse_args()
 
         new_todo = TodoList()
