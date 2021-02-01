@@ -40,11 +40,16 @@ class Todo(Resource):
     def put(self, category_id=1):
         args = parser.parse_args()
         todo = TodoList.query.filter_by(id = args['todo_id']).first()
-        todo.content = args['content']
-        todo.status = int(args['status']) 
-        todo.start_date = args['start_date']
-        todo.end_date = args['end_date']
-        todo.important = int(args['important']) 
+        if args['content']:
+            todo.content = args['content']
+        if args['status']:
+            todo.status = int(args['status']) 
+        if args['start_date']:
+            todo.start_date = args['start_date']
+        if args['end_date']:
+            todo.end_date = args['end_date']
+        if args['important']:
+            todo.important = int(args['important']) 
         db.session.commit()
         return jsonify(status = 'success', result = {'content':todo.content, 'status':todo.status, 'start_date':todo.start_date, 'end_date':todo.end_date, 'important':todo.important})
 
@@ -76,8 +81,10 @@ class Categories(Resource):
     def put(self):
         args = parser.parse_args()
         category = Category.query.filter_by(id = args['category_id']).first()
-        category.name = args['name']
-        category.color = args['color']
+        if args['name']:
+            category.name = args['name']
+        if args['color']:
+            category.color = args['color']
         db.session.commit()
         return jsonify(status = 'success', result = {'id':category.id, 'name':category.name, 'color':category.color})
 

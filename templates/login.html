@@ -1,20 +1,16 @@
+{% extends "bootstrap/base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
+{% block head %}
+{{ super() }}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../static/login.css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700,800&display=swap" rel="stylesheet">
-    <style>
-      .flashes {
-        color: red;
-      }
-    </style>
     <title>login</title>
-</head>
-<body>
+{% endblock %}
+
+{% block content %}
     <div class="cont">
         <div class="form sign-in" style="padding-top: 50px";>
             <form action="/auth/login" method="POST">
@@ -30,25 +26,23 @@
                 <button class="submit">Sign In</button>
             </form>
 
-            {% with messages = get_flashed_messages(with_categories=true) %}
-              {% if messages %}
-                <div class='flashes' style="text-align: center;">
-                {% for category, message in messages %}
-                  <span class="{{ category }}">{{ message }}</span>
-                {% endfor %}
+            {% with errors = get_flashed_messages(category_filter=["auth_error"]) %}
+              {% if errors %}
+                {% for msg in errors%}
+                <div class="alert alert-danger alert-dismissible show" role="alert" style="text-align: center;">
+                  <span>{{ msg }}</span>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="width: 50px; padding-bottom: 15px;">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
                 </div>
+                {% endfor %}
               {% endif %}
             {% endwith %}
           
             <p class="forgot-pass">Forgot Password ?</p>
     
           <div class="social-media">
-            <ul>
-              <li><img src="../static/login_images/facebook.png"></li>
-              <li><img src="../static/login_images/twitter.png"></li>
-              <li><img src="../static/login_images/linkedin.png"></li>
-              <li><img src="../static/login_images/instagram.png"></li>
-            </ul>
+            <a href="{{ url_for('auth.google_login') }}">Sign in with Google</a>
           </div>
         </div>
     
@@ -69,5 +63,5 @@
           </div>
         </div>
       </div>
-</body>
-</html>
+{% endblock %}
+

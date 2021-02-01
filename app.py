@@ -1,6 +1,6 @@
 import json
 import sys
-from flask import Flask, render_template, redirect, url_for, jsonify, request
+from flask import Flask, render_template, redirect, url_for, jsonify, request, flash
 from flask_bootstrap import Bootstrap
 from flask_login import login_required, current_user
 
@@ -19,8 +19,12 @@ def create_app():
   @app.route('/dashboard')
   @login_required
   def dashboard():
+    flash('you are logged in', 'error') 
     return render_template('dash_tp.html', name = current_user.username)
 
+  @app.route('/sample')
+  def sample():
+    return render_template('sample.html')
 
   @app.route('/calendar/data')
   def return_data():
@@ -34,8 +38,8 @@ def create_app():
     import auth
     app.register_blueprint(auth.bp)
 
-    import cal
-    app.register_blueprint(cal.bp)
+    # import cal
+    # app.register_blueprint(cal.bp)
 
     import todo
     app.register_blueprint(todo.bp)
