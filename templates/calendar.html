@@ -1,16 +1,4 @@
 {% extends 'sidebar.html' %}
-
-<!-- 시작 부분 삭제
-
-	<!DOCTYPE html>
-
-<html>
-<head>
-<title>Sukeesh</title>
-<meta charset='utf-8' />
-
-시작 부분 삭제 -->
-
 {% block content %}
 <link href="{{ url_for('static', filename='fullcalendar.min.css') }}" rel='stylesheet' />
 <link href="{{ url_for('static', filename='font-awesome-4.7.0/css/font-awesome.min.css') }}" rel='stylesheet' />
@@ -22,15 +10,14 @@
 
 <script>
 	$(document).ready(function () {
-
-
+		
 		$('#calendar').fullCalendar({
 			header: {
 				left: 'prev,next today',
 				center: 'title',
 				right: 'month'
 			},
-			defaultDate: '2021-01-01',
+			defaultDate: '2021-02-01',
 			editable: true,
 			eventLimit: true,
 			events: {
@@ -162,9 +149,3 @@
 </body>
 
 {% endblock %}
-
-<!-- 끝부분 삭제
-
-</html>
-
-끝부분 삭제 -->

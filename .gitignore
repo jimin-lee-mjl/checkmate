@@ -1,9 +1,5 @@
 miniproject-env/
 .vscode/
-<<<<<<< HEAD
-__pycache__/
-=======
 pycache/
->>>>>>> feature/todo
 config.py
 workspace.code-workspace

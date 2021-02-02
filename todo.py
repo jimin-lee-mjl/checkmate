@@ -42,14 +42,10 @@ class Todo(Resource):
         new_todo.user_id = current_user.id 
         db.session.add(new_todo)
         db.session.commit()
-<<<<<<< HEAD
         return jsonify(
             status = 'success', 
             result = {'content':new_todo.content, 'start-date':new_todo.start_date}
         )
-=======
-        return jsonify(status = 'success', result = {'todo_id': new_todo.id, 'content':new_todo.content, 'start-date':new_todo.start_date})
->>>>>>> feature/todo_api
 
     def put(self, category_id=1):
         args = parser.parse_args()

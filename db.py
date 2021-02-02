@@ -22,13 +22,15 @@ class Category(db.Model):
       color = db.Column(db.String(45))
       user_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=True)
 
+
 class TodoList(db.Model):
       id = db.Column(db.Integer, primary_key=True)
-      content = db.Column(db.Text, default="To do something")
-      start_date = db.Column(db.DateTime, default=db.func.now())
-      end_date = db.Column(db.DateTime, nullable=True)
+      content = db.Column(db.String(20), nullable=False)
+      start_date = db.Column(db.String(20), nullable=False)
+      end_date = db.Column(db.String(20),nullable=True)
       status = db.Column(db.Boolean, default=False)
       important = db.Column(db.Boolean, default=False)
+      #color = db.Column(db.String(20))
       user_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=False)
       category_id = db.Column(db.Integer, db.ForeignKey(Category.id), default=1)
 # status -> doing:false(0), done:true(1)

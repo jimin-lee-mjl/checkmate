@@ -1,0 +1,135 @@
+{% extends 'sidebar.html' %} {% block content %}
+<title>Dashboard</title>
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='tasks_group.css') }}"
+/>
+<style>
+  #login_box {
+    width: 95%;
+    height: 90%;
+    background-color: white;
+    border: solid 1px gray;
+    border-radius: 10px;
+    /* box-shadow: 2px 5px 15px gray; */
+    text-align: center;
+  }
+  table.customTable {
+    width: 45%;
+    background-color: #ffffff;
+    border-width: 2px;
+    border-color: #82589f;
+    border-style: solid;
+    color: #000000;
+    text-align: center;
+    border-radius: 10px;
+  }
+
+  table.customTable td,
+  table.customTable th {
+    border-width: 2px;
+    border-color: #82589f;
+    border-style: solid;
+    padding: 5px;
+    border-radius: 10px;
+  }
+
+  table.customTable thead {
+    background-color: #82589f;
+  }
+
+  /* 중요테이블 */
+  table.important_Table {
+    width: 45%;
+    background-color: #ffffff;
+    /* border-collapse: collapse; */
+    border-width: 2px;
+    border-color: #d96060;
+    border-style: solid;
+    color: #000000;
+    text-align: center;
+    border-radius: 10px;
+  }
+
+  table.important_Table td,
+  table.important_Table th {
+    border-width: 2px;
+    border-color: #d96060;
+    border-style: solid;
+    padding: 5px;
+    border-radius: 10px;
+  }
+
+  table.important_Table thead {
+    background-color: #d96060;
+  }
+</style>
+<body>
+  <h1>Dash Board</h1>
+  <p></p>
+  <hr width="95%" color="gray" />
+  <div>
+    <!-- 랜덤메세지 -->
+    <div class="today" style="text-align: center; margin: 3%" ;></div>
+    <hr width="95%" color="gray" />
+    <!-- 오늘일정 -->
+    <br />
+    <div style="margin: 2%">
+      <h2>Today's TodoList</h2>
+      <br />
+      {% for im in today_list %}
+      <li>{{im['title']}}</li>
+      {% endfor %}
+    </div>
+
+    <br />
+    <br />
+
+    <!-- 중요일정 -->
+    <div id="login_box" style="margin-left: 2%">
+      <table class="important_Table" style="float: left; margin: 3%">
+        <thead>
+          <tr>
+            <th colspan="3">⭐ Important Todo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Content</strong></td>
+            <td colspan="2"><strong>Due_date</strong></td>
+          </tr>
+          {% for im in important_list %}
+          <tr>
+            <td>{{im['title']}}</td>
+            <td>{{im['start']}} ~ {{im['end']}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <!-- urgent todo -->
+
+      <table class="customTable" style="margin: 3%">
+        <thead>
+          <tr>
+            <th colspan="3">🚨 Upcoming Todo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Content</strong></td>
+            <td colspan="2"><strong>Due_date</strong></td>
+          </tr>
+          {% for im in urgent_list %}
+          <tr>
+            <td>{{im['title']}}</td>
+            <td>{{im['start']}} ~ {{im['end']}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+<script src="{{ url_for('static', filename='dash.js') }}"></script>
+{% endblock %}

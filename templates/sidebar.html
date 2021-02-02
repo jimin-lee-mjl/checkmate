@@ -1,38 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <META http-equiv="Pragma" content="no-cache"/>
-        <META http-equiv="Expires" content="0"/>
-        <META http-equiv="Cache-Control" content="no-cache"/>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta http-equiv="Cache-Control" content="no-cache" />
 
-        {% block header %}{% endblock %}
-        <link rel="stylesheet" href="{{ url_for('static', filename='sidebar.css') }}">
-        <title>Sidebar sub menus</title>
+    {% block header %}{% endblock %}
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='sidebar.css') }}"
+    />
+    <title>Sidebar sub menus</title>
+  </head>
+  <body id="body-pd">
+    <div class="l-navbar expander" id="navbar">
+      <nav class="nav">
+        <div>
+          <div class="nav__brand">
+            <ion-icon
+              name="menu-outline"
+              class="nav__toggle"
+              id="nav-toggle"
+            ></ion-icon>
+            <a href="#" class="nav__logo">TO DO LIST</a>
+          </div>
+          <div class="nav__list">
+            <a
+              href="#"
+              class="nav__link active"
+              onclick="location.href='/dashboard'"
+            >
+              <ion-icon name="home-outline" class="nav__icon"></ion-icon>
+              <span class="nav__name">Dashboard</span>
+            </a>
+            <a
+              href="#"
+              class="nav__link"
+              id="nav_calendar"
+              onclick="location.href='/calendar'"
+            >
+              <ion-icon name="calendar-outline" class="nav__icon"></ion-icon>
+              <span class="nav__name">Calendar</span>
+            </a>
 
-    </head>
-    <body id="body-pd">
-        <div class="l-navbar expander" id="navbar">
-            <nav class="nav">
-                <div>
-                    <div class="nav__brand">
-                        <ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
-                        <a href="#" class="nav__logo">TO DO LIST</a>
-                    </div>
-                    <div class="nav__list">
-                        <a href="#" class="nav__link active" onclick="location.href='/dashboard'">
-                            <ion-icon name="home-outline" class="nav__icon"></ion-icon>
-                            <span class="nav__name">Dashboard</span>
-                        </a>
-                        <a href="#" class="nav__link" id="nav_calendar" onclick="location.href='/calendar/personal'">
-                            <ion-icon name="calendar-outline" class="nav__icon"></ion-icon>
-                            <span class="nav__name">Calendar</span>
-                        </a>
-                    
-                        <hr size="1" color="white" noshade>
+            <hr size="1" color="white" noshade />
 
-                        <div class="nav__link collapse" id="group_todo">
+            <!-- <div class="nav__link collapse" id="group_todo">
                             <a href="#" class="nav__create" id="create_group_list_btn"><ion-icon name="person-add-outline" class="nav__icon"></ion-icon></a>
                             <span class="nav__name">Group</span>
                             <ion-icon name="chevron-down-outline" class="collapse__link md hydrated rotate"></ion-icon>
@@ -41,53 +56,62 @@
                                 <a href="#" class="collapse__sublink" id="group_list_1" onclick="location.href='/tasks-group'">Elice</a>
                                 <a href="#" class="collapse__sublink" id="group_list_2" onclick="location.href='/tasks-group'">Study</a>
                             </ul>
-                        </div>
+                        </div> -->
 
-                        <div class="nav__link collapse" id="personal_todo">
-                            <a href="#" class="nav__create" id="create_personal_list_btn"><ion-icon name="duplicate-outline" class="nav__icon"></ion-icon></a>
-                            <span class="nav__name">Personal</span>
-                            <ion-icon name="chevron-down-outline" class="collapse__link md hydrated rotate"></ion-icon>
+            <div class="nav__link collapse" id="personal_todo">
+              <a href="#" class="nav__create" id="create_personal_list_btn"
+                ><ion-icon name="duplicate-outline" class="nav__icon"></ion-icon
+              ></a>
+              <span class="nav__name">Personal</span>
+              <ion-icon
+                name="chevron-down-outline"
+                class="collapse__link md hydrated rotate"
+              ></ion-icon>
 
-                            <ul class="collapse__menu showCollapse" id="sub_personal_list">
-                                <a href="#" class="collapse__sublink category" onclick="location.href='/tasks'">Personal_TODO</a>
-                            </ul>
-                        </div>
+              <ul class="collapse__menu showCollapse" id="sub_personal_list">
+                <a
+                  href="#"
+                  class="collapse__sublink category"
+                  onclick="location.href='/tasks'"
+                  >Personal_TODO</a
+                >
+              </ul>
+            </div>
 
-                        <hr size="1" color="white" noshade>
+            <hr size="1" color="white" noshade />
 
-                        <a href="#" class="nav__link">
-                            <ion-icon name="folder-outline" class="nav__icon"></ion-icon>
-                            <span class="nav__name">완료 저장소</span>
-                        </a>
-                        
-                        <!-- 설정 -->
-                        <a href="#" class="nav__link">
-                            <ion-icon name="settings-outline" class="nav__icon"></ion-icon>
-                            <span class="nav__name">Settings</span>
-                        </a>
-                    </div>
-                </div>
-                <div>
-                    <a href="#" class="nav__link">
-                        <ion-icon name="person-circle-outline" class="nav__icon"></ion-icon>
-                        <span class="nav__name">My profile</span>
-                    </a>
-                    <a href="#" class="nav__link" onclick="location.href='/auth/logout'">
-                        <ion-icon name="log-out-outline" class="nav__icon"></ion-icon>
-                        <span class="nav__name">Log Out</span>
-                    </a>
-                </div>
-            </nav>
+            <a href="#" class="nav__link">
+              <ion-icon name="folder-outline" class="nav__icon"></ion-icon>
+              <span class="nav__name">완료 저장소</span>
+            </a>
+
+            <!-- 설정 -->
+            <a href="#" class="nav__link">
+              <ion-icon name="settings-outline" class="nav__icon"></ion-icon>
+              <span class="nav__name">Settings</span>
+            </a>
+          </div>
         </div>
+        <div>
+          <a href="#" class="nav__link">
+            <ion-icon name="person-circle-outline" class="nav__icon"></ion-icon>
+            <span class="nav__name">My profile</span>
+          </a>
+          <a href="#" class="nav__link" onclick="location.href='/auth/logout'">
+            <ion-icon name="log-out-outline" class="nav__icon"></ion-icon>
+            <span class="nav__name">Log Out</span>
+          </a>
+        </div>
+      </nav>
+    </div>
 
-        {% block content %}{% endblock %}
+    {% block content %}{% endblock %}
 
-        <!-- ===== IONICONS ===== -->
-        <script src="https://unpkg.com/ionicons@5.1.2/dist/ionicons.js"></script>
-        
-        <!-- ===== MAIN JS ===== -->
-        <script src="../static/sidebar.js"></script>
-        <!-- <script src="{{ url_for('static', filename='sidebar.js') }}"></script> -->
-        
-    </body>
+    <!-- ===== IONICONS ===== -->
+    <script src="https://unpkg.com/ionicons@5.1.2/dist/ionicons.js"></script>
+
+    <!-- ===== MAIN JS ===== -->
+    <script src="../static/sidebar.js"></script>
+    <!-- <script src="{{ url_for('static', filename='sidebar.js') }}"></script> -->
+  </body>
 </html>
