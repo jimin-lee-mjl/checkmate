@@ -1,35 +1,35 @@
-{% extends 'sidebar.html' %}
+{% extends 'sidebar.html' %} {% block header %}
+<title>✍Todolist</title>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.css"
+/>
+<link rel="stylesheet" href="{{ url_for('static', filename='tasks.css') }}" />
+<link
+  rel="stylesheet"
+  href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
+/>
+{% endblock %} {% block content %}
 
-    {% block header %}
-    <title>✍Todolist</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='tasks.css') }}">
-    {% endblock %}
+<div>
+  <header class="screen-header">
+    <!-- <h1 class="screen-header__title" id="category_title" contentEditable="true">New_list</h1> -->
+  </header>
+  <div class="container">
+    <input type="text" class="txtb" placeholder="➕ Add a task" />
 
-    {% block content %}
-
-    <div>
-      <header class="screen-header">
-        <!-- <h1 class="screen-header__title" id="category_title" contentEditable="true">New_list</h1> -->
-      </header>
-    <div class="container">
-      <input type="text" class="txtb" placeholder="➕ Add a task">
-      
-      <div class="notcomp">
-        <h3>To do</h3>
-      </div>
-
-      <div class="comp">
-        <h3>Done</h3>
-      </div>
+    <div class="notcomp">
+      <h3>To do</h3>
     </div>
-    
+
+    <div class="comp">
+      <h3>Done</h3>
+    </div>
   </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>   
-    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>   
-    <script src="{{ url_for('static', filename='tasks.js') }}"></script>
-
-    {% endblock %}
-  </body>
-</html>
-
+</div>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="{{ url_for('static', filename='tasks.js') }}"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+{% endblock %}
