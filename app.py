@@ -16,16 +16,10 @@ def create_app():
   def tasks():
     return render_template('tasks.html')
 
-  @app.route('/dashboard')
-  @login_required
-  def dashboard():
-    return render_template('dash.html', name = current_user.username)
-
-
   @app.route('/calendar/data')
   def return_data():
       return cal.get_todo_cal()
-  ####
+
 
   with app.app_context():
     import db
@@ -44,6 +38,7 @@ def create_app():
     app.register_blueprint(dash.bp)
 
   if __name__=="__main__":
+    db.init_app(app)
     app.run(debug=True)  
 
   return app

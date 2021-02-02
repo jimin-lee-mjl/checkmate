@@ -36,5 +36,5 @@ def get_todo_cal():
         "color" : todoList.color
         }
         a.append((hi))
-    print(json.dumps(a), file=sys.stdout)
+    #print(json.dumps(a), file=sys.stdout)
     return json.dumps(a)
