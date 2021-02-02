@@ -51,7 +51,7 @@ def get_today_todo():
             "start": todoList.start_date,
             "end":todoList.end_date,
             }
-            a.append((hi)
+            a.append((hi))
     return a
 
 

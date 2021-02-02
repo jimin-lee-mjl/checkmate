@@ -31,6 +31,9 @@ def create_app():
     import todo
     app.register_blueprint(todo.bp)
 
+    import cal
+    app.register_blueprint(cal.bp)
+
     import dash
     app.register_blueprint(dash.bp)
 

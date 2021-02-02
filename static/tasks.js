@@ -516,7 +516,6 @@ $(".txtb").on("keyup", function (e) {
     //to clear the input
     $(".txtb").val("");
 
-    var new_task_content = $(".txtb").val();
     console.log(new_task_content);
     url = "/todo/" + category_id;
     fetch(url, {

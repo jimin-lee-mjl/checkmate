@@ -1,5 +1,5 @@
 miniproject-env/
 .vscode/
-pycache/
 config.py
 workspace.code-workspace
+__pycache__/
