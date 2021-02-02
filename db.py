@@ -18,8 +18,8 @@ class User(UserMixin, db.Model):
 
 class Category(db.Model):
       id = db.Column(db.Integer, primary_key=True)
-      name = db.Column(db.String(45), unique=True, nullable=False)
-      color = db.Column(db.String(45), default='navy')
+      name = db.Column(db.String(45), nullable=False)
+      color = db.Column(db.String(45))
       user_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=True)
 
 class TodoList(db.Model):
@@ -47,4 +47,5 @@ def init_db():
       db.session.commit()
       sample_todo = TodoList(content="elice", user_id=1, category_id=1)
       db.session.add(sample_todo)
+      db.session.add(sample_todo_2)
       db.session.commit()

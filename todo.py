@@ -35,16 +35,21 @@ class Todo(Resource):
 
     def post(self, category_id=1):
         args = parser.parse_args()
+
         new_todo = TodoList()
         new_todo.content = args['content']
         new_todo.category_id = category_id
         new_todo.user_id = current_user.id 
         db.session.add(new_todo)
         db.session.commit()
+<<<<<<< HEAD
         return jsonify(
             status = 'success', 
             result = {'content':new_todo.content, 'start-date':new_todo.start_date}
         )
+=======
+        return jsonify(status = 'success', result = {'todo_id': new_todo.id, 'content':new_todo.content, 'start-date':new_todo.start_date})
+>>>>>>> feature/todo_api
 
     def put(self, category_id=1):
         args = parser.parse_args()
@@ -112,6 +117,7 @@ class Categories(Resource):
             result = {'id':category.id, 'name':category.name, 'color':category.color}
         )
 
+
     def delete(self):
         args = parser.parse_args()
         category = Category.query.filter_by(id = args['category_id']).first()
@@ -125,5 +131,4 @@ class Categories(Resource):
 
 api.add_resource(Todo, '/<category_id>')
 api.add_resource(Categories, '/')
-
 
