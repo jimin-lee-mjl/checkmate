@@ -17,7 +17,7 @@ class User(UserMixin, db.Model):
 
 class Category(db.Model):
       id = db.Column(db.Integer, primary_key=True)
-      name = db.Column(db.String(45), unique=True, nullable=False)
+      name = db.Column(db.String(45), unique=False, nullable=False)
       color = db.Column(db.String(45), default='navy')
       # todos = db.relationship('TodoList', backref='category', lazy=True)
 
@@ -35,8 +35,8 @@ class TodoList(db.Model):
 def init_db():
       db.drop_all()
       db.create_all()
-      sample_category = Category(name="you")
-      sample_category_2 = Category(name="me")
+      sample_category = Category(name="list_1")
+      sample_category_2 = Category(name="list_2")
       sample_todo = TodoList(content="elice")
       sample_todo_2 = TodoList(content="elice2")
       db.session.add(sample_category)

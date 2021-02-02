@@ -16,7 +16,7 @@ console.log(category_name);
 // var category_id = '';
 // var url = server_url + '/todo/' + category_id;
 
-//get todolist -> GET
+//get category_name
 get_category_name();
 get_todo();
 
@@ -26,32 +26,6 @@ function get_category_name() {
           <h1 class="screen-header__title" id="category_title" contentEditable="true">${category_name}</h1>
         `;
 }
-
-// function get_todolist() {
-//   var url = server_url + '/todo/'
-//   fetch(url,{category_id: clicked_category_id})
-//     .then(
-//       function(type){
-//         return type.json();
-//       }
-//     )
-//     .then(
-//       function(result){
-//         console.log(result);
-//         console.log(result.result[0].name);
-//         console.log(result.result[0].id);
-
-//         category_id = result.result[0].id;
-//         console.log(category_id);
-
-//         // get title
-//         document.querySelector('header').innerHTML = `
-//           <h1 class="screen-header__title" id="category_title" contentEditable="true">${result.result[0].name}</h1>
-//         `;
-//         get_todo();
-//       }
-//     );
-// }
 
 //get todo -> GET
 function get_todo() {
@@ -65,29 +39,32 @@ function get_todo() {
     )
     .then(
       function(result){
-
-        console.log(result.result);
         var result = result.result
         console.log(result);
         
         // get content
 
         for(var i=0; i<result.length; i++){
+          var todo_id = result[i].id;
           var content = result[i].content;
           var status = result[i].status;
 
           if (status === false) {
-            var task = $("<div class='task' contentEditable='true'></div>").text(content);
+            var task = `<div class='task' contentEditable='true' id=${todo_id}></div>`
+            var task = $(task).text(content);
+            console.log(task[0]);
             task.append(del, check);
             console.log(task[0]);
             $(".notcomp").append(task);
           } 
           else {
-            var task = $("<div class='task' contentEditable='true'></div>").text(content);
+            var task = `<div class='task' contentEditable='true' id=${todo_id}></div>`
+            var task = $(task).text(content);
             task.append(del, check);
             console.log(task);
             $(".comp").append(task);
           }
+        
         }
       }
     );
@@ -110,34 +87,84 @@ $("#category_title")
             
             var category_title = $(this).html();
             console.log(category_title);
-            // var url = server_url + '/todo/' 
-            // fetch(url,{
-            //     method: "PUT",
-            //     body: JSON.stringify({
-            //       name: category_title
-            //     }),
-            //     headers:{
-            //       'Content-Type':'application/json'
-            //     }            
-            //   })
-            //   .then(
-            //     function(type){
-            //       return type.json();
-            //     }
-            //   )
-            //   .then(
-            //     function(result){
-            //       console.log(result);
-            //     }
-            //   );
+            var url = '/todo/' 
+            
+            fetch(url,{
+                method: "PUT",
+                body: JSON.stringify({
+                  name: category_title
+                }),
+                headers:{
+                  'Content-Type':'application/json'
+                }            
+              })
+              .then(
+                function(type){
+                  return type.json();
+                }
+              )
+              .then(
+                function(result){
+                  console.log(result);
+                }
+              );
         }
   });
+
+
+for i in id
+  // edit_todo_content -> PUT
+$(".task")
+// When you click on item, record into data("initialText") content of this item.
+.focus(function() {
+    $(this).data("initialText", $(this).html());
+    console.log($(".task").html());
+})
+// When you leave an item...
+.blur(function() {
+    // ...if content is different...
+    if ($(this).data("initialText") !== $(this).html()) {
+        // ... do something.
+        console.log('New data when content change.');
+        console.log($(this).html());
+        
+        var todo_content = $(this).html();
+        console.log(todo_content);
+        
+        var todo_id = $(this).attr('id');
+        console.log(todo_id);
+
+        var url = '/todo/' +  category_id;
+
+        fetch(url,{
+            method: "PUT",
+            body: JSON.stringify({
+              todo_id: todo_id,
+              content: todo_content
+            }),
+            headers:{
+              'Content-Type':'application/json'
+            }            
+          })
+          .then(
+            function(type){
+              return type.json();
+            }
+          )
+          .then(
+            function(result){
+              console.log(result);
+            }
+          );
+    }
+});
 
 
 // check 선언
 // click -> update task status -> PUT
 var check = $("<i class='fas fa-check'></i>").click(function(){
   var p = $(this).parent();
+
   p.fadeOut(function(){
     if (p.parent().hasClass("notcomp")){
       $(".comp").append(p);
@@ -148,13 +175,24 @@ var check = $("<i class='fas fa-check'></i>").click(function(){
     }
   });
 
+  if (p.parent().hasClass("notcomp")) {
+    var status = 1;
+  } else if (p.parent().hasClass("comp")) {
+    var status = 0;
+  }
+
+  var todo_id = $(this).parent().attr('id');
+  console.log(status);
+  console.log(todo_id);
+
   //update task status
-  var url = server_url + '/todo/'+ category_id;
+  var url = '/todo/'+ category_id;
   console.log(url);
   fetch(url,{
       method: "PUT",
       body: JSON.stringify({
-        status: "1"
+        todo_id: todo_id,
+        status: status
       }),
       headers:{
         'Content-Type':'application/json'
@@ -181,11 +219,14 @@ var del = $("<i class='fas fa-trash-alt'></i>").click(function(){
   });
 
   //delete db
-  var del_content = $(this).parent().val();
+  var todo_id = $(this).parent().attr('id');
+  console.log(todo_id);
+  url = '/todo/'+ category_id;
+
   fetch(url,{
       method: "DELETE",
       body: JSON.stringify({
-        content: del_content
+        todo_id: todo_id
       }),
       headers:{
         'Content-Type':'application/json'
@@ -204,33 +245,38 @@ var del = $("<i class='fas fa-trash-alt'></i>").click(function(){
 });
 
 // enter 키 -> task 추가 -> POST
+var new_task_result;
 $(".txtb").on("keyup",function(e){
   //13  means enter button
   if(e.keyCode == 13 && $(".txtb").val() != "")
   {
     var new_task_content = $(".txtb").val();
-    
-    // fetch(url,{
-    //   method: "POST",
-    //   body: JSON.stringify({
-    //     content: new_task
-    //   }),
-    //   headers:{
-    //     'Content-Type':'application/json'
-    //   }            
-    // })
-    // .then(
-    //   function(type){
-    //     return type.json();
-    //   }
-    // )
-    // .then(
-    //   function(result){
-    //     console.log(result);
-    //   }
-    // );
+    console.log(new_task_content);
+    url = url = '/todo/'+ category_id;
+    fetch(url,{
+      method: "POST",
+      body: JSON.stringify({
+        content: new_task_content
+      }),
+      headers:{
+        'Content-Type':'application/json'
+      }            
+    })
+    .then(
+      function(type){
+        return type.json();
+      }
+    )
+    .then(
+      function(result){
+        console.log(result.result.todo_id);
+        new_task_result = result.result.todo_id;
+        console.log(new_task_result);
+      }
+    );
 
-    var task = $("<div class ='task_content' contentEditable='true'></div>").text(new_task_content);
+    console.log(new_task_result);
+    var task = $("<div class ='task' contentEditable='true'></div>").text(new_task_content);
     
     // del, check append
     task.append(del, check);

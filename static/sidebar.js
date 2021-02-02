@@ -75,29 +75,28 @@ function create_personal_list() {
   parent_personal_list.appendChild(br);
 
   // create new list -> post to db
-  // var url = server_url + '/todo/' + list_id;
-
-  // fetch(url, {
-  //   method: "POST",
-  //   body: JSON.stringify({
-  //     list_id: ,
-  //     title: "New_List",
-  //     color:
-  //   }),
-  //   headers:{
-  //     'Content-Type':'application/json'
-  //   }
-  // })
-  // .then(
-  //   function(Type){
-  //     return type.json();
-  //   }
-  // )
-  // .then(
-  //   function(result){
-  //     console.log(result)
-  //   }
-  // );
+  var url = '/todo/';
+  var randomColor = Math.floor(Math.random()*16777215).toString(16);
+  fetch(url, {
+    method: "POST",
+    body: JSON.stringify({
+      name: "New_list",
+      color: randomColor
+    }),
+    headers:{
+      'Content-Type':'application/json'
+    }
+  })
+  .then(
+    function(type){
+      return type.json();
+    }
+  )
+  .then(
+    function(result){
+      console.log(result)
+    }
+  );
 }
 
 create_personal_list_btn.addEventListener("click", create_personal_list);  
@@ -148,7 +147,7 @@ var url = '/todo/';
 
 //get_category
 function get_category() {
-    var url = '/todo/'
+    var url = '/todo'
     fetch(url)
         .then(
         function(type){
