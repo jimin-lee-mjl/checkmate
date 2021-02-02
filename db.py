@@ -4,7 +4,8 @@ from werkzeug.security import generate_password_hash
 from flask_login import UserMixin
 from config import DB_CONNECT
 
-current_app.config["SQLALCHEMY_DATABASE_URI"] = f"mysql://{DB_CONNECT['username']}:{DB_CONNECT['password']}@{DB_CONNECT['server']}:3306/{DB_CONNECT['dbname']}"
+DB_URI = f"mysql://{DB_CONNECT['username']}:{DB_CONNECT['password']}@{DB_CONNECT['server']}:3306/{DB_CONNECT['dbname']}"
+current_app.config["SQLALCHEMY_DATABASE_URI"] = DB_URI
 current_app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(current_app)
 
@@ -29,14 +30,16 @@ class TodoList(db.Model):
       status = db.Column(db.Boolean, default=False)
       important = db.Column(db.Boolean, default=False)
       user_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=False)
-      category_id = db.Column(db.Integer, default=1)
+      category_id = db.Column(db.Integer, db.ForeignKey(Category.id), default=1)
 # status -> doing:false(0), done:true(1)
 
 def init_db():
       db.init_app(current_app)
       db.drop_all()
       db.create_all()
-      sample_user = User(username="lana", email="lana@lana.com", password=generate_password_hash('lanalana', method='sha256'))
+      sample_user = User(
+            username="lana", email="lana@lana.com", password=generate_password_hash('lanalana', method='sha256')
+      )
       db.session.add(sample_user)
       db.session.commit()
       sample_category = Category(name="mine", user_id=1)

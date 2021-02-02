@@ -22,9 +22,15 @@ parser.add_argument('color')
 class Todo(Resource):
     def get(self, category_id=1):
         result = []
-        query = TodoList.query.filter((TodoList.category_id == category_id) & (TodoList.user_id == current_user.id)).all()
+        query = TodoList.query.filter(
+            (TodoList.category_id == category_id) & (TodoList.user_id == current_user.id)
+        ).all()
         for todo in query:
-            result.append({'id':todo.id, 'content':todo.content, 'start_date':todo.start_date, 'end_date':todo.end_date, 'status':todo.status, 'important':todo.important})
+            result.append(
+                {'id':todo.id, 'content':todo.content, 
+                'start_date':todo.start_date, 'end_date':todo.end_date, 
+                'status':todo.status, 'important':todo.important}
+            )
         return jsonify(status = 'success', result=result)
 
     def post(self, category_id=1):
@@ -35,7 +41,10 @@ class Todo(Resource):
         new_todo.user_id = current_user.id 
         db.session.add(new_todo)
         db.session.commit()
-        return jsonify(status = 'success', result = {'content':new_todo.content, 'start-date':new_todo.start_date})
+        return jsonify(
+            status = 'success', 
+            result = {'content':new_todo.content, 'start-date':new_todo.start_date}
+        )
 
     def put(self, category_id=1):
         args = parser.parse_args()
@@ -51,21 +60,30 @@ class Todo(Resource):
         if args['important']:
             todo.important = int(args['important']) 
         db.session.commit()
-        return jsonify(status = 'success', result = {'content':todo.content, 'status':todo.status, 'start_date':todo.start_date, 'end_date':todo.end_date, 'important':todo.important})
+        return jsonify(
+            status = 'success', 
+            result = {'content':todo.content, 'status':todo.status, 
+                    'start_date':todo.start_date, 'end_date':todo.end_date, 'important':todo.important}
+        )
 
     def delete(self, category_id=1):
         args = parser.parse_args()
         todo = TodoList.query.filter_by(id = args['todo_id']).first()
         db.session.delete(todo)
         db.session.commit()
-        return jsonify(status = 'success', result = {'id':todo.id, 'content':todo.content})
+        return jsonify(
+            status = 'success', 
+            result = {'id':todo.id, 'content':todo.content}
+        )
 
 class Categories(Resource):
     def get(self):
         result = []
         query = Category.query.filter_by(user_id = current_user.id).all()
         for category in query:
-            result.append({'id':category.id, 'name':category.name, 'color':category.color})
+            result.append(
+                {'id':category.id, 'name':category.name, 'color':category.color}
+            )
         return jsonify(status = 'success', result = result)
 
     def post(self):
@@ -76,7 +94,10 @@ class Categories(Resource):
         new_category.user_id = current_user.id
         db.session.add(new_category)
         db.session.commit()
-        return jsonify(status = 'success', result = {'id':new_category.id, 'name':new_category.name, 'color':new_category.color})
+        return jsonify(
+            status = 'success', 
+            result = {'id':new_category.id, 'name':new_category.name, 'color':new_category.color}
+        )
 
     def put(self):
         args = parser.parse_args()
@@ -86,14 +107,20 @@ class Categories(Resource):
         if args['color']:
             category.color = args['color']
         db.session.commit()
-        return jsonify(status = 'success', result = {'id':category.id, 'name':category.name, 'color':category.color})
+        return jsonify(
+            status = 'success', 
+            result = {'id':category.id, 'name':category.name, 'color':category.color}
+        )
 
     def delete(self):
         args = parser.parse_args()
         category = Category.query.filter_by(id = args['category_id']).first()
         db.session.delete(category)
         db.session.commit()
-        return jsonify(status = 'success', result = {'id':category.id, 'name':category.name})
+        return jsonify(
+            status = 'success', 
+            result = {'id':category.id, 'name':category.name}
+        )
 
 
 api.add_resource(Todo, '/<category_id>')
