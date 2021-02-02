@@ -52,7 +52,6 @@ def get_today_todo():
             "end":todoList.end_date,
             }
             a.append((hi)
-    print(json.dumps(a), file=sys.stdout)
     return a
 
 
