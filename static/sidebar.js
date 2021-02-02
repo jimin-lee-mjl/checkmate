@@ -1,3 +1,5 @@
+get_category();
+
 /*===== EXPANDER MENU  =====*/ 
 const showMenu = (toggleId, navbarId, bodyId)=>{
   const toggle = document.getElementById(toggleId),
@@ -14,15 +16,6 @@ const showMenu = (toggleId, navbarId, bodyId)=>{
 }
 showMenu('nav-toggle','navbar','body-pd')
 
-/*===== LINK ACTIVE  =====*/ 
-// const linkColor = document.querySelectorAll('.nav__link')
-// function colorLink(){
-//   linkColor.forEach(l=> l.classList.remove('active'))
-//   this.classList.add('active')
-// }
-// linkColor.forEach(l=> l.addEventListener('click', colorLink))
-
-
 /*===== COLLAPSE MENU  =====*/ 
 const linkCollapse = document.getElementsByClassName('collapse__link')
 var i
@@ -36,7 +29,6 @@ for(i=0;i<linkCollapse.length;i++){
     rotate.classList.toggle('rotate')
   })
 }
-
 
 /*===== create_new_group_list =====*/ 
 var create_group_list_btn = document.getElementById('create_group_list_btn'); 
@@ -139,9 +131,6 @@ else if ( window.location.pathname == '/calendar/personal' ){
   current_location.classList.add('active');
 }
 
-
-get_category();
-
 //url 지정
 var url = '/todo/';
 
@@ -162,7 +151,7 @@ function get_category() {
                 console.log(name);    
                 
                 // get titles
-                var category = `<a href='#' class='collapse__sublink' id='category' onclick='location.href=\"/tasks?category_id=${id}&category_name=${name}\"'>${name}</a>`;
+                var category = `<a href='#' class='collapse__sublink category' onclick='location.href=\"/tasks?category_id=${id}&category_name=${name}\"'>${name}</a>`;
                 console.log(category);
                 var br = $("<br>");
                 $("#sub_personal_list").append(category, br);

@@ -11,11 +11,6 @@ var category_name = getParameterByName('category_name');
 console.log(category_id);
 console.log(category_name);
 
-//url 지정
-// var server_url = '';
-// var category_id = '';
-// var url = server_url + '/todo/' + category_id;
-
 //get category_name
 get_category_name();
 get_todo();
@@ -23,9 +18,45 @@ get_todo();
 function get_category_name() {
   console.log(category_name);
   document.querySelector('header').innerHTML = `
-          <h1 class="screen-header__title" id="category_title" contentEditable="true">${category_name}</h1>
+          <h1 class="screen-header__title" id="category_title" contentEditable="true">${category_name}</h1><span><i class="fas fa-trash-alt" id="category_delete"
+          onclick="deleteCategory"></i></span>
         `;
 }
+
+function deleteCategory(category_id) {
+  const URL = '/todo'
+  const option = {
+    method:'POST',
+    body:JSON.stringify({
+      category_id:category_id
+    }),
+    headers: {
+      'Content-Type':'application/json'
+    }
+  }
+
+  fetch(URL, option).then(function(type) {
+    return type.json();
+  }).then(function(result) {
+    if (result.status === 'success') {
+      const category = document.querySelector()
+      window.location.replace('/');
+    } else {
+      alert('Sorry, can not delete this category.');
+    }
+  })
+}
+
+//get category_title
+// get_category_name();
+// get_todo();
+
+// function get_category_name() {
+//   console.log(category_name);
+//   document.querySelector('header').innerHTML = `
+//           <h1 class="screen-header__title" id="category_title" contentEditable="true">${category_name}</h1>
+//         `;
+// }
 
 //get todo -> GET
 function get_todo() {
@@ -41,16 +72,100 @@ function get_todo() {
       function(result){
         var result = result.result
         console.log(result);
-        
+
         // get content
 
         for(var i=0; i<result.length; i++){
           var todo_id = result[i].id;
           var content = result[i].content;
           var status = result[i].status;
+          var task = `<div class='task' contentEditable='true' id=${todo_id}></div>`
+
+          //delete
+          var del = $("<i class='fas fa-trash-alt'></i>").click(function(){
+            var p = $(this).parent();
+            p.fadeOut(function(){
+              p.remove();
+            });
+
+            //delete db
+            var todo_id = $(this).parent().attr('id');
+            console.log(todo_id);
+            url = '/todo/'+ category_id;
+
+            fetch(url,{
+                method: "DELETE",
+                body: JSON.stringify({
+                  todo_id: todo_id
+                }),
+                headers:{
+                  'Content-Type':'application/json'
+                }            
+              })
+              .then(
+                function(type){
+                  return type.json();
+                }
+              )
+              .then(
+                function(result){
+                  console.log(result);
+                }
+              ); 
+              
+          });
+
+          //check
+          var check = $("<i class='fas fa-check'></i>").click(function(){
+            var p = $(this).parent();
+
+            p.fadeOut(function(){
+              if (p.parent().hasClass("notcomp")){
+                $(".comp").append(p);
+                p.fadeIn();
+              } else if (p.parent().hasClass("comp")){
+                $(".notcomp").append(p);
+                p.fadeIn();
+              }
+            });
+          
+            if (p.parent().hasClass("notcomp")) {
+              var status = 1;
+            } else if (p.parent().hasClass("comp")) {
+              var status = 0;
+            }
+          
+            var todo_id = $(this).parent().attr('id');
+            console.log(status);
+            console.log(todo_id);
+          
+            //update task status
+            var url = '/todo/'+ category_id;
+            console.log(url);
+            fetch(url,{
+                method: "PUT",
+                body: JSON.stringify({
+                  todo_id: todo_id,
+                  status: status
+                }),
+                headers:{
+                  'Content-Type':'application/json'
+                }            
+              })
+              .then(
+                function(type){
+                  return type.json();
+                }
+              )
+              .then(
+                function(result){
+                  console.log(result);
+                }
+              );   
+          });
 
           if (status === false) {
-            var task = `<div class='task' contentEditable='true' id=${todo_id}></div>`
+            
             var task = $(task).text(content);
             console.log(task[0]);
             task.append(del, check);
@@ -58,7 +173,6 @@ function get_todo() {
             $(".notcomp").append(task);
           } 
           else {
-            var task = `<div class='task' contentEditable='true' id=${todo_id}></div>`
             var task = $(task).text(content);
             task.append(del, check);
             console.log(task);
@@ -112,52 +226,97 @@ $("#category_title")
   });
 
 
-for i in id
-  // edit_todo_content -> PUT
+// for(var i=0; i<$("task").length; i++){
+//   $("task")[i]
+//     .focus(function() {
+//       $(this).data("initialText", $(this).html());
+//       console.log($(".task").html());
+//     })
+//     // When you leave an item...
+//     .blur(function() {
+//         // ...if content is different...
+//         if ($(this).data("initialText") !== $(this).html()) {
+//             // ... do something.
+//             console.log('New data when content change.');
+//             console.log($(this).html());
+            
+//             var todo_content = $(this).html();
+//             console.log(todo_content);
+            
+//             var todo_id = $(this).attr('id');
+//             console.log(todo_id);
+    
+//             var url = '/todo/' +  category_id;
+    
+//             fetch(url,{
+//                 method: "PUT",
+//                 body: JSON.stringify({
+//                   todo_id: todo_id,
+//                   content: todo_content
+//                 }),
+//                 headers:{
+//                   'Content-Type':'application/json'
+//                 }            
+//               })
+//               .then(
+//                 function(type){
+//                   return type.json();
+//                 }
+//               )
+//               .then(
+//                 function(result){
+//                   console.log(result);
+//                 }
+//               );
+//         }
+//     });
+//   } 
+
+// edit_todo_content -> PUT
 $(".task")
-// When you click on item, record into data("initialText") content of this item.
-.focus(function() {
-    $(this).data("initialText", $(this).html());
-    console.log($(".task").html());
-})
-// When you leave an item...
-.blur(function() {
-    // ...if content is different...
-    if ($(this).data("initialText") !== $(this).html()) {
-        // ... do something.
-        console.log('New data when content change.');
-        console.log($(this).html());
-        
-        var todo_content = $(this).html();
-        console.log(todo_content);
-        
-        var todo_id = $(this).attr('id');
-        console.log(todo_id);
+  // When you click on item, record into data("initialText") content of this item.
+  .focus(function() {
+      $(this).data("initialText", $(this).html());
+      console.log($(".task").html());
+  })
+  // When you leave an item...
+  .blur(function() {
+      // ...if content is different...
+      if ($(this).data("initialText") !== $(this).html()) {
+          // ... do something.
+          console.log('New data when content change.');
+          console.log($(this).html());
+          
+          var todo_content = $(this).html();
+          console.log(todo_content);
+          
+          var todo_id = $(this).attr('id');
+          console.log(todo_id);
 
-        var url = '/todo/' +  category_id;
+          var url = '/todo/' +  category_id;
 
-        fetch(url,{
-            method: "PUT",
-            body: JSON.stringify({
-              todo_id: todo_id,
-              content: todo_content
-            }),
-            headers:{
-              'Content-Type':'application/json'
-            }            
-          })
-          .then(
-            function(type){
-              return type.json();
-            }
-          )
-          .then(
-            function(result){
-              console.log(result);
-            }
-          );
-    }
-});
+          fetch(url,{
+              method: "PUT",
+              body: JSON.stringify({
+                todo_id: todo_id,
+                content: todo_content
+              }),
+              headers:{
+                'Content-Type':'application/json'
+              }            
+            })
+            .then(
+              function(type){
+                return type.json();
+              }
+            )
+            .then(
+              function(result){
+                console.log(result);
+              }
+            );
+      }
+  });
 
 
 // check 선언
@@ -210,6 +369,7 @@ var check = $("<i class='fas fa-check'></i>").click(function(){
     );    
 });
 
+
 // del 선언 
 // click -> delete task -> DELETE
 var del = $("<i class='fas fa-trash-alt'></i>").click(function(){
@@ -244,15 +404,110 @@ var del = $("<i class='fas fa-trash-alt'></i>").click(function(){
     );          
 });
 
+
 // enter 키 -> task 추가 -> POST
 var new_task_result;
 $(".txtb").on("keyup",function(e){
   //13  means enter button
   if(e.keyCode == 13 && $(".txtb").val() != "")
   {
+    var task = $("<div class ='task' contentEditable='true' ></div>").text($(".txtb").val());
+    console.log(task);
+
+    //delete
+    var del = $("<i class='fas fa-trash-alt'></i>").click(function(){
+      var p = $(this).parent();
+      p.fadeOut(function(){
+        p.remove();
+      });
+
+      //delete db
+      var todo_id = $(this).parent().attr('id');
+      console.log(todo_id);
+      url = '/todo/'+ category_id;
+
+      fetch(url,{
+          method: "DELETE",
+          body: JSON.stringify({
+            todo_id: todo_id
+          }),
+          headers:{
+            'Content-Type':'application/json'
+          }            
+        })
+        .then(
+          function(type){
+            return type.json();
+          }
+        )
+        .then(
+          function(result){
+            console.log(result);
+          }
+        ); 
+        
+    });
+
+    //check
+    var check = $("<i class='fas fa-check'></i>").click(function(){
+      var p = $(this).parent();
+
+      p.fadeOut(function(){
+        if (p.parent().hasClass("notcomp")){
+          $(".comp").append(p);
+          p.fadeIn();
+        } else if (p.parent().hasClass("comp")){
+          $(".notcomp").append(p);
+          p.fadeIn();
+        }
+      });
+    
+      if (p.parent().hasClass("notcomp")) {
+        var status = 1;
+      } else if (p.parent().hasClass("comp")) {
+        var status = 0;
+      }
+    
+      var todo_id = $(this).parent().attr('id');
+      console.log(status);
+      console.log(todo_id);
+    
+      //update task status
+      var url = '/todo/'+ category_id;
+      console.log(url);
+      fetch(url,{
+          method: "PUT",
+          body: JSON.stringify({
+            todo_id: todo_id,
+            status: status
+          }),
+          headers:{
+            'Content-Type':'application/json'
+          }            
+        })
+        .then(
+          function(type){
+            return type.json();
+          }
+        )
+        .then(
+          function(result){
+            console.log(result);
+          }
+        );   
+    });
+
+    // del, check append
+    task.append(del, check);
+
+      // append to notcomplete task
+    $(".notcomp").append(task);
+      //to clear the input
+    $(".txtb").val("");
+    
     var new_task_content = $(".txtb").val();
     console.log(new_task_content);
-    url = url = '/todo/'+ category_id;
+    url = '/todo/'+ category_id;
     fetch(url,{
       method: "POST",
       body: JSON.stringify({
@@ -274,17 +529,7 @@ $(".txtb").on("keyup",function(e){
         console.log(new_task_result);
       }
     );
-
-    console.log(new_task_result);
-    var task = $("<div class ='task' contentEditable='true'></div>").text(new_task_content);
     
-    // del, check append
-    task.append(del, check);
-
-      // append to notcomplete task
-    $(".notcomp").append(task);
-      //to clear the input
-    $(".txtb").val("");
   }
 });
 
