@@ -16,7 +16,7 @@
     background-color: white;
     border: solid 1px gray;
     border-radius: 10px;
-    /* box-shadow: 6px 6px 5px #888888; */
+    /* box-shadow: 2px 5px 15px gray; */
     text-align: center;
   }
   table.customTable {
@@ -50,7 +50,7 @@
     background-color: #ffffff;
     /* border-collapse: collapse; */
     border-width: 2px;
-    border-color: #fc2355;
+    border-color: #d96060;
     border-style: solid;
     color: #000000;
     text-align: center;
@@ -60,70 +60,44 @@
   table.important_Table td,
   table.important_Table th {
     border-width: 2px;
-    border-color: #fc2355;
+    border-color: #d96060;
     border-style: solid;
     padding: 5px;
     border-radius: 10px;
   }
 
   table.important_Table thead {
-    background-color: #fc2355;
+    background-color: #d96060;
   }
 </style>
 <body>
   <h1>Dash Board</h1>
+  <p></p>
   <hr width="95%" color="gray" />
   <div>
-    <!-- 응원메세지 -->
+    <!-- 랜덤메세지 -->
     <div class="today" style="text-align: center; margin: 3%" ;></div>
     <!-- <p>{{table_text}}</p> -->
     <hr width="95%" color="gray" />
     <!-- 오늘일정 -->
     <br />
-    <div>
-      <h3>오늘 할 일</h3>
+    <div style="margin: 2%">
+      <h2>Today's TodoList</h2>
       <br />
       {% for im in today_list %}
       <li>{{im['title']}}</li>
+      {% endfor %}
     </div>
-    {% endfor %}
-    <br />
-    <br />
 
-    <!-- <table class="customTable" style="margin-top: 5%">
-      <thead>
-        <tr>
-          <th colspan="3">오늘 일정</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>Content</strong></td>
-          <td colspan="2"><strong>Due_date</strong></td>
-        </tr>
-        {% for im in today_list %}
-        <tr>
-          <td>{{im['title']}}</td>
-          <td>{{im['start']}} ~ {{im['end']}}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table> -->
+    <br />
+    <br />
 
     <!-- 중요일정 -->
-    <div id="login_box">
+    <div id="login_box" style="margin-left: 2%">
       <table class="important_Table" style="float: left; margin: 3%">
         <thead>
           <tr>
-            <th colspan="3">
-              <!-- <img
-              src="https://www.flaticon.com/svg/vstatic/svg/1828/1828884.svg?token=exp=1612269478~hmac=cfa7a8267a3ec851819d856da168a1ef"
-              width="15px"
-              height="15px"
-              alt="중요일정"
-            /> -->
-              중요 일정
-            </th>
+            <th colspan="3">⭐ Important Todo</th>
           </tr>
         </thead>
         <tbody>
@@ -141,20 +115,11 @@
       </table>
 
       <!-- urgent todo -->
-      <!-- <h3>마감임박!!</h3> -->
 
       <table class="customTable" style="margin: 3%">
         <thead>
           <tr>
-            <th colspan="3">
-              <!-- <img
-              src="https://www.flaticon.com/svg/vstatic/svg/966/966275.svg?token=exp=1612268487~hmac=cf30ffac1b7bfbb646d1087fd157e646"
-              width="15px"
-              height="15px"
-              alt="마감임박"
-            /> -->
-              마감임박
-            </th>
+            <th colspan="3">🚨 Alert</th>
           </tr>
         </thead>
         <tbody>
