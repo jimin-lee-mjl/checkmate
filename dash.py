@@ -45,7 +45,7 @@ def get_today_todo():
     todoListCal = TodoList.query.all()
     a = []
     for todoList in todoListCal:
-        if todoList.start_date >= today_date and todoList.end_date >=today_date :
+        if todoList.start_date == today_date:
             hi = {
             "title":todoList.content,
             "start": todoList.start_date,

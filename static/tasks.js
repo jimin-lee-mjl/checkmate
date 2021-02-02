@@ -112,6 +112,7 @@ function get_todo() {
         });
 
         //check
+
         var check = $("<i class='fas fa-check'></i>").click(function () {
           var p = $(this).parent();
 
@@ -425,6 +426,7 @@ var new_task_result;
 $(".txtb").on("keyup", function (e) {
   //13  means enter button
   if (e.keyCode == 13 && $(".txtb").val() != "") {
+    var new_task_content = $(".txtb").val();
     var task = $("<div class ='task' contentEditable='true' ></div>").text(
       $(".txtb").val()
     );
