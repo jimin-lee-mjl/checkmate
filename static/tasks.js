@@ -148,6 +148,34 @@ $(".txtb").on("keyup",function(e){
 });
 
 
+{/* <span><i class="fas fa-trash-alt" id="category_delete" onclick="deleteCategory"></i></span>
+
+function deleteCategory(id) {
+  const URL = '/todo'
+  const option = {
+    method:'POST',
+    body:JSON.stringify({
+      category_id:id
+    }),
+    headers: {
+      'Content-Type':'application/json'
+    }
+  }
+
+  fetch(URL, option).then(function(type) {
+    return type.json();
+  }).then(function(result) {
+    if (result.status === 'success') {
+      const category = document.querySelector()
+      window.location.replace('/');
+    } else {
+      alert('Sorry, can not delete this category.');
+    }
+  })
+}
+
+deleteCategory(category_id); */}
+
 
 
 

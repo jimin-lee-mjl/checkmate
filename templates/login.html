@@ -22,7 +22,6 @@
                 <label>
                     <span>{{ wtf.form_field(form.password) }}</span>
                 </label>
-                {{ wtf.form_field(form.remember_me) }}
                 <button class="submit">Sign In</button>
             </form>
 
@@ -38,8 +37,6 @@
                 {% endfor %}
               {% endif %}
             {% endwith %}
-          
-            <p class="forgot-pass">Forgot Password ?</p>
     
           <div class="social-media" style="margin-top: 0;">
             <a href="{{ url_for('auth.google_login') }}">

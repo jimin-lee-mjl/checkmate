@@ -66,7 +66,7 @@ def login():
             elif not check_password_hash(user.password, form.password.data):
                 flash(error_msgs['wrong_password'], 'auth_error')
             else:
-                login_user(user, remember=form.remember_me.data)
+                login_user(user)
                 return redirect(url_for('tasks'))
     return render_template('login.html', form=form)
 
