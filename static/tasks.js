@@ -5,13 +5,22 @@ $(".txtb").on("keyup",function(e){
     //13  means enter button
     if(e.keyCode == 13 && $(".txtb").val() != "")
     {
-      // task
       var task = $("<div class='task'></div>").text($(".txtb").val());
-      
-      //calendar
-      var cal = "<input style='margin-left: 10px;' placeholder='FROM' type='text' id='from'><span> ~ </span><input type='text' placeholder='TO' id='to'>";
 
-      var date = $("<i class='far fa-calendar-check'></i>").click(function(){
+      var cal = "<span style='display:none;'><input style='margin-left: 10px;' type='text' id='from_"+id+"'><span> ~ </span><input type='text' id='to_"+id+"'></span>";
+
+      var calendar = $(`<span id='cal_${id}'><i class='far fa-calendar-alt'></i></span>`).click(function(){
+        
+        var arr = $(this).attr("id").split("_");
+        var p = $("#from_"+arr[1]).parent();
+        p.toggle();
+
+        var style = p.attr("style");
+        
+        if(style.toString().includes('none')) {
+          $("#from_"+arr[1]).val("");
+          $("#to_"+arr[1]).val("");
+        }
 
       });
 
@@ -23,12 +32,13 @@ $(".txtb").on("keyup",function(e){
           $(this).children(".fa-star").removeClass("far fa-star").addClass("fas fa-star");
           p.css('background', '#371F54');
           isClicked = false;
-          
+
         } else {
           $(this).children(".fa-star").removeClass("fas fa-star").addClass("far fa-star");
           p.css('background', '#81589f9d');
           isClicked = true;
         }
+        
       });
 
       //delete
@@ -49,22 +59,22 @@ $(".txtb").on("keyup",function(e){
         $(this).remove();
       });
 
-      task.append(del,check,star,date,cal);
-
+      task.append(del,check,star,cal,calendar);
+      
       $(".notcomp").append(task);
       //to clear the input
       $(".txtb").val("");
-      
+
+      fn_init(id);
+
       id++;
-      fn_init();
     }
 });
 
-
-function fn_init() {
+function fn_init(id) {
   var rangeDate = 31; // set limit day
   var setSdate, setEdate;
-  $("#from").datepicker({
+  $("#from_"+id).datepicker({
       dateFormat: 'yy-mm-dd',
       minDate: 0,
       onSelect: function(selectDate){
@@ -73,22 +83,22 @@ function fn_init() {
           var sdate = new Date(stxt[0], stxt[1], stxt[2]);
           var edate = new Date(stxt[0], stxt[1], stxt[2]);
               edate.setDate(sdate.getDate() + rangeDate);
-          $('#to').datepicker('option', {
+          $('#to_'+id).datepicker('option', {
               minDate: selectDate,
               beforeShow : function () {
-                  $("#to").datepicker( "option", "maxDate", edate );
+                  $("#to_"+id).datepicker( "option", "maxDate", edate );
                   setSdate = selectDate;
-                  console.log(setSdate)
+                  //console.log(setSdate)
           }});
           //to 설정
       }
       //from 선택되었을 때
   });
-  $("#to").datepicker({
+  $("#to_"+id).datepicker({
       dateFormat: 'yy-mm-dd',
       onSelect : function(selectDate){
           setEdate = selectDate;
-          console.log(setEdate)
+          //console.log(setEdate)
       }
   });
 }
