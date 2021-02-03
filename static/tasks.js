@@ -1,3 +1,5 @@
+import deleteCategory from "./category";
+
 //get clicked category_id, category_name
 function getParameterByName(name) {
   name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -21,37 +23,12 @@ get_todo();
 function get_category_name() {
   console.log(category_name);
   document.querySelector("header").innerHTML = `
-          <h1 class="screen-header__title" id="category_title" contentEditable="true">${category_name}</h1><span><i class="fas fa-trash-alt" id="category_delete"
-          onclick="deleteCategory"></i></span>
+          <h1 class="screen-header__title" id="category_title" contentEditable="true">${category_name}</h1>
+          <span><i class="fas fa-trash-alt" id="category_delete_btn"></i></span>
         `;
 }
 
-//delete category => 
-function deleteCategory(category_id) {
-  const URL = "/todo";
-  const option = {
-    method: "POST",
-    body: JSON.stringify({
-      category_id: category_id,
-    }),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
-
-  fetch(URL, option)
-    .then(function (type) {
-      return type.json();
-    })
-    .then(function (result) {
-      if (result.status === "success") {
-        const category = document.querySelector();
-        window.location.replace("/");
-      } else {
-        alert("Sorry, can not delete this category.");
-      }
-    });
-}
+deleteCategory(category_id);
 
 //get category_title
 // get_category_name();
