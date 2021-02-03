@@ -387,9 +387,7 @@ $(".txtb").on("keyup", function (e) {
     
     var id = 1;
     var isClicked = true;
-
     var cal = "<span style='display:none;'><input style='margin-left: 10px;' type='text' id='from_"+id+"'><span> ~ </span><input type='text' id='to_"+id+"'></span>";
-
     var calendar = $(`<span id='cal_${id}'><i class='far fa-calendar-alt'></i></span>`).click(function(){
 
       var arr = $(this).attr("id").split("_");
@@ -423,7 +421,7 @@ $(".txtb").on("keyup", function (e) {
     });
 
 
-    // del, check append
+    // del,check,star,cal,calendar append
     task.append(del,check,star,cal,calendar);
 
     // append to notcomplete task
@@ -435,6 +433,7 @@ $(".txtb").on("keyup", function (e) {
 
     id++;
 
+    //new_todo => POST
     console.log(new_task_content);
     url = "/todo/" + category_id;
     fetch(url, {

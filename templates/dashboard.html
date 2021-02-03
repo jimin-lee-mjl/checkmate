@@ -1,9 +1,7 @@
-{% extends 'sidebar.html' %} {% block content %}
+{% extends 'sidebar.html' %}
+{% block content %}
 <title>Dashboard</title>
-<link
-  rel="stylesheet"
-  href="{{ url_for('static', filename='tasks_group.css') }}"
-/>
+<link rel="stylesheet" href="{{ url_for('static', filename='tasks_group.css') }}"/>
 <style>
   #login_box {
     width: 95%;
@@ -132,4 +130,5 @@
   </div>
 </body>
 <script src="{{ url_for('static', filename='dash.js') }}"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 {% endblock %}

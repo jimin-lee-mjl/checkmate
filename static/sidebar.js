@@ -30,25 +30,6 @@ for (i = 0; i < linkCollapse.length; i++) {
   });
 }
 
-/*===== create_new_group_list =====*/
-var create_group_list_btn = document.getElementById("create_group_list_btn");
-
-function create_group_list() {
-  var new_group_list = document.createElement("a");
-  var br = document.createElement("br");
-
-  new_group_list.innerHTML = "New_List";
-
-  new_group_list.setAttribute("href", "#");
-  new_group_list.setAttribute("class", "collapse__sublink");
-  new_group_list.setAttribute("onclick", "location.href='/tasks-group'");
-
-  var parent_group_list = document.getElementById("sub_group_list");
-  parent_group_list.appendChild(new_group_list);
-  parent_group_list.appendChild(br);
-}
-create_group_list_btn.addEventListener("click", create_group_list);
-
 /*===== create_new_personal_list =====*/
 var create_personal_list_btn = document.getElementById(
   "create_personal_list_btn"
@@ -111,6 +92,13 @@ if (window.location.pathname == "/tasks-group") {
   }
 }
 
+//for calendar
+else if (window.location.pathname == "/calendar/") {
+  var current_location = document.getElementById("nav_calendar");
+  linkColor.forEach((l) => l.classList.remove("active"));
+  current_location.classList.add("active");
+}
+
 // for personal-group
 else if (window.location.pathname == "/tasks") {
   var current_location = document.getElementById("personal_todo");
@@ -121,15 +109,6 @@ else if (window.location.pathname == "/tasks") {
   current_list.classList.add("list_active");
 }
 
-//for calendar
-else if (window.location.pathname == "/calendar/personal") {
-  var current_location = document.getElementById("nav_calendar");
-  linkColor.forEach((l) => l.classList.remove("active"));
-  current_location.classList.add("active");
-}
-
-//url 지정
-var url = "/todo/";
 
 //get_category
 function get_category() {

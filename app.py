@@ -11,6 +11,10 @@ def create_app():
   app.config['SECRET_KEY'] = 'secrtidsfjo222'
 
   @app.route('/') 
+  @login_required
+  def dashboard():
+    return render_template('dashboard.html')
+
   @app.route('/tasks') 
   @login_required
   def tasks():
