@@ -1,5 +1,5 @@
 // delete request
-export function deleteCategory(id) {
+export default function deleteCategory(id) {
     const URL = "/todo/";
     const delCategoryBtn = document.querySelector("#category_delete_btn");
     const option = {

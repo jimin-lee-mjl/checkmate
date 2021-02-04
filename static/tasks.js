@@ -1,6 +1,6 @@
-import deleteCategory from "./category";
+// import {deleteCategory} from "./category.js";
 
-//get clicked category_id, category_name
+//get clicked category_id, category_names
 function getParameterByName(name) {
   name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
   var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
@@ -27,19 +27,6 @@ function get_category_name() {
           <span><i class="fas fa-trash-alt" id="category_delete_btn"></i></span>
         `;
 }
-
-deleteCategory(category_id);
-
-//get category_title
-// get_category_name();
-// get_todo();
-
-// function get_category_name() {
-//   console.log(category_name);
-//   document.querySelector('header').innerHTML = `
-//           <h1 class="screen-header__title" id="category_title" contentEditable="true">${category_name}</h1>
-//         `;
-// }
 
 //get todo -> GET
 function get_todo() {
@@ -181,8 +168,8 @@ function get_todo() {
           console.log(task[0]);
           $(".notcomp").append(task);
 
-          fn_init(id);
-          id++;
+          // fn_init(id);
+          // id++;
 
         } else {
           var task = $(task).text(content);
@@ -190,9 +177,12 @@ function get_todo() {
           console.log(task);
           $(".comp").append(task);
           
-          fn_init(id);
-          id++;
+          // fn_init(id);
+          // id++;
         }
+
+        fn_init(id);
+        id++;
       }
     });
 }
@@ -279,141 +269,19 @@ $(".task")
     }
   });
 
+
+
+
 // enter 키 -> task 추가 -> POST
 $(".txtb").on("keyup", function (e) {
   //13  means enter button
   if (e.keyCode == 13 && $(".txtb").val() != "") {
+
     var new_task_content = $(".txtb").val();
     console.log(new_task_content);
-    var task = $("<div class ='task' contentEditable='true' ></div>").text($(".txtb").val());
-    console.log(task);
-
-    //delete 
-    var del = $("<i class='fas fa-trash-alt'></i>").click(function () {
-      var p = $(this).parent();
-      p.fadeOut(function () {
-        p.remove();
-      });
-
-      //delete db
-      var todo_id = $(this).parent().attr("id");
-      console.log(todo_id);
-      url = "/todo/" + category_id;
-
-      fetch(url, {
-        method: "DELETE",
-        body: JSON.stringify({
-          todo_id: todo_id,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then(function (type) {
-          return type.json();
-        })
-        .then(function (result) {
-          console.log(result);
-        });
-    });
-
-    //check
-    var check = $("<i class='fas fa-check'></i>").click(function () {
-      var p = $(this).parent();
-
-      p.fadeOut(function () {
-        if (p.parent().hasClass("notcomp")) {
-          $(".comp").append(p);
-          p.fadeIn();
-        } else if (p.parent().hasClass("comp")) {
-          $(".notcomp").append(p);
-          p.fadeIn();
-        }
-      });
-
-      if (p.parent().hasClass("notcomp")) {
-        var status = 1;
-      } else if (p.parent().hasClass("comp")) {
-        var status = 0;
-      }
-
-      var todo_id = $(this).parent().attr("id");
-      console.log(status);
-      console.log(todo_id);
-
-      //update task status
-      var url = "/todo/" + category_id;
-      console.log(url);
-      fetch(url, {
-        method: "PUT",
-        body: JSON.stringify({
-          todo_id: todo_id,
-          status: status,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then(function (type) {
-          return type.json();
-        })
-        .then(function (result) {
-          console.log(result);
-        });
-    });
     
-    var id = 1;
-    var isClicked = true;
-
-    var cal = "<span style='display:none;'><input style='margin-left: 10px;' type='text' id='from_"+id+"'><span> ~ </span><input type='text' id='to_"+id+"'></span>";
-
-    var calendar = $(`<span id='cal_${id}'><i class='far fa-calendar-alt'></i></span>`).click(function(){
-
-      var arr = $(this).attr("id").split("_");
-      var p = $("#from_"+arr[1]).parent();
-      p.toggle();
-
-      var style = p.attr("style");
-
-      if(style.toString().includes('none')) {
-        $("#from_"+arr[1]).val("");
-        $("#to_"+arr[1]).val("");
-      }
-
-    });
-
-    //star
-    var star = $(`<span id='star_${id}'><i class='far fa-star'></i></span>`).click(function(){
-      var p = $(this).parent();
-
-      if(isClicked) {
-        $(this).children(".fa-star").removeClass("far fa-star").addClass("fas fa-star");
-        p.css('background', '#371F54');
-        isClicked = false;
-
-      } else {
-        $(this).children(".fa-star").removeClass("fas fa-star").addClass("far fa-star");
-        p.css('background', '#81589f9d');
-        isClicked = true;
-      }
-
-    });
-
-
-    // del, check append
-    task.append(del,check,star,cal,calendar);
-
-    // append to notcomplete task
-    $(".notcomp").append(task);
-    //to clear the input
-    $(".txtb").val("");
-
-    fn_init(id);
-
-    id++;
-
-    console.log(new_task_content);
-    url = "/todo/" + category_id;
+    var url = "/todo/" + category_id;
+    console.log(url);
     fetch(url, {
       method: "POST",
       body: JSON.stringify({
@@ -427,8 +295,142 @@ $(".txtb").on("keyup", function (e) {
         return type.json();
       })
       .then(function (result) {
-        console.log(result.result);
-      });
+        console.log(result);
+        console.log(result.result['todo_id']);
+        var todo_id = result.result['todo_id'];
+
+        var task = `<div class='task' contentEditable='true' id=${todo_id}></div>`;
+        var task = $(task).text(new_task_content);
+        // var task = $("<div class ='task' contentEditable='true'></div>").text($(".txtb").val());
+        console.log(task);
+
+        //delete 
+        var del = $("<i class='fas fa-trash-alt'></i>").click(function () {
+          var p = $(this).parent();
+          p.fadeOut(function () {
+            p.remove();
+          });
+
+          //delete db
+          var todo_id = $(this).parent().attr("id");
+          console.log(todo_id);
+          url = "/todo/" + category_id;
+
+          fetch(url, {
+            method: "DELETE",
+            body: JSON.stringify({
+              todo_id: todo_id,
+            }),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+            .then(function (type) {
+              return type.json();
+            })
+            .then(function (result) {
+              console.log(result);
+            });
+        });
+
+        //check
+        var check = $("<i class='fas fa-check'></i>").click(function () {
+          var p = $(this).parent();
+
+          p.fadeOut(function () {
+            if (p.parent().hasClass("notcomp")) {
+              $(".comp").append(p);
+              p.fadeIn();
+            } else if (p.parent().hasClass("comp")) {
+              $(".notcomp").append(p);
+              p.fadeIn();
+            }
+          });
+
+          if (p.parent().hasClass("notcomp")) {
+            var status = 1;
+          } else if (p.parent().hasClass("comp")) {
+            var status = 0;
+          }
+
+          var todo_id = $(this).parent().attr("id");
+          console.log(status);
+          console.log(todo_id);
+
+          //update task status
+          var url = "/todo/" + category_id;
+          console.log(url);
+          fetch(url, {
+            method: "PUT",
+            body: JSON.stringify({
+              todo_id: todo_id,
+              status: status,
+            }),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+            .then(function (type) {
+              return type.json();
+            })
+            .then(function (result) {
+              console.log(result);
+            });
+        });
+        
+        //calendar
+
+        var id = 1;
+        var isClicked = true;
+
+        var cal = "<span style='display:none;'><input style='margin-left: 10px;' type='text' id='from_"+id+"'><span> ~ </span><input type='text' id='to_"+id+"'></span>";
+
+        var calendar = $(`<span id='cal_${id}'><i class='far fa-calendar-alt'></i></span>`).click(function(){
+
+          var arr = $(this).attr("id").split("_");
+          var p = $("#from_"+arr[1]).parent();
+          p.toggle();
+
+          var style = p.attr("style");
+
+          if(style.toString().includes('none')) {
+            $("#from_"+arr[1]).val("");
+            $("#to_"+arr[1]).val("");
+          }
+
+        });
+
+        //star
+        var star = $(`<span id='star_${id}'><i class='far fa-star'></i></span>`).click(function(){
+          var p = $(this).parent();
+
+          if(isClicked) {
+            $(this).children(".fa-star").removeClass("far fa-star").addClass("fas fa-star");
+            p.css('background', '#371F54');
+            isClicked = false;
+
+          } else {
+            $(this).children(".fa-star").removeClass("fas fa-star").addClass("far fa-star");
+            p.css('background', '#81589f9d');
+            isClicked = true;
+          }
+
+        });
+
+
+        // del, check append
+        task.append(del,check,star,cal,calendar);
+
+        // append to notcomplete task
+        $(".notcomp").append(task);
+        //to clear the input
+        $(".txtb").val("");
+
+        fn_init(id);
+
+        id++;
+
+      });    
   }
 });
 
