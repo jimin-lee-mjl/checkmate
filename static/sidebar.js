@@ -52,11 +52,12 @@ function create_personal_list() {
   // create new list -> post to db
   var url = "/todo/";
   var randomColor = Math.floor(Math.random() * 16777215).toString(16);
+
   fetch(url, {
     method: "POST",
     body: JSON.stringify({
       name: "New_list",
-      color: randomColor,
+      color: randomColor
     }),
     headers: {
       "Content-Type": "application/json",
@@ -67,6 +68,8 @@ function create_personal_list() {
     })
     .then(function (result) {
       console.log(result);
+      console.log(result.result.id);
+      window.location.reload();
     });
 }
 
@@ -122,10 +125,11 @@ function get_category() {
       for (var i = 0; i < result.length; i++) {
         var name = result[i].name;
         var id = result[i].id;
+        var color = result[i].color;
         console.log(name);
 
         // get titles
-        var category = `<a href='#' class='collapse__sublink category' onclick='location.href=\"/tasks?category_id=${id}&category_name=${name}\"'>${name}</a>`;
+        var category = `<a href='#' class='collapse__sublink category' onclick='location.href=\"/tasks?category_id=${id}&category_name=${name}&category_color=${color}\"'>${name}</a>`;
         console.log(category);
         var br = $("<br>");
         $("#sub_personal_list").append(category, br);
