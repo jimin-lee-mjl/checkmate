@@ -1,57 +1,134 @@
-/*===== EXPANDER MENU  =====*/ 
-const showMenu = (toggleId, navbarId, bodyId)=>{
+get_category();
+
+/*===== EXPANDER MENU  =====*/
+const showMenu = (toggleId, navbarId, bodyId) => {
   const toggle = document.getElementById(toggleId),
-  navbar = document.getElementById(navbarId),
-  bodypadding = document.getElementById(bodyId)
+    navbar = document.getElementById(navbarId),
+    bodypadding = document.getElementById(bodyId);
 
-  if(toggle && navbar){
-    toggle.addEventListener('click', ()=>{
-      navbar.classList.toggle('expander')
+  if (toggle && navbar) {
+    toggle.addEventListener("click", () => {
+      navbar.classList.toggle("expander");
 
-      bodypadding.classList.toggle('body-pd')
+      bodypadding.classList.toggle("body-pd");
+    });
+  }
+};
+showMenu("nav-toggle", "navbar", "body-pd");
+
+/*===== COLLAPSE MENU  =====*/
+const linkCollapse = document.getElementsByClassName("collapse__link");
+var i;
+
+for (i = 0; i < linkCollapse.length; i++) {
+  linkCollapse[i].addEventListener("click", function () {
+    const collapseMenu = this.nextElementSibling;
+    collapseMenu.classList.toggle("showCollapse");
+
+    const rotate = collapseMenu.previousElementSibling;
+    rotate.classList.toggle("rotate");
+  });
+}
+
+/*===== create_new_personal_list =====*/
+var create_personal_list_btn = document.getElementById(
+  "create_personal_list_btn"
+);
+
+function create_personal_list() {
+  var new_personal_list = document.createElement("a");
+  var br = document.createElement("br");
+
+  new_personal_list.innerHTML = "New_List";
+
+  new_personal_list.setAttribute("href", "#");
+  new_personal_list.setAttribute("class", "collapse__sublink");
+  new_personal_list.setAttribute("onclick", "location.href='/tasks'");
+
+  var parent_personal_list = document.getElementById("sub_personal_list");
+  parent_personal_list.appendChild(new_personal_list);
+  parent_personal_list.appendChild(br);
+
+  // create new list -> post to db
+  var url = "/todo/";
+  var randomColor = Math.floor(Math.random() * 16777215).toString(16);
+  fetch(url, {
+    method: "POST",
+    body: JSON.stringify({
+      name: "New_list",
+      color: randomColor,
+    }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then(function (type) {
+      return type.json();
     })
+    .then(function (result) {
+      console.log(result);
+    });
+}
+
+create_personal_list_btn.addEventListener("click", create_personal_list);
+
+/*===== active color =====*/
+const linkColor = document.querySelectorAll(".nav__link");
+const listColor = document.querySelectorAll(".collapse__sublink");
+listColor.forEach((l) => l.classList.remove("list_active"));
+
+//for task-group
+if (window.location.pathname == "/tasks-group") {
+  var current_location = document.getElementById("group_todo");
+  linkColor.forEach((l) => l.classList.remove("active"));
+  current_location.classList.add("active");
+
+  if (window.location.pathname == "/tasks-group/elice") {
+    var current_list = document.getElementById("group_list_1");
+    current_list.classList.add("list_active");
+  } else if (window.location.pathname == "/tasks-group/study") {
+    var current_list = document.getElementById("group_list_2");
+    current_list.classList.add("list_active");
   }
 }
-showMenu('nav-toggle','navbar','body-pd')
 
-/*===== LINK ACTIVE  =====*/ 
-const linkColor = document.querySelectorAll('.nav__link')
-function colorLink(){
-  linkColor.forEach(l=> l.classList.remove('active'))
-  this.classList.add('active')
+//for calendar
+else if (window.location.pathname == "/calendar/") {
+  var current_location = document.getElementById("nav_calendar");
+  linkColor.forEach((l) => l.classList.remove("active"));
+  current_location.classList.add("active");
 }
-linkColor.forEach(l=> l.addEventListener('click', colorLink))
 
+// for personal-group
+else if (window.location.pathname == "/tasks") {
+  var current_location = document.getElementById("personal_todo");
+  linkColor.forEach((l) => l.classList.remove("active"));
+  current_location.classList.add("active");
 
-/*===== COLLAPSE MENU  =====*/ 
-const linkCollapse = document.getElementsByClassName('collapse__link')
-var i
-
-for(i=0;i<linkCollapse.length;i++){
-  linkCollapse[i].addEventListener('click', function(){
-    const collapseMenu = this.nextElementSibling
-    collapseMenu.classList.toggle('showCollapse')
-
-    const rotate = collapseMenu.previousElementSibling
-    rotate.classList.toggle('rotate')
-  })
+  var current_list = document.getElementById("category");
+  current_list.classList.add("list_active");
 }
 
 
-//
+//get_category
+function get_category() {
+  var url = "/todo";
+  fetch(url)
+    .then(function (type) {
+      return type.json();
+    })
+    .then(function (result) {
+      var result = result.result;
+      for (var i = 0; i < result.length; i++) {
+        var name = result[i].name;
+        var id = result[i].id;
+        console.log(name);
 
-var create_btn = document.getElementById('create_btn'); 
-
-function action_add() {
-  var new_list = document.createElement("a");
-
-  new_list.innterHTML = "New List";
-
-  new_list.setAttribute("href","#");
-  new_list.setAttribute("class","collapse__sublink");
-
-  var parent_list = document.getElementById("ul_list");
-  parent_list.appendChild(new_list);
-};
-
-create_btn.addEventListener("click", action_add);  
+        // get titles
+        var category = `<a href='#' class='collapse__sublink category' onclick='location.href=\"/tasks?category_id=${id}&category_name=${name}\"'>${name}</a>`;
+        console.log(category);
+        var br = $("<br>");
+        $("#sub_personal_list").append(category, br);
+      }
+    });
+}

@@ -1,5 +1,6 @@
 import json
-from flask import Flask, render_template, redirect, url_for, jsonify, request
+import sys
+from flask import Flask, render_template, redirect, url_for, jsonify, request, flash
 from flask_bootstrap import Bootstrap
 from flask_login import login_required, current_user
 
@@ -10,31 +11,19 @@ def create_app():
   app.config['SECRET_KEY'] = 'secrtidsfjo222'
 
   @app.route('/') 
-  def index():
-    return render_template('tasks.html')
+  @login_required
+  def dashboard():
+    return render_template('dashboard.html')
 
   @app.route('/tasks') 
+  @login_required
   def tasks():
     return render_template('tasks.html')
 
-  @app.route('/tasks-group') 
-  def tasks_group():
-    return render_template('tasks_group.html')
-
-  @app.route('/dashboard')
-  @login_required
-  def dashboard():
-    return render_template('dash_tp.html', name = current_user.username)
-
-
-  @app.route('/data')
+  @app.route('/calendar/data')
   def return_data():
-      start_date = request.args.get('start', '')
-      end_date = request.args.get('end', '')
+      return cal.get_todo_cal()
 
-      with open("events.json", "r") as input_data:
-          return input_data.read()
-  
 
   with app.app_context():
     import db
@@ -43,14 +32,17 @@ def create_app():
     import auth
     app.register_blueprint(auth.bp)
 
-    # import todo
-    # app.register_blueprint(todo.bp)
+    import todo
+    app.register_blueprint(todo.bp)
 
     import cal
     app.register_blueprint(cal.bp)
 
+    import dash
+    app.register_blueprint(dash.bp)
 
   if __name__=="__main__":
+    db.init_app(app)
     app.run(debug=True)  
 
   return app
