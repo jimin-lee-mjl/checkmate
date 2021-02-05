@@ -1,4 +1,4 @@
-import deleteCategory from "./category";
+import "./category.js";
 
 //get clicked category_id, category_name
 function getParameterByName(name) {
