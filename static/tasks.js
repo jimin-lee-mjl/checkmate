@@ -12,8 +12,10 @@ function getParameterByName(name) {
 
 var category_id = getParameterByName("category_id");
 var category_name = getParameterByName("category_name");
+var category_color = getParameterByName("category_color");
 console.log(category_id);
 console.log(category_name);
+console.log(category_color);
 
 //get category_name
 get_category_name();
@@ -23,7 +25,7 @@ get_todo();
 function get_category_name() {
   console.log(category_name);
   document.querySelector("header").innerHTML = `
-          <h1 class="screen-header__title" id="category_title" contentEditable="true">${category_name}</h1>
+          <h1 class="screen-header__title" id="category_title" contentEditable="true" style="color:${category_color}">${category_name}</h1>
           <span><i class="fas fa-trash-alt" id="category_delete_btn"></i></span>
         `;
 }
@@ -46,8 +48,9 @@ function get_todo() {
         var todo_id = result[i].id;
         var content = result[i].content;
         var status = result[i].status;
-        var task = `<div class='task' contentEditable='true' id=${todo_id}></div>`;
 
+        var task = `<div class='task' contentEditable='true' id=${todo_id} onfocus='todo_initial_content($(this).text())' onblur='todo_edited_content($(this).text())'></div>`;
+        
         //delete
         var del = $("<i class='fas fa-trash-alt'></i>").click(function () {
           var p = $(this).parent();
@@ -123,6 +126,8 @@ function get_todo() {
             });
         });
 
+        //calendar
+
         var id = 1;
         var isClicked = true;
 
@@ -151,15 +156,46 @@ function get_todo() {
             $(this).children(".fa-star").removeClass("far fa-star").addClass("fas fa-star");
             p.css('background', '#371F54');
             isClicked = false;
+            console.log(isClicked);
+            var important = 0;
+            console.log(important);
 
           } else {
             $(this).children(".fa-star").removeClass("fas fa-star").addClass("far fa-star");
             p.css('background', '#81589f9d');
             isClicked = true;
+            console.log(isClicked);
+            var important = 1;
+            console.log(important);
           }
 
+          var todo_id = p.attr("id");
+          console.log(p);
+          console.log(important);
+          console.log(todo_id);
+
+          //update task status
+          var url = "/todo/" + category_id;
+          console.log(url);
+          fetch(url, {
+            method: "PUT",
+            body: JSON.stringify({
+              todo_id: todo_id,
+              important: important,
+            }),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+            .then(function (type) {
+              return type.json();
+            })
+            .then(function (result) {
+              console.log(result);
+            });
         });
-        // del, check append
+
+        // del,check,star,cal,calendar
 
         if (status === false) {
           var task = $(task).text(content);
@@ -168,17 +204,11 @@ function get_todo() {
           console.log(task[0]);
           $(".notcomp").append(task);
 
-          // fn_init(id);
-          // id++;
-
         } else {
           var task = $(task).text(content);
           task.append(del,check,star,cal,calendar);
           console.log(task);
           $(".comp").append(task);
-          
-          // fn_init(id);
-          // id++;
         }
 
         fn_init(id);
@@ -221,62 +251,20 @@ $("#category_title")
           return type.json();
         })
         .then(function (result) {
-          console.log(result);   
-        });
-    }
-  });
-
-
-// edit_todo_content -> PUT
-$(".task")
-  // When you click on item, record into data("initialText") content of this item.
-  .focus(function () {
-    $(this).data("initialText", $(this).html());
-    console.log($(".task").html());
-  })
-  // When you leave an item...
-  .blur(function () {
-    // ...if content is different...
-    if ($(this).data("initialText") !== $(this).html()) {
-      // ... do something.
-      console.log("New data when content change.");
-      console.log($(this).html());
-
-      var todo_content = $(this).html();
-      console.log(todo_content);
-
-      var todo_id = $(this).attr("id");
-      console.log(todo_id);
-
-      var url = "/todo/" + category_id;
-
-      fetch(url, {
-        method: "PUT",
-        body: JSON.stringify({
-          todo_id: todo_id,
-          content: todo_content,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then(function (type) {
-          return type.json();
-        })
-        .then(function (result) {
           console.log(result);
+          $("#personal_todo").load(window.location.href + "#personal_todo");
         });
     }
   });
 
-
-
+var id = 1;
+var isClicked = true;
 
 // enter 키 -> task 추가 -> POST
 $(".txtb").on("keyup", function (e) {
   //13  means enter button
   if (e.keyCode == 13 && $(".txtb").val() != "") {
-
+    console.log(id);
     var new_task_content = $(".txtb").val();
     console.log(new_task_content);
     
@@ -299,9 +287,8 @@ $(".txtb").on("keyup", function (e) {
         console.log(result.result['todo_id']);
         var todo_id = result.result['todo_id'];
 
-        var task = `<div class='task' contentEditable='true' id=${todo_id}></div>`;
+        var task = `<div class='task' contentEditable='true' id=${todo_id} onfocus='todo_initial_content($(this).text())' onblur='todo_edited_content($(this).text())'></div>`;
         var task = $(task).text(new_task_content);
-        // var task = $("<div class ='task' contentEditable='true'></div>").text($(".txtb").val());
         console.log(task);
 
         //delete 
@@ -378,11 +365,11 @@ $(".txtb").on("keyup", function (e) {
             });
         });
         
-        //calendar
-
         var id = 1;
         var isClicked = true;
 
+        //calendar
+        console.log(id);
         var cal = "<span style='display:none;'><input style='margin-left: 10px;' type='text' id='from_"+id+"'><span> ~ </span><input type='text' id='to_"+id+"'></span>";
 
         var calendar = $(`<span id='cal_${id}'><i class='far fa-calendar-alt'></i></span>`).click(function(){
@@ -397,7 +384,6 @@ $(".txtb").on("keyup", function (e) {
             $("#from_"+arr[1]).val("");
             $("#to_"+arr[1]).val("");
           }
-
         });
 
         //star
@@ -408,15 +394,44 @@ $(".txtb").on("keyup", function (e) {
             $(this).children(".fa-star").removeClass("far fa-star").addClass("fas fa-star");
             p.css('background', '#371F54');
             isClicked = false;
+            console.log(isClicked);
+            var important = 0;
+            console.log(important);
 
           } else {
             $(this).children(".fa-star").removeClass("fas fa-star").addClass("far fa-star");
             p.css('background', '#81589f9d');
             isClicked = true;
+            console.log(isClicked);
+            var important = 1;
+            console.log(important);
           }
 
-        });
+          var todo_id = p.attr("id");
+          console.log(p);
+          console.log(important);
+          console.log(todo_id);
 
+          //update task status
+          var url = "/todo/" + category_id;
+          console.log(url);
+          fetch(url, {
+            method: "PUT",
+            body: JSON.stringify({
+              todo_id: todo_id,
+              important: important,
+            }),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+            .then(function (type) {
+              return type.json();
+            })
+            .then(function (result) {
+              console.log(result);
+            });
+        });
 
         // del, check append
         task.append(del,check,star,cal,calendar);
@@ -434,6 +449,45 @@ $(".txtb").on("keyup", function (e) {
   }
 });
 
+
+//edit_todo_content
+//todo_initial_content
+function todo_initial_content(value) {
+  initial_content = value.replace(/~/g, '');
+  console.log(initial_content);
+}
+
+//todo_edited_content
+function todo_edited_content(value) {
+  var edited_content = value.replace(/~/g, ''); 
+  console.log(edited_content);
+  console.log(initial_content);
+
+    if (edited_content !== initial_content) {
+      console.log("New data when content change.");
+      var todo_id = $(this).attr("id");
+      console.log(todo_id);
+
+      var url = "/todo/" + category_id;
+
+      fetch(url, {
+        method: "PUT",
+        body: JSON.stringify({
+          todo_id: todo_id,
+          content: edited_content
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then(function (type) {
+          return type.json();
+        })
+        .then(function (result) {
+          console.log(result);
+        });
+    }
+}
 
 function fn_init(id) {
   var rangeDate = 31; // set limit day
@@ -531,6 +585,53 @@ var del = $("<i class='fas fa-trash-alt'></i>").click(function () {
     method: "DELETE",
     body: JSON.stringify({
       todo_id: todo_id,
+    }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then(function (type) {
+      return type.json();
+    })
+    .then(function (result) {
+      console.log(result);
+    });
+});
+
+// star 선언
+var star = $(`<span id='star_${id}'><i class='far fa-star'></i></span>`).click(function(){
+  var p = $(this).parent();
+
+  if(isClicked) {
+    $(this).children(".fa-star").removeClass("far fa-star").addClass("fas fa-star");
+    p.css('background', '#371F54');
+    isClicked = false;
+    console.log(isClicked);
+    var important = 0;
+    console.log(important);
+
+  } else {
+    $(this).children(".fa-star").removeClass("fas fa-star").addClass("far fa-star");
+    p.css('background', '#81589f9d');
+    isClicked = true;
+    console.log(isClicked);
+    var important = 1;
+    console.log(important);
+  }
+
+  var todo_id = p.attr("id");
+  console.log(p);
+  console.log(important);
+  console.log(todo_id);
+
+  //update task status
+  var url = "/todo/" + category_id;
+  console.log(url);
+  fetch(url, {
+    method: "PUT",
+    body: JSON.stringify({
+      todo_id: todo_id,
+      important: important,
     }),
     headers: {
       "Content-Type": "application/json",
