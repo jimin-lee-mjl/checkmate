@@ -43,7 +43,6 @@ def create_app():
     app.register_blueprint(dash.bp)
 
   if __name__=="__main__":
-    db.init_app(app)
     app.run(host='0.0.0.0', port=80)  
 
   return app
