@@ -18,7 +18,7 @@ class User(UserMixin, db.Model):
 class Category(db.Model):
       id = db.Column(db.Integer, primary_key=True)
       name = db.Column(db.String(45), unique=True, nullable=False)
-      color = db.Column(db.String(45), default='navy')
+      color = db.Column(db.String(45))
       user_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=True)
 
 class TodoList(db.Model):
@@ -29,8 +29,8 @@ class TodoList(db.Model):
       end_date = db.Column(db.DateTime, nullable=True)
       status = db.Column(db.Boolean, default=False)
       important = db.Column(db.Boolean, default=False)
-      user_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=False)
-      category_id = db.Column(db.Integer, default=1)
+      # user_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=False)
+      # category_id = db.Column(db.Integer, default=1)
 # status -> doing:false(0), done:true(1)
 
 def init_db():
@@ -40,11 +40,11 @@ def init_db():
       # sample_user = User(username="lana", email="lana@lana.com", password=generate_password_hash('lanalana', method='sha256'))
       # db.session.add(sample_user)
       # db.session.commit()
-      # sample_cateßgory = Category(name="mine", user_id=1)
+      #sample_category = Category(name="mine", user_id=1)
       # sample_category2 = Category(name="hola", user_id=1)
-      # db.session.add(sample_category)
+      #db.session.add(sample_category)
       # db.session.add(sample_category2)
       # db.session.commit()
       # sample_todo = TodoList(content="elice", user_id=1, category_id=1)
       # db.session.add(sample_todo)
-      # db.session.commit()
+      db.session.commit()
