@@ -24,7 +24,7 @@ def get_todo_cal():
     is_important = ''
    
     for todoList in todoListCal:
-        if todoList.important == 1:
+        if todoList.status==0 and todoList.important == 1:
             is_important = "important"
         else:
             is_important = ''

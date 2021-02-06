@@ -9,7 +9,6 @@ from datetime import datetime
 
 bp = Blueprint("dashboard", __name__, url_prefix="/dashboard")
 
-
 def get_important_todo():
     todoListCal = TodoList.query.all()
     a = []
@@ -18,7 +17,7 @@ def get_important_todo():
             hi = {
             "title":todoList.content,
             "start": todoList.start_date,
-            "end":todoList.end_date,
+            "end":todoList.end_date
             }
             a.append((hi))
     return a
@@ -33,7 +32,7 @@ def get_urgent_todo():
             hi = {
             "title":todoList.content,
             "start": todoList.start_date,
-            "end":todoList.end_date,
+            "end":todoList.end_date
             }
             a.append((hi))
     return a
@@ -44,11 +43,12 @@ def get_today_todo():
     todoListCal = TodoList.query.all()
     a = []
     for todoList in todoListCal:
-        if todoList.status==0 and todoList.start_date <= today_date and today_date<= todoList.end_date:
+        if todoList.status==0:
+        #if todoList.status==0 and todoList.start_date <= today_date and today_date<= todoList.end_date:
             hi = {
             "title":todoList.content,
             "start": todoList.start_date,
-            "end":todoList.end_date,
+            "end":todoList.end_date
             }
             a.append((hi))
     return a
