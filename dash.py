@@ -21,7 +21,6 @@ def get_important_todo():
             "end":todoList.end_date,
             }
             a.append((hi))
-    print(json.dumps(a), file=sys.stdout)
     return a
 
 
@@ -37,7 +36,6 @@ def get_urgent_todo():
             "end":todoList.end_date,
             }
             a.append((hi))
-    print(json.dumps(a), file=sys.stdout)
     return a
 
 def get_today_todo(): 
