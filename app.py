@@ -40,8 +40,6 @@ with app.app_context():
 
   import dash
   app.register_blueprint(dash.bp)
-
-if __name__=="__main__":
-  app.run(host='0.0.0.0', port=80) 
+ 
     
 
