@@ -236,9 +236,12 @@ $("#category_title")
     console.log($("#category_title").html());
     $("#span_category_delete_btn").css('display', ''); //focus됐을 때, display & 기본값 : none 
   })
+  
   // When you leave an item...
   .blur(function () {
     // ...if content is different...
+    $('#span_category_delete_btn').delay(3000).fadeOut();
+
     if ($(this).data("initialText") !== $(this).html()) {
       // ... do something.
       console.log("New data when content change.");
