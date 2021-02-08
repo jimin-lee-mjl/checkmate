@@ -8,10 +8,7 @@
     <meta http-equiv="Cache-Control" content="no-cache" />
 
     {% block header %}{% endblock %}
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='sidebar.css') }}"
-    />
+    <link rel="stylesheet" href="{{ url_for('static', filename='sidebar.css') }}"/>
     <title>Sidebar sub menus</title>
   </head>
   <body id="body-pd">
@@ -27,55 +24,24 @@
             <a href="#" class="nav__logo">TO DO LIST</a>
           </div>
           <div class="nav__list">
-            <a
-              href="#"
-              class="nav__link active"
-              onclick="location.href='/dashboard'"
-            >
+            <a href="#" class="nav__link active" onclick="location.href='/dashboard'">
               <ion-icon name="home-outline" class="nav__icon"></ion-icon>
               <span class="nav__name">Dashboard</span>
             </a>
-            <a
-              href="#"
-              class="nav__link"
-              id="nav_calendar"
-              onclick="location.href='/calendar'"
-            >
+
+            <a href="#" class="nav__link" id="nav_calendar" onclick="location.href='/calendar'" >
               <ion-icon name="calendar-outline" class="nav__icon"></ion-icon>
               <span class="nav__name">Calendar</span>
             </a>
 
             <hr size="1" color="white" noshade />
 
-            <!-- <div class="nav__link collapse" id="group_todo">
-                            <a href="#" class="nav__create" id="create_group_list_btn"><ion-icon name="person-add-outline" class="nav__icon"></ion-icon></a>
-                            <span class="nav__name">Group</span>
-                            <ion-icon name="chevron-down-outline" class="collapse__link md hydrated rotate"></ion-icon>
-                            
-                            <ul class="collapse__menu showCollapse" id="sub_group_list">
-                                <a href="#" class="collapse__sublink" id="group_list_1" onclick="location.href='/tasks-group'">Elice</a>
-                                <a href="#" class="collapse__sublink" id="group_list_2" onclick="location.href='/tasks-group'">Study</a>
-                            </ul>
-                        </div> -->
-
             <div class="nav__link collapse" id="personal_todo">
-              <a href="#" class="nav__create" id="create_personal_list_btn"
-                ><ion-icon name="duplicate-outline" class="nav__icon"></ion-icon
-              ></a>
+              <a href="#" class="nav__create" id="create_personal_list_btn"><ion-icon name="duplicate-outline" class="nav__icon"></ion-icon></a>
               <span class="nav__name">Personal</span>
-              <ion-icon
-                name="chevron-down-outline"
-                class="collapse__link md hydrated rotate"
-              ></ion-icon>
+              <ion-icon name="chevron-down-outline" class="collapse__link md hydrated rotate"></ion-icon>
 
-              <ul class="collapse__menu showCollapse" id="sub_personal_list">
-                <a
-                  href="#"
-                  class="collapse__sublink category"
-                  onclick="location.href='/tasks'"
-                  >Personal_TODO</a
-                >
-              </ul>
+              <ul class="collapse__menu showCollapse" id="sub_personal_list"></ul>
             </div>
 
             <hr size="1" color="white" noshade />
@@ -106,12 +72,16 @@
     </div>
 
     {% block content %}{% endblock %}
-
+    
     <!-- ===== IONICONS ===== -->
     <script src="https://unpkg.com/ionicons@5.1.2/dist/ionicons.js"></script>
 
     <!-- ===== MAIN JS ===== -->
-    <script src="../static/sidebar.js"></script>
-    <!-- <script src="{{ url_for('static', filename='sidebar.js') }}"></script> -->
+    <script src="{{ url_for('static', filename='sidebar.js') }}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.css"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='tasks.css') }}" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
+
+
   </body>
 </html>

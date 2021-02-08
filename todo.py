@@ -44,7 +44,7 @@ class Todo(Resource):
         db.session.commit()
         return jsonify(
             status = 'success', 
-            result = {'content':new_todo.content, 'start-date':new_todo.start_date}
+            result = {'todo_id': new_todo.id, 'content':new_todo.content, 'start-date':new_todo.start_date}
         )
 
     def put(self, category_id=1):
