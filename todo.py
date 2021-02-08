@@ -35,7 +35,6 @@ class Todo(Resource):
 
     def post(self, category_id=1):
         args = parser.parse_args()
-
         new_todo = TodoList()
         new_todo.content = args['content']
         new_todo.category_id = category_id

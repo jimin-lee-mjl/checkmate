@@ -41,6 +41,9 @@ with app.app_context():
   import dash
   app.register_blueprint(dash.bp)
 
+  import profile
+  app.register_blueprint(profile.bp)
+
 if __name__=="__main__":
   app.run(debug=True) 
     

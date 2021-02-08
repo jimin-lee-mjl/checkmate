@@ -1,10 +1,4 @@
-<<<<<<< HEAD
-import "./category.js";
-
-//get clicked category_id, category_name
-=======
 //get clicked category_id, category_names
->>>>>>> master
 function getParameterByName(name) {
   name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
   var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
