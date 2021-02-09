@@ -45,4 +45,8 @@ class Password(Resource):
 
 
 api.add_resource(Email, '/email')
+<<<<<<< HEAD
 api.add_resource(Password, '/password')
+=======
+api.add_resource(Password, '/password')
+>>>>>>> feature/password
