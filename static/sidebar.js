@@ -80,23 +80,8 @@ const linkColor = document.querySelectorAll(".nav__link");
 const listColor = document.querySelectorAll(".collapse__sublink");
 listColor.forEach((l) => l.classList.remove("list_active"));
 
-//for task-group
-if (window.location.pathname == "/tasks-group") {
-  var current_location = document.getElementById("group_todo");
-  linkColor.forEach((l) => l.classList.remove("active"));
-  current_location.classList.add("active");
-
-  if (window.location.pathname == "/tasks-group/elice") {
-    var current_list = document.getElementById("group_list_1");
-    current_list.classList.add("list_active");
-  } else if (window.location.pathname == "/tasks-group/study") {
-    var current_list = document.getElementById("group_list_2");
-    current_list.classList.add("list_active");
-  }
-}
-
 //for calendar
-else if (window.location.pathname == "/calendar/") {
+if (window.location.pathname == "/calendar/") {
   var current_location = document.getElementById("nav_calendar");
   linkColor.forEach((l) => l.classList.remove("active"));
   current_location.classList.add("active");
@@ -112,6 +97,12 @@ else if (window.location.pathname == "/tasks") {
   current_list.classList.add("list_active");
 }
 
+// for profile
+else if (window.location.pathname == "/profile") {
+  var current_location = document.getElementById("profile");
+  linkColor.forEach((l) => l.classList.remove("active"));
+  current_location.classList.add("active");
+}
 
 //get_category
 function get_category() {
