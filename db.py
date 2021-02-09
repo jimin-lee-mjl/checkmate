@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash
 from flask_login import UserMixin
 from config import DB_CONNECT
+from sqlalchemy.orm import relationship
 
 current_app.config["SQLALCHEMY_DATABASE_URI"] = f"mysql://{DB_CONNECT['username']}:{DB_CONNECT['password']}@{DB_CONNECT['server']}:3306/{DB_CONNECT['dbname']}"
 current_app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -17,20 +18,20 @@ class User(UserMixin, db.Model):
 
 class Category(db.Model):
       id = db.Column(db.Integer, primary_key=True)
-      name = db.Column(db.String(45), nullable=False)
-      color = db.Column(db.String(45), default='navy')
+      name = db.Column(db.String(45), unique=True, nullable=False)
+      color = db.Column(db.String(45))
       user_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=True)
 
 class TodoList(db.Model):
       id = db.Column(db.Integer, primary_key=True)
       content = db.Column(db.Text, default="To do something")
-      start_date = db.Column(db.DateTime, nullable=True)
-      # start_date = db.Column(db.DateTime, default=db.func.now())
-      end_date = db.Column(db.DateTime, nullable=True)
+      start_date = db.Column(db.Date, default=db.func.now())
+      end_date = db.Column(db.Date, nullable=True)
       status = db.Column(db.Boolean, default=False)
       important = db.Column(db.Boolean, default=False)
       user_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=False)
-      category_id = db.Column(db.Integer, default=1)
+      category_id = db.Column(db.Integer,db.ForeignKey(Category.id), default=1)
+      category = relationship("Category")
 # status -> doing:false(0), done:true(1)
 
 def init_db():
@@ -45,6 +46,8 @@ def init_db():
       db.session.add(sample_category)
       db.session.add(sample_category2)
       db.session.commit()
-      sample_todo = TodoList(content="elice", user_id=1, category_id=1)
+      sample_todo = TodoList(content="task1", user_id=1, category_id=1)
+      sample_todo2 = TodoList(content="task2", user_id=1, category_id=2)
       db.session.add(sample_todo)
+      db.session.add(sample_todo2)
       db.session.commit()

@@ -1,5 +1,6 @@
 import json
 from db import TodoList, db
+from db import Category, db
 from flask import Flask, json, request, jsonify, app
 from flask_mysqldb import MySQL,MySQLdb #pip install flask-mysqldb https://github.com/alexferl/flask-mysqldb
 from flask import current_app
@@ -16,24 +17,24 @@ def calendar():
     return render_template("calendar.html")
 
 @bp.route('/datacal')
-#로그인 한 상태일 때만 캘린더 작동
 #@login_required
 def get_todo_cal():
     todoListCal = TodoList.query.all()
     a = []
     is_important = ''
-   
+    color = ''
     for todoList in todoListCal:
-        if todoList.important == 1:
+        if todoList.status==0 and todoList.important == 1:
             is_important = "important"
         else:
             is_important = ''
+
         hi = {
         "title":todoList.content,
         "start": todoList.start_date,
         "end":todoList.end_date,
         "important": is_important,
-        "color" : todoList.color
+        "color" : todoList.category.color
         }
         a.append((hi))
     #print(json.dumps(a), file=sys.stdout)

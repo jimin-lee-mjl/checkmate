@@ -5,23 +5,21 @@ from flask import jsonify,Blueprint, render_template
 from flask_mysqldb import MySQL,MySQLdb #pip install flask-mysqldb https://github.com/alexferl/flask-mysqldb
 from flask_login import login_required
 from datetime import datetime
-
+import time
 
 bp = Blueprint("dashboard", __name__, url_prefix="/dashboard")
-
 
 def get_important_todo():
     todoListCal = TodoList.query.all()
     a = []
     for todoList in todoListCal:
-        if todoList.important == 1:
+        if todoList.status==0 and todoList.important == 1:
             hi = {
             "title":todoList.content,
             "start": todoList.start_date,
-            "end":todoList.end_date,
+            "end":todoList.end_date
             }
             a.append((hi))
-    print(json.dumps(a), file=sys.stdout)
     return a
 
 
@@ -30,26 +28,27 @@ def get_urgent_todo():
     todoListCal = TodoList.query.all()
     a = []
     for todoList in todoListCal:
-        if todoList.end_date == today_date:
+        if todoList.status == 0 and todoList.end_date == today_date:
             hi = {
             "title":todoList.content,
             "start": todoList.start_date,
-            "end":todoList.end_date,
+            "end":todoList.end_date
             }
             a.append((hi))
-    print(json.dumps(a), file=sys.stdout)
     return a
 
 def get_today_todo(): 
-    today_date = datetime.today().strftime("%Y-%m-%d")  
+    today_date = datetime.today().strftime("%Y-%m-%d")
+    #today_date = time.strptime(today_date,"%Y-%m-%d")
     todoListCal = TodoList.query.all()
     a = []
     for todoList in todoListCal:
-        if todoList.start_date == today_date:
+        if todoList.status==0:
+        #if todoList.status==0 and todoList.start_date <= today_date: #and today_date<= todoList.end_date:
             hi = {
             "title":todoList.content,
             "start": todoList.start_date,
-            "end":todoList.end_date,
+            "end":todoList.end_date
             }
             a.append((hi))
     return a
