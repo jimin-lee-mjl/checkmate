@@ -20,7 +20,7 @@ parser.add_argument('name')
 parser.add_argument('color')
 
 class Todo(Resource):
-    def get(self, category_id=1):
+    def get(self, category_id):
         result = []
         query = TodoList.query.filter(
             (TodoList.category_id == category_id) & (TodoList.user_id == current_user.id)
@@ -33,7 +33,7 @@ class Todo(Resource):
             )
         return jsonify(status = 'success', result=result)
 
-    def post(self, category_id=1):
+    def post(self, category_id):
         args = parser.parse_args()
         new_todo = TodoList()
         new_todo.content = args['content']
@@ -46,7 +46,7 @@ class Todo(Resource):
             result = {'todo_id': new_todo.id, 'content':new_todo.content, 'start-date':new_todo.start_date}
         )
 
-    def put(self, category_id=1):
+    def put(self, category_id):
         args = parser.parse_args()
         todo = TodoList.query.filter_by(id = args['todo_id']).first()
         if args['content']:
@@ -66,7 +66,7 @@ class Todo(Resource):
                     'start_date':todo.start_date, 'end_date':todo.end_date, 'important':todo.important}
         )
 
-    def delete(self, category_id=1):
+    def delete(self, category_id):
         args = parser.parse_args()
         todo = TodoList.query.filter_by(id = args['todo_id']).first()
         db.session.delete(todo)
