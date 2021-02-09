@@ -16,7 +16,8 @@ console.log(category_name);
 console.log(category_color);
 
 //get category_name
-get_category_name();
+$(document).ready(get_category_name());
+
 //get todo
 get_todo();
 
@@ -352,8 +353,17 @@ $("#category_title")
         })
         .then(function (result) {
           console.log(result);
-          $("#personal_todo").load(window.location.href + "#personal_todo");
-        });
+          console.log(result.result.name)
+          console.log(location.href);
+          
+          var oldUrl = new URL(location.href);
+          var params = new URLSearchParams(oldUrl.search);
+          params.set('category_name', result.result.name);
+          var newURL = params.toString();
+          console.log(newURL);
+
+          location.href = "tasks?"+ newURL;
+        }); 
     }
   });
 
