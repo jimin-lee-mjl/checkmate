@@ -45,16 +45,6 @@ with app.app_context():
   import dash
   app.register_blueprint(dash.bp)
 
-<<<<<<< HEAD
-    import profile
-    app.register_blueprint(profile.bp)
-
-  if __name__=="__main__":
-    db.init_app(app)
-    app.run(debug=True)  
-
-  return app
-=======
   import profile
   app.register_blueprint(profile.bp)
 
@@ -62,4 +52,3 @@ if __name__=="__main__":
   app.run(debug=True) 
     
 
->>>>>>> feature/password
