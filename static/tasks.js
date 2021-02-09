@@ -128,32 +128,58 @@ function get_todo() {
 
         //calendar
         var isClicked = true;
-
+        var isCalClicked = true;
         var cal = "<span style='display:none;'><input class='cal' style='margin-left: 10px;' type='text' id='from_"+todo_id+"'><span> ~ </span><input type='text' id='to_"+todo_id+"'></span>";
 
         var calendar = $(`<span id='cal_${todo_id}'><i class='far fa-calendar-alt'></i></span>`).click(function(){
-
+          
           var arr = $(this).attr("id").split("_");
           var p = $("#from_"+arr[1]).parent();
           p.toggle();
 
-          var style = p.attr("style");
-
-          if(style.toString().includes('none')) {
-            $("#from_"+arr[1]).val("");
-            $("#to_"+arr[1]).val("");
-          }
-          
           for(var i = 0; i < result.length; i++ ) {
             //조회한 id와 선택된 calendar id가 같을경우
             if(result[i].id == arr[1]) {
-              $("#from_"+arr[1]).datepicker({
+              if(result[i].start_date != null) {
+                $("#from_"+arr[1]).datepicker({
                   dateFormat: 'mm-dd-yy'
-              }).datepicker('setDate', new Date(Date.parse(result[i].start_date)));
+                }).datepicker('setDate', new Date(Date.parse(result[i].start_date)));
+              }
+
+              if(result[i].end_date != null) {
+                $("#to_"+arr[1]).datepicker({
+                  dateFormat: 'mm-dd-yy'
+                }).datepicker('setDate', new Date(Date.parse(result[i].end_date)));
+              }
               
-              $("#to_"+arr[1]).datepicker({
-                  dateFormat: 'mm-dd-yy'
-              }).datepicker('setDate', new Date(Date.parse(result[i].end_date)));
+            }
+          }
+
+          if($("#from_"+arr[1]).val() == '' || $("#from_"+arr[1]).val() == undefined) {
+            if($("#to_"+arr[1]).val() == '' || $("#to_"+arr[1]).val() == undefined) {
+              return;
+            }
+          } else if($("#from_"+arr[1]).val() != '' && $("#to_"+arr[1]).val() != '') {
+            if(isCalClicked) {
+              alert("캘린더에 저장되었습니다.");
+              isCalClicked = false;
+            }
+        
+          } else {
+            if($("#from_"+arr[1]).val() != '') {
+              if($("#to_"+arr[1]).val() == '') {
+                alert("종료일을 입력하세요.");
+                p.css("display", "");
+                return;
+              }
+            }
+          }
+
+          if($("to_"+arr[1]).val() != '') {
+            if($("#from_"+arr[1]).val() == '') {
+              alert("시작일을 입력하세요.");
+              p.css("display", "");
+              return;
             }
           }
 
@@ -229,17 +255,15 @@ function get_todo() {
 }
 
 // edit_category_title -> PUT
-$("#category_title")
-  // When you click on item, record into data("initialText") content of this item.
-  .focus(function () {
+$("#category_title").focus(function () {
     $(this).data("initialText", $(this).html());
     console.log($("#category_title").html());
-    $("#span_category_delete_btn").css('display', ''); //focus됐을 때, display & 기본값 : none 
+    $("#span_category_delete_btn").css('display', '');
   })
-  
   // When you leave an item...
   .blur(function () {
     // ...if content is different...
+
     $('#span_category_delete_btn').delay(3000).fadeOut();
 
     if ($(this).data("initialText") !== $(this).html()) {
@@ -273,42 +297,6 @@ $("#category_title")
   });
 
 var isClicked = true;
-
-$(document).ready(function(){
-
-  //trashcan animation
-  $('#span_category_delete_btn').hover(
-    function() {
-      $( this ).animate( {
-        fontSize: '30px'
-      }, 500 );
-    }, function () {
-      $( this ).animate( {
-        fontSize: '1em'
-      }, 500 );
-    }
-  );
-});
-
-function saveCalendar() {
-  //update calendar date
-  var url = "/todo/" + category_id;
-  fetch(url, {
-    method: "PUT",
-    body: JSON.stringify({
-      todo_id: todo_id
-    }),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then(function (type) {
-      return type.json();
-    })
-    .then(function (result) {
-      console.log(result);
-    });
-}
 
 // enter 키 -> task 추가 -> POST
 $(".txtb").on("keyup", function (e) {
@@ -414,27 +402,49 @@ $(".txtb").on("keyup", function (e) {
               console.log(result);
             });
         });
-        
-        var isClicked = true;
+       
+        var isCalClicked = true;
 
         //calendar
         var cal = "<span style='display:none;'><input style='margin-left: 10px;' type='text' id='from_"+todo_id+"'><span> ~ </span><input type='text' id='to_"+todo_id+"'></span>";
 
         var calendar = $(`<span id='cal_${todo_id}'><i class='far fa-calendar-alt'></i></span>`).click(function(){
-
+          
           var arr = $(this).attr("id").split("_");
           var p = $("#from_"+arr[1]).parent();
           p.toggle();
 
-          var style = p.attr("style");
+          if($("#from_"+arr[1]).val() == '' || $("#from_"+arr[1]).val() == undefined) {
+            if($("#to_"+arr[1]).val() == '' || $("#to_"+arr[1]).val() == undefined) {
+              return;
+            }
+          } else if($("#from_"+arr[1]).val() != '' && $("#to_"+arr[1]).val() != '') {
+            if(isCalClicked) {
+              alert("저장되었습니다.");
+              isCalClicked = false;
+            }
+        
+          } else {
+            if($("#from_"+arr[1]).val() != '') {
+              if($("#to_"+arr[1]).val() == '') {
+                alert("종료일을 입력하세요.");
+                p.css("display", "");
+                return;
+              }
+            }
+          }
 
-          if(style.toString().includes('none')) {
-            $("#from_"+arr[1]).val("");
-            $("#to_"+arr[1]).val("");
+          if($("to_"+arr[1]).val() != '') {
+            if($("#from_"+arr[1]).val() == '') {
+              alert("시작일을 입력하세요.");
+              p.css("display", "");
+              return;
+            }
           }
 
         });
 
+        var isClicked = true;
         //star
         var star = $(`<span id='star_${todo_id}'><i class='far fa-star'></i></span>`).click(function(){
           var p = $(this).parent();
