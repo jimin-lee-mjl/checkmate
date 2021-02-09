@@ -21,10 +21,10 @@ get_category_name();
 get_todo();
 
 function get_category_name() {
-  console.log(category_name);
+  console.log('category_name : ' + category_name);
   document.querySelector("header").innerHTML = `
           <h1 class="screen-header__title" id="category_title" contentEditable="true" style="color:${category_color}">${category_name}</h1>
-          <span><i class="fas fa-trash-alt" id="category_delete_btn"></i></span>
+          <span id="span_category_delete_btn" style="margin-left:10px; display:none;"><i class="fas fa-trash-alt" id="category_delete_btn"></i></span>
         `;
 }
 
@@ -66,7 +66,7 @@ deleteCategory(category_id);
 //get todo -> GET
 function get_todo() {
   var url = "/todo/" + category_id;
-  console.log(category_id);
+  console.log('category_id : ', category_id);
   fetch(url, { category_id: category_id })
     .then(function (type) {
       return type.json();
@@ -160,29 +160,71 @@ function get_todo() {
         });
 
         //calendar
+<<<<<<< HEAD
 
         var id = 1;
+=======
+>>>>>>> feature/todo_date
         var isClicked = true;
+        var isCalClicked = true;
+        var cal = "<span style='display:none;'><input class='cal' style='margin-left: 10px;' type='text' id='from_"+todo_id+"'><span> ~ </span><input type='text' id='to_"+todo_id+"'></span>";
 
-        var cal = "<span style='display:none;'><input style='margin-left: 10px;' type='text' id='from_"+id+"'><span> ~ </span><input type='text' id='to_"+id+"'></span>";
-
-        var calendar = $(`<span id='cal_${id}'><i class='far fa-calendar-alt'></i></span>`).click(function(){
-
+        var calendar = $(`<span id='cal_${todo_id}'><i class='far fa-calendar-alt'></i></span>`).click(function(){
+          
           var arr = $(this).attr("id").split("_");
           var p = $("#from_"+arr[1]).parent();
           p.toggle();
 
-          var style = p.attr("style");
+          for(var i = 0; i < result.length; i++ ) {
+            //조회한 id와 선택된 calendar id가 같을경우
+            if(result[i].id == arr[1]) {
+              if(result[i].start_date != null) {
+                $("#from_"+arr[1]).datepicker({
+                  dateFormat: 'mm-dd-yy'
+                }).datepicker('setDate', new Date(Date.parse(result[i].start_date)));
+              }
 
-          if(style.toString().includes('none')) {
-            $("#from_"+arr[1]).val("");
-            $("#to_"+arr[1]).val("");
+              if(result[i].end_date != null) {
+                $("#to_"+arr[1]).datepicker({
+                  dateFormat: 'mm-dd-yy'
+                }).datepicker('setDate', new Date(Date.parse(result[i].end_date)));
+              }
+              
+            }
+          }
+
+          if($("#from_"+arr[1]).val() == '' || $("#from_"+arr[1]).val() == undefined) {
+            if($("#to_"+arr[1]).val() == '' || $("#to_"+arr[1]).val() == undefined) {
+              return;
+            }
+          } else if($("#from_"+arr[1]).val() != '' && $("#to_"+arr[1]).val() != '') {
+            if(isCalClicked) {
+              alert("캘린더에 저장되었습니다.");
+              isCalClicked = false;
+            }
+        
+          } else {
+            if($("#from_"+arr[1]).val() != '') {
+              if($("#to_"+arr[1]).val() == '') {
+                alert("종료일을 입력하세요.");
+                p.css("display", "");
+                return;
+              }
+            }
+          }
+
+          if($("to_"+arr[1]).val() != '') {
+            if($("#from_"+arr[1]).val() == '') {
+              alert("시작일을 입력하세요.");
+              p.css("display", "");
+              return;
+            }
           }
 
         });
 
         //star
-        var star = $(`<span id='star_${id}'><i class='far fa-star'></i></span>`).click(function(){
+        var star = $(`<span id='star_${todo_id}'><i class='far fa-star'></i></span>`).click(function(){
           var p = $(this).parent();
 
           if(isClicked) {
@@ -244,22 +286,24 @@ function get_todo() {
           $(".comp").append(task);
         }
 
-        fn_init(id);
-        id++;
+        fn_init(todo_id);
+
       }
     });
 }
 
 // edit_category_title -> PUT
-$("#category_title")
-  // When you click on item, record into data("initialText") content of this item.
-  .focus(function () {
+$("#category_title").focus(function () {
     $(this).data("initialText", $(this).html());
     console.log($("#category_title").html());
+    $("#span_category_delete_btn").css('display', '');
   })
   // When you leave an item...
   .blur(function () {
     // ...if content is different...
+
+    $('#span_category_delete_btn').delay(3000).fadeOut();
+
     if ($(this).data("initialText") !== $(this).html()) {
       // ... do something.
       console.log("New data when content change.");
@@ -290,14 +334,21 @@ $("#category_title")
     }
   });
 
+<<<<<<< HEAD
 var id = 1;
+=======
+>>>>>>> feature/todo_date
 var isClicked = true;
 
 // enter 키 -> task 추가 -> POST
 $(".txtb").on("keyup", function (e) {
+
   //13  means enter button
   if (e.keyCode == 13 && $(".txtb").val() != "") {
+<<<<<<< HEAD
     console.log(id);
+=======
+>>>>>>> feature/todo_date
     var new_task_content = $(".txtb").val();
     console.log(new_task_content);
     
@@ -397,6 +448,7 @@ $(".txtb").on("keyup", function (e) {
               console.log(result);
             });
         });
+<<<<<<< HEAD
         
         var id = 1;
         var isClicked = true;
@@ -406,21 +458,52 @@ $(".txtb").on("keyup", function (e) {
         var cal = "<span style='display:none;'><input style='margin-left: 10px;' type='text' id='from_"+id+"'><span> ~ </span><input type='text' id='to_"+id+"'></span>";
 
         var calendar = $(`<span id='cal_${id}'><i class='far fa-calendar-alt'></i></span>`).click(function(){
+=======
+       
+        var isCalClicked = true;
 
+        //calendar
+        var cal = "<span style='display:none;'><input style='margin-left: 10px;' type='text' id='from_"+todo_id+"'><span> ~ </span><input type='text' id='to_"+todo_id+"'></span>";
+>>>>>>> feature/todo_date
+
+        var calendar = $(`<span id='cal_${todo_id}'><i class='far fa-calendar-alt'></i></span>`).click(function(){
+          
           var arr = $(this).attr("id").split("_");
           var p = $("#from_"+arr[1]).parent();
           p.toggle();
 
-          var style = p.attr("style");
+          if($("#from_"+arr[1]).val() == '' || $("#from_"+arr[1]).val() == undefined) {
+            if($("#to_"+arr[1]).val() == '' || $("#to_"+arr[1]).val() == undefined) {
+              return;
+            }
+          } else if($("#from_"+arr[1]).val() != '' && $("#to_"+arr[1]).val() != '') {
+            if(isCalClicked) {
+              alert("저장되었습니다.");
+              isCalClicked = false;
+            }
+        
+          } else {
+            if($("#from_"+arr[1]).val() != '') {
+              if($("#to_"+arr[1]).val() == '') {
+                alert("종료일을 입력하세요.");
+                p.css("display", "");
+                return;
+              }
+            }
+          }
 
-          if(style.toString().includes('none')) {
-            $("#from_"+arr[1]).val("");
-            $("#to_"+arr[1]).val("");
+          if($("to_"+arr[1]).val() != '') {
+            if($("#from_"+arr[1]).val() == '') {
+              alert("시작일을 입력하세요.");
+              p.css("display", "");
+              return;
+            }
           }
         });
 
+        var isClicked = true;
         //star
-        var star = $(`<span id='star_${id}'><i class='far fa-star'></i></span>`).click(function(){
+        var star = $(`<span id='star_${todo_id}'><i class='far fa-star'></i></span>`).click(function(){
           var p = $(this).parent();
 
           if(isClicked) {
@@ -474,9 +557,7 @@ $(".txtb").on("keyup", function (e) {
         //to clear the input
         $(".txtb").val("");
 
-        fn_init(id);
-
-        id++;
+        fn_init(todo_id);
 
       });    
   }
@@ -542,6 +623,29 @@ function fn_init(id) {
                   //console.log(setSdate)
           }});
           //to 설정
+
+          var arr = $(this).attr("id").split("_");
+          var todo_id = arr[1];
+
+          //save date
+          var url = "/todo/" + category_id;
+          fetch(url, {
+            method: "PUT",
+            body: JSON.stringify({
+              todo_id: todo_id,
+              start_date: $(this).val()
+            }),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+            .then(function (type) {
+              return type.json();
+            })
+            .then(function (result) {
+              console.log(result);
+            });
+
       }
       //from 선택되었을 때
   });
@@ -549,11 +653,31 @@ function fn_init(id) {
       dateFormat: 'yy-mm-dd',
       onSelect : function(selectDate){
           setEdate = selectDate;
-          //console.log(setEdate)
+
+          var arr = $(this).attr("id").split("_");
+          var todo_id = arr[1];
+
+          //save date
+          var url = "/todo/" + category_id;
+          fetch(url, {
+            method: "PUT",
+            body: JSON.stringify({
+              todo_id: todo_id,
+              end_date: $(this).val()
+            }),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+            .then(function (type) {
+              return type.json();
+            })
+            .then(function (result) {
+              console.log(result);
+            });
       }
   });
 }
-
 
 // check 선언
 // click -> update task status -> PUT

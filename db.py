@@ -24,7 +24,8 @@ class Category(db.Model):
 class TodoList(db.Model):
       id = db.Column(db.Integer, primary_key=True)
       content = db.Column(db.Text, default="To do something")
-      start_date = db.Column(db.DateTime, default=db.func.now())
+      start_date = db.Column(db.DateTime, nullable=True)
+      # start_date = db.Column(db.DateTime, default=db.func.now())
       end_date = db.Column(db.DateTime, nullable=True)
       status = db.Column(db.Boolean, default=False)
       important = db.Column(db.Boolean, default=False)
