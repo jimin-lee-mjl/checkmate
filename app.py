@@ -20,14 +20,14 @@ def dashboard():
 def tasks():
   return render_template('tasks.html')
 
-  @app.route('/calendar/data')
-  def return_data():
-      return cal.get_todo_cal()
- 
-  @app.route('/myprofile') 
-  @login_required
-  def myprofile():
-    return render_template('profile.html')
+@app.route('/calendar/data')
+def return_data():
+    return cal.get_todo_cal()
+
+@app.route('/myprofile') 
+@login_required
+def myprofile():
+  return render_template('profile.html')
 
 with app.app_context():
   import db
