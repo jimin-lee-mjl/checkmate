@@ -98,7 +98,7 @@ else if (window.location.pathname == "/tasks") {
 }
 
 // for profile
-else if (window.location.pathname == "/profile") {
+else if (window.location.pathname == "/myprofile") {
   var current_location = document.getElementById("profile");
   linkColor.forEach((l) => l.classList.remove("active"));
   current_location.classList.add("active");
