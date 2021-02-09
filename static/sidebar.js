@@ -52,11 +52,12 @@ function create_personal_list() {
   // create new list -> post to db
   var url = "/todo/";
   var randomColor = Math.floor(Math.random() * 16777215).toString(16);
+
   fetch(url, {
     method: "POST",
     body: JSON.stringify({
       name: "New_list",
-      color: randomColor,
+      color: randomColor
     }),
     headers: {
       "Content-Type": "application/json",
@@ -67,6 +68,8 @@ function create_personal_list() {
     })
     .then(function (result) {
       console.log(result);
+      console.log(result.result.id);
+      window.location.reload();
     });
 }
 
@@ -77,23 +80,8 @@ const linkColor = document.querySelectorAll(".nav__link");
 const listColor = document.querySelectorAll(".collapse__sublink");
 listColor.forEach((l) => l.classList.remove("list_active"));
 
-//for task-group
-if (window.location.pathname == "/tasks-group") {
-  var current_location = document.getElementById("group_todo");
-  linkColor.forEach((l) => l.classList.remove("active"));
-  current_location.classList.add("active");
-
-  if (window.location.pathname == "/tasks-group/elice") {
-    var current_list = document.getElementById("group_list_1");
-    current_list.classList.add("list_active");
-  } else if (window.location.pathname == "/tasks-group/study") {
-    var current_list = document.getElementById("group_list_2");
-    current_list.classList.add("list_active");
-  }
-}
-
 //for calendar
-else if (window.location.pathname == "/calendar/") {
+if (window.location.pathname == "/calendar/") {
   var current_location = document.getElementById("nav_calendar");
   linkColor.forEach((l) => l.classList.remove("active"));
   current_location.classList.add("active");
@@ -109,6 +97,12 @@ else if (window.location.pathname == "/tasks") {
   current_list.classList.add("list_active");
 }
 
+// for profile
+else if (window.location.pathname == "/myprofile") {
+  var current_location = document.getElementById("profile");
+  linkColor.forEach((l) => l.classList.remove("active"));
+  current_location.classList.add("active");
+}
 
 //get_category
 function get_category() {
@@ -122,10 +116,11 @@ function get_category() {
       for (var i = 0; i < result.length; i++) {
         var name = result[i].name;
         var id = result[i].id;
+        var color = result[i].color;
         console.log(name);
 
         // get titles
-        var category = `<a href='#' class='collapse__sublink category' onclick='location.href=\"/tasks?category_id=${id}&category_name=${name}\"'>${name}</a>`;
+        var category = `<a href='#' class='collapse__sublink category' onclick='location.href=\"/tasks?category_id=${id}&category_name=${name}&category_color=${color}\"'>${name}</a>`;
         console.log(category);
         var br = $("<br>");
         $("#sub_personal_list").append(category, br);

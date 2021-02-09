@@ -1,0 +1,65 @@
+{% extends 'sidebar.html' %}
+
+{% block content %}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" type="text/css" href="../static/profile.css">
+<link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700,800&display=swap" rel="stylesheet">
+
+<div class="form">
+    <h2>My profile</h2>
+    <form>
+        <div>
+            <label id="label_username">
+                <span>username</span>
+                <div class="profile_data" id="div_username"></div>
+            </label>
+        </div>
+
+        <div style="margin-bottom: 50px;">
+            <label id="label_email">
+                <div class="div_email">
+                    <span>EMAIL</span>
+                    <div class="profile_data" id="original_email"></div>
+                    <input type="button" class="button" id="edit_email_btn" value="change email" style="width: 260px;">
+                </div>
+                <div class="div_new_email">
+                    <span id="new_email">NEW EMAIL</span>
+                    <div class="profile_data" id="new_email">
+                        <input type="text" class="inputbox" id="input_new_email">
+                    </div>
+                    <input
+                        type="button"  class="button" id="save_email_btn" value="SAVE"
+                        style="width: 100px; background: #f1c40f; color: darkblue;"
+                        onclick="edit_email()">
+                </div>
+            </label>
+        </div>
+        
+        <div>
+            <label id="label_password">
+                <input type="button"  class="button" id="change_password_btn" value="change password" style="width:260px;">
+                    <div class="div_change_password">
+                        
+                        <span>current password</span>
+                        <div class="profile_data">
+                            <input type="password" class="inputbox" id="input_cur_password">
+                        </div>
+
+                        <span>new password</span>
+                        <div class="profile_data"><input type="password" class="inputbox" id="input_new_password"></div>
+                        <input
+                            type="button" class="button" id="save_password_btn" value="SAVE"
+                            style="width: 100px; background: #f1c40f; color: darkblue;"
+                            onclick="change_password()">
+                    </div>
+            </label>
+        </div>
+        
+    </form>
+
+</div>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="{{ url_for('static', filename='profile.js') }}"></script>
+
+{% endblock %}

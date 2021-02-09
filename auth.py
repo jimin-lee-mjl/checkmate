@@ -67,7 +67,7 @@ def login():
                 flash(error_msgs['wrong_password'], 'auth_error')
             else:
                 login_user(user)
-                return redirect(url_for('tasks'))
+                return redirect(url_for('dashboard'))
     return render_template('login.html', form=form)
 
 @bp.route('/login/google')

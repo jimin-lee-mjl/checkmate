@@ -23,7 +23,11 @@ def create_app():
   @app.route('/calendar/data')
   def return_data():
       return cal.get_todo_cal()
-
+ 
+  @app.route('/myprofile') 
+  @login_required
+  def myprofile():
+    return render_template('profile.html')
 
   with app.app_context():
     import db
@@ -41,11 +45,11 @@ def create_app():
     import dash
     app.register_blueprint(dash.bp)
 
+    import profile
+    app.register_blueprint(profile.bp)
+
   if __name__=="__main__":
     db.init_app(app)
     app.run(debug=True)  
 
   return app
-
-    
-
