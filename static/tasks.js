@@ -29,6 +29,36 @@ function get_category_name() {
 }
 
 // delete request
+function deleteTodos(btn, url, category_id) {
+  btn.addEventListener("click", function() {
+    fetch(url+category_id)
+      .then(function(type) {
+        return type.json();
+      })
+        .then(function(result) {
+          const todos = result.result;
+          for (let i=0; i<todos.length; i++) {
+            const option = {
+              method: "DELETE",
+              body: JSON.stringify({
+                todo_id: todos[i].id,
+              }),
+              headers: {
+                "Content-Type": "application/json",
+              },
+            };
+            fetch(url+category_id, option)
+              .then(function(type) {
+                return type.json();
+              })
+                .then(function(result) {
+                  console.log(result);
+                })
+          }
+        })
+  })
+}
+
 function deleteCategory(id) {
   const URL = "/todo/";
   const delCategoryBtn = document.querySelector("#category_delete_btn");
@@ -43,33 +73,7 @@ function deleteCategory(id) {
   };
 
   if (delCategoryBtn) {
-    delCategoryBtn.addEventListener("click", function() {
-      fetch(`${URL}+${id}`)
-        .then(function(type) {
-          return type.json();
-        })
-          .then(function(result) {
-            const todos = result.result;
-            for (let i=0; i<todos.length; i++) {
-              const todOption = {
-                method: "DELETE",
-                body: JSON.stringify({
-                  todo_id: todos[i].id,
-                }),
-                headers: {
-                  "Content-Type": "application/json",
-                },
-              };
-              fetch(`${URL}+${id}`, todOption)
-                .then(function(type) {
-                  return type.json();
-                })
-                  .then(function(result) {
-                    console.log(result);
-                  })
-            }
-          })
-    })
+    deleteTodos(delCategoryBtn, URL, id);
   }
 
   // if (delCategoryBtn) {
