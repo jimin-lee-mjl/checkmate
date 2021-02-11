@@ -48,7 +48,6 @@ with app.app_context():
   import profile
   app.register_blueprint(profile.bp)
 
-if __name__=="__main__":
-  app.run(debug=True) 
+
     
 
