@@ -22,8 +22,12 @@ def tasks():
 
 @app.route('/calendar/data')
 def return_data():
-  return cal.get_todo_cal()
+    return cal.get_todo_cal()
 
+@app.route('/myprofile') 
+@login_required
+def myprofile():
+  return render_template('profile.html')
 
 with app.app_context():
   import db
@@ -40,6 +44,7 @@ with app.app_context():
 
   import dash
   app.register_blueprint(dash.bp)
- 
-    
+
+  import profile
+  app.register_blueprint(profile.bp) 
 
