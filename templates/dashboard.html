@@ -1,7 +1,9 @@
-{% extends 'sidebar.html' %}
-{% block content %}
+{% extends 'sidebar.html' %} {% block content %}
 <title>Dashboard</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='tasks_group.css') }}"/>
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='tasks_group.css') }}"
+/>
 <style>
   #login_box {
     width: 95%;
@@ -105,7 +107,7 @@
         </tbody>
       </table>
 
-      <!-- urgent todo -->
+      <!-- upcoming todo -->
 
       <table class="customTable" style="margin: 3%">
         <thead>
@@ -118,7 +120,7 @@
             <td><strong>Content</strong></td>
             <td colspan="2"><strong>Due_date</strong></td>
           </tr>
-          {% for im in urgent_list %}
+          {% for im in upcoming_list %}
           <tr>
             <td>{{im['title']}}</td>
             <td>{{im['start']}} ~ {{im['end']}}</td>

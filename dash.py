@@ -22,12 +22,13 @@ def get_important_todo():
     return a
 
 
-def get_urgent_todo(): 
-    today_date = datetime.today().strftime("%Y-%m-%d")
+def get_upcoming_todo(): 
+    today_date = datetime.now().strftime("%Y%m%d")
     todoListCal = TodoList.query.all()
     a = []
     for todoList in todoListCal:
-        if todoList.status == 0 and todoList.end_date == today_date:
+        end_date = str(todoList.end_date).replace('-','')
+        if todoList.status == 0 and end_date == today_date:
             hi = {
             "title":todoList.content,
             "start": todoList.start_date,
@@ -58,6 +59,6 @@ def get_today_todo():
 @login_required
 def print_dashboard():
     important_list = get_important_todo()
-    urgent_list = get_urgent_todo()
+    upcoming_list = get_upcoming_todo()
     today_list = get_today_todo()
-    return render_template("dashboard.html",today_list= today_list,important_list = important_list,urgent_list =urgent_list)
+    return render_template("dashboard.html",today_list= today_list,important_list = important_list,upcoming_list =upcoming_list)
