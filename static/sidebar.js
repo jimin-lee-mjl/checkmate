@@ -51,13 +51,15 @@ function create_personal_list() {
 
   // create new list -> post to db
   var url = "/todo/";
-  var randomColor = Math.floor(Math.random() * 16777215).toString(16);
+  var randomColor = "#".concat(
+    Math.floor(Math.random() * 16777215).toString(16)
+  );
 
   fetch(url, {
     method: "POST",
     body: JSON.stringify({
       name: "New_list",
-      color: randomColor
+      color: randomColor,
     }),
     headers: {
       "Content-Type": "application/json",
