@@ -5,7 +5,6 @@ from flask import jsonify,Blueprint, render_template
 from flask_mysqldb import MySQL,MySQLdb #pip install flask-mysqldb https://github.com/alexferl/flask-mysqldb
 from flask_login import login_required
 from datetime import datetime
-import time
 
 bp = Blueprint("dashboard", __name__, url_prefix="/dashboard")
 
@@ -24,7 +23,7 @@ def get_important_todo():
 
 
 def get_urgent_todo(): 
-    today_date = datetime.today().strftime("%Y-%m-%d")  
+    today_date = datetime.today().strftime("%Y-%m-%d")
     todoListCal = TodoList.query.all()
     a = []
     for todoList in todoListCal:
@@ -38,19 +37,20 @@ def get_urgent_todo():
     return a
 
 def get_today_todo(): 
-    today_date = datetime.today().strftime("%Y-%m-%d")
-    #today_date = time.strptime(today_date,"%Y-%m-%d")
     todoListCal = TodoList.query.all()
+    today_date = datetime.now().strftime("%Y%m%d")
     a = []
     for todoList in todoListCal:
-        if todoList.status==0:
-        #if todoList.status==0 and todoList.start_date <= today_date: #and today_date<= todoList.end_date:
-            hi = {
-            "title":todoList.content,
-            "start": todoList.start_date,
-            "end":todoList.end_date
-            }
-            a.append((hi))
+        start_date = str(todoList.start_date).replace('-','')
+        end_date = todoList.end_date
+        if todoList.status==0 and start_date <= today_date:
+            if end_date == None or today_date <= str(end_date).replace('-',''):
+                hi = {
+                "title":todoList.content,
+                "start": todoList.start_date,
+                "end":todoList.end_date
+                }
+                a.append((hi))
     return a
 
 
