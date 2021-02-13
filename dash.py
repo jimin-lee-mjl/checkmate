@@ -44,7 +44,7 @@ def get_progress():
     hi = {
             "done": done,
             "doing": doing,
-            "progress":done/doing*100
+            "progress": round((done/doing)*100,2)
         }
     a.append((hi))
     return a

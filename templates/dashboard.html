@@ -20,23 +20,18 @@
     </div>
 
     <!-- 진행롤 -->
+    {% for progress in progress %}
     <div class="col">
       <h3 id="col-text">Today's Progress</h3>
       <br />
       <div class="progress" id="col-text">
-        <div class="progress-done" data-done="50">50%</div>
+        <div class="progress-done" data-done="{{progress['progress']}}">{{progress['progress']}}%</div>
       </div>
     </div>
   </div>
   <br />
-  <!-- {% for progress in progress %}
-    <li>{{progress['done']}}</li>
-    <li>{{progress['doing']}}</li>
-    <li>{{progress['progress']}}</li>
+  {% endfor %}
 
-    {% endfor %}  -->
-
-  <!-- <br /> -->
   <div class="row-table">
   <!-- 중요일정 -->
   <table
