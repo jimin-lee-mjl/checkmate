@@ -2,170 +2,94 @@
 
 <title>Dashboard</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='dash.css') }}" />
-<style>
-  #login_box {
-    width: 95%;
-    height: 90%;
-    background-color: white;
-    border: solid 1px gray;
-    border-radius: 10px;
-    /* box-shadow: 2px 5px 15px gray; */
-    text-align: center;
-  }
-  table.customTable {
-    width: 45%;
-    background-color: #ffffff;
-    border-width: 2px;
-    border-color: #82589f;
-    border-style: solid;
-    color: #000000;
-    text-align: center;
-    border-radius: 10px;
-  }
-
-  table.customTable td,
-  table.customTable th {
-    border-width: 2px;
-    border-color: #82589f;
-    border-style: solid;
-    padding: 5px;
-    border-radius: 10px;
-  }
-
-  table.customTable thead {
-    background-color: #82589f;
-  }
-
-  /* 중요테이블 */
-  table.important_Table {
-    width: 45%;
-    background-color: #ffffff;
-    /* border-collapse: collapse; */
-    border-width: 2px;
-    border-color: #d96060;
-    border-style: solid;
-    color: #000000;
-    text-align: center;
-    border-radius: 10px;
-  }
-
-  table.important_Table td,
-  table.important_Table th {
-    border-width: 2px;
-    border-color: #d96060;
-    border-style: solid;
-    padding: 5px;
-    border-radius: 10px;
-  }
-
-  table.important_Table thead {
-    background-color: #d96060;
-  }
-</style>
-<body>
-  <h1>Dash Board</h1>
+<body class=body>
+  <!-- 랜덤메세지 -->
+  <!-- <hr width="95%" color="gray" /> -->
+  <div class="today"></div>
+  <!-- <hr width="95%" color="gray" /> -->
+  <h1 style="margin-left: 5%" ;>Dash Board</h1>
   <p></p>
-  <hr width="95%" color="gray" />
-  <div>
-    <!-- 랜덤메세지 -->
-    <div class="today" style="text-align: center; margin: 3%" ;></div>
-    <hr width="95%" color="gray" />
+
+  <div class="row">
     <!-- 오늘일정 -->
-    <br />
-    <div style="margin: 2%">
-      <h2>Today's TodoList</h2>
-      <br />
+    <div class="col">
+      <h3 id="col-text">Today's TodoList</h3>
       {% for im in today_list %}
-      <li>{{im['title']}}</li>
+      <li id="col-text">{{im['title']}}</li>
       {% endfor %}
     </div>
 
     <!-- 진행롤 -->
-    <br />
-    <div style="margin: 2%">
-      <h2>Progress</h2>
-      <!-- <br />
-      {% for progress in progress %}
-      <li>{{progress['done']}}</li>
-      <li>{{progress['doing']}}</li>
-      <li>{{progress['progress']}}</li>
-
-      {% endfor %} -->
-      <div class="circleBar">
-        <!-- Refresh button -->
-        <!-- <button class="btn" onClick="CircleBar('.round');">Refresh</button> -->
-        <!-- Container for circular progress bar -->
-        <div class="container ">
-          <div class="row align-items-center">
-            <div class="col-md-6">
-              <div
-                class="round"
-                data-value="0.70"
-                data-size="160"
-                data-thickness="4"
-              >
-                <strong></strong>
-              </div>
-            </div>
-            
-          </div>
-        </div>
-  
+    <div class="col">
+      <h3 id="col-text">Today's Progress</h3>
+      <br />
+      <div class="progress" id="col-text">
+        <div class="progress-done" data-done="50">50%</div>
       </div>
-
-    <!-- 중요일정 -->
-    <div id="login_box" style="margin-left: 2%">
-      <table
-        colspan="3"
-        class="important_Table"
-        style="float: left; margin: 3%"
-      >
-        <thead>
-          <tr>
-            <th colspan="3">⭐ Important Todo</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>Content</strong></td>
-            <td colspan="2"><strong>Due_date</strong></td>
-          </tr>
-          {% for im in important_list %}
-          <tr>
-            <td>{{im['title']}}</td>
-            <td>{{im['start']}} ~ {{im['end']}}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-
-      <!-- upcoming todo -->
-
-      <table class="customTable" style="margin: 3%">
-        <thead>
-          <tr>
-            <th colspan="3">🚨 Upcoming Todo</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>Content</strong></td>
-            <td colspan="2"><strong>Due_date</strong></td>
-          </tr>
-          {% for im in upcoming_list %}
-          <tr>
-            <td>{{im['title']}}</td>
-            <td>{{im['start']}} ~ {{im['end']}}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
     </div>
   </div>
+  <br />
+  <!-- {% for progress in progress %}
+    <li>{{progress['done']}}</li>
+    <li>{{progress['doing']}}</li>
+    <li>{{progress['progress']}}</li>
+
+    {% endfor %}  -->
+
+  <!-- <br /> -->
+  <div class="row-table">
+  <!-- 중요일정 -->
+  <table
+    colspan="3"
+    class="customTable"
+    style="float: left; padding: 4px; margin: 2.53%;"
+  >
+    <thead>
+      <tr>
+        <th colspan="3">
+          <h3 id="table-text">⭐ Important Todo ⭐</h3>
+          </th>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Content</strong></td>
+        <td colspan="2"><strong>Due_date</strong></td>
+      </tr>
+      {% for im in important_list %}
+      <tr>
+        <td>{{im['title']}}</td>
+        <td>{{im['start']}} ~ {{im['end']}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+
+  <!-- upcoming todo -->
+  <table class="UpTable" style="float: left; padding: 4px; margin: 2.53%;">
+    <thead>
+      <tr>
+        <th colspan="3"><h3 id="table-text-up" >🚨 Upcoming Todo 🚨</h3></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Content</strong></td>
+        <td colspan="2"><strong>Due_date</strong></td>
+      </tr>
+      {% for im in upcoming_list %}
+      <tr>
+        <td>{{im['title']}}</td>
+        <td>{{im['start']}} ~ {{im['end']}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 </body>
 <!-- <script type="text/javascript" src="./static/dash.js"></script> -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-circle-progress/1.2.0/circle-progress.min.js"></script>
 <script src="{{ url_for('static', filename='dash.js') }}"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 {% endblock %}
