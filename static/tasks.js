@@ -47,6 +47,7 @@ function get_todo() {
         var todo_id = result[i].id;
         var content = result[i].content;
         var status = result[i].status;
+        
 
         var task = `<div class='task' contentEditable='true' id=${todo_id} onfocus='todo_initial_content($(this).text())' onblur='todo_edited_content($(this).text())'></div>`;
 
@@ -127,7 +128,6 @@ function get_todo() {
 
         //calendar
         var isClicked = true;
-        var isCalClicked = true;
         var cal =
           "<span style='display:none;'><input class='cal' style='margin-left: 10px;' type='text' id='from_" +
           todo_id +
@@ -169,41 +169,28 @@ function get_todo() {
             }
           }
 
-          if (
-            $("#from_" + arr[1]).val() == "" ||
-            $("#from_" + arr[1]).val() == undefined
-          ) {
-            if (
-              $("#to_" + arr[1]).val() == "" ||
-              $("#to_" + arr[1]).val() == undefined
-            ) {
+          var from = $("#from_" + arr[1]).val();
+          var to = $("#to_" + arr[1]).val();
+
+          //달력을 닫았을 때
+          if(p.attr("style").includes('none')) {
+            
+            if(from == '') {
+              alert("시작일을 입력해주세요.");
+              p.css("display", "inline");
+              $("#from_" + arr[1]).focus();
               return;
             }
-          } else if (
-            $("#from_" + arr[1]).val() != "" &&
-            $("#to_" + arr[1]).val() != ""
-          ) {
-            if (isCalClicked) {
-              alert("캘린더에 저장되었습니다.");
-              isCalClicked = false;
+
+            if(to == '') {
+              alert("종료일을 입력해주세요.");
+              p.css("display", "inline");
+              $("#to_" + arr[1]).focus();
+              return;
             }
-          } else {
-            if ($("#from_" + arr[1]).val() != "") {
-              if ($("#to_" + arr[1]).val() == "") {
-                alert("종료일을 입력하세요.");
-                p.css("display", "");
-                return;
-              }
-            }
+
           }
 
-          if ($("to_" + arr[1]).val() != "") {
-            if ($("#from_" + arr[1]).val() == "") {
-              alert("시작일을 입력하세요.");
-              p.css("display", "");
-              return;
-            }
-          }
         });
 
         //star
@@ -438,8 +425,6 @@ $(".txtb").on("keyup", function (e) {
             });
         });
 
-        var isCalClicked = true;
-
         //calendar
         var cal =
           "<span style='display:none;'><input style='margin-left: 10px;' type='text' id='from_" +
@@ -455,41 +440,28 @@ $(".txtb").on("keyup", function (e) {
           var p = $("#from_" + arr[1]).parent();
           p.toggle();
 
-          if (
-            $("#from_" + arr[1]).val() == "" ||
-            $("#from_" + arr[1]).val() == undefined
-          ) {
-            if (
-              $("#to_" + arr[1]).val() == "" ||
-              $("#to_" + arr[1]).val() == undefined
-            ) {
+          var from = $("#from_" + arr[1]).val();
+          var to = $("#to_" + arr[1]).val();
+
+          //달력을 닫았을 때
+          if(p.attr("style").includes('none')) {
+            
+            if(from == '') {
+              alert("시작일을 입력해주세요.");
+              p.css("display", "inline");
+              $("#from_" + arr[1]).focus();
               return;
             }
-          } else if (
-            $("#from_" + arr[1]).val() != "" &&
-            $("#to_" + arr[1]).val() != ""
-          ) {
-            if (isCalClicked) {
-              alert("저장되었습니다.");
-              isCalClicked = false;
+
+            if(to == '') {
+              alert("종료일을 입력해주세요.");
+              p.css("display", "inline");
+              $("#to_" + arr[1]).focus();
+              return;
             }
-          } else {
-            if ($("#from_" + arr[1]).val() != "") {
-              if ($("#to_" + arr[1]).val() == "") {
-                alert("종료일을 입력하세요.");
-                p.css("display", "");
-                return;
-              }
-            }
+
           }
 
-          if ($("to_" + arr[1]).val() != "") {
-            if ($("#from_" + arr[1]).val() == "") {
-              alert("시작일을 입력하세요.");
-              p.css("display", "");
-              return;
-            }
-          }
         });
 
         var isClicked = true;
@@ -564,6 +536,7 @@ $(".txtb").on("keyup", function (e) {
 //todo_initial_content
 function todo_initial_content(value) {
   initial_content = value.replace(/~/g, "");
+  console.log('todo_initial_content');
   console.log(initial_content);
 }
 
@@ -641,12 +614,24 @@ function fn_init(id) {
         })
         .then(function (result) {
           console.log(result);
+          if(result.status == 'success') {
+            alert("저장되었습니다.");
+
+            $('.task').remove();
+            get_todo();
+          } else {
+            alert("저장에 실패하였습니다.");
+          }
         });
     },
     //from 선택되었을 때
   });
+
+  $("#from_" + id).datepicker('setDate', 'today');
+
   $("#to_" + id).datepicker({
     dateFormat: "yy-mm-dd",
+    minDate: 0,
     onSelect: function (selectDate) {
       setEdate = selectDate;
 
@@ -669,10 +654,20 @@ function fn_init(id) {
           return type.json();
         })
         .then(function (result) {
-          console.log(result);
+            console.log(result);
+            if(result.status == 'success') {
+              alert("저장되었습니다.");
+
+              $('.task').remove();
+              get_todo();
+            } else {
+              alert("저장에 실패하였습니다.");
+            }
+            
         });
-    },
+    }
   });
+
 }
 
 // check 선언
