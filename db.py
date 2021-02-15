@@ -5,7 +5,7 @@ from flask_login import UserMixin
 from config import DB_CONNECT
 from sqlalchemy.orm import relationship
 
-current_app.config["SQLALCHEMY_DATABASE_URI"] = f"mysql://{DB_CONNECT['username']}:{DB_CONNECT['password']}@{DB_CONNECT['server']}:3306/{DB_CONNECT['dbname']}"
+current_app.config["SQLALCHEMY_DATABASE_URI"] = f"mysql://{DB_CONNECT['username']}:{DB_CONNECT['password']}@{DB_CONNECT['server']}:3306/{DB_CONNECT['dbname']}?charset=utf8"
 current_app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(current_app)
 
@@ -20,7 +20,7 @@ class Category(db.Model):
       id = db.Column(db.Integer, primary_key=True)
       name = db.Column(db.String(45), nullable=False)
       color = db.Column(db.String(45))
-      user_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=True)
+      user_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=False)
 
 class TodoList(db.Model):
       id = db.Column(db.Integer, primary_key=True)
