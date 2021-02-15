@@ -64,6 +64,6 @@
   }
 
   .comp .task{
-    background: rgba(0,0,0,.5);
-    color: #fff;
+    background: rgba(0,0,0,.5) !important;
+    color: #fff !important;;
   }

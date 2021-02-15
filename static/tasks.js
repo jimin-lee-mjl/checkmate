@@ -47,8 +47,9 @@ function get_todo() {
         var todo_id = result[i].id;
         var content = result[i].content;
         var status = result[i].status;
+        var important = result[i].important;
 
-        var task = `<div class='task' contentEditable='true' id=${todo_id} onfocus='todo_initial_content($(this).text())' onblur='todo_edited_content($(this).text())'></div>`;
+        var task = `<div class='task' contentEditable='true' id=${todo_id} onfocus='todo_initial_content($(this).text())' onblur='todo_edited_content($(this))'></div>`;
 
         //delete
         var del = $("<i class='fas fa-trash-alt'></i>").click(function () {
@@ -205,22 +206,22 @@ function get_todo() {
             }
           }
         });
-
+        
         //star
         var star = $(
-          `<span id='star_${todo_id}'><i class='far fa-star'></i></span>`
+          `<span class='important' id='star_${todo_id}'><i class='far fa-star'></i></span>`
         ).click(function () {
           var p = $(this).parent();
 
-          if (isClicked) {
+          if (important_clicked == false) {
             $(this)
               .children(".fa-star")
               .removeClass("far fa-star")
               .addClass("fas fa-star");
             p.css("background", "#371F54");
-            isClicked = false;
-            console.log(isClicked);
-            var important = 0;
+            important_clicked = true;
+            console.log(important_clicked);
+            var important = 1;
             console.log(important);
           } else {
             $(this)
@@ -228,9 +229,9 @@ function get_todo() {
               .removeClass("fas fa-star")
               .addClass("far fa-star");
             p.css("background", "#81589f9d");
-            isClicked = true;
-            console.log(isClicked);
-            var important = 1;
+            important_clicked = false;
+            console.log(important_clicked);
+            var important = 0;
             console.log(important);
           }
 
@@ -239,7 +240,7 @@ function get_todo() {
           console.log(important);
           console.log(todo_id);
 
-          //update task status
+          //update task important
           var url = "/todo/" + category_id;
           console.log(url);
           fetch(url, {
@@ -273,6 +274,33 @@ function get_todo() {
           task.append(del, check, star, cal, calendar);
           console.log(task);
           $(".comp").append(task);
+        }
+
+        //get important
+        console.log(star);
+        var p = $(star).parent();
+        console.log(p);
+
+        if (important) {
+          $(star)
+            .children(".fa-star")
+            .removeClass("far fa-star")
+            .addClass("fas fa-star");
+          p.css("background", "#371F54");
+          important_clicked = true;
+          console.log(important_clicked);
+          var important = 1;
+          console.log(important);
+        } else {
+          $(star)
+            .children(".fa-star")
+            .removeClass("fas fa-star")
+            .addClass("far fa-star");
+          p.css("background", "#81589f9d");
+          important_clicked = false;
+          console.log(important_clicked);
+          var important = 0;
+          console.log(important);
         }
 
         fn_init(todo_id);
@@ -360,7 +388,7 @@ $(".txtb").on("keyup", function (e) {
         console.log(result.result["todo_id"]);
         var todo_id = result.result["todo_id"];
 
-        var task = `<div class='task' contentEditable='true' id=${todo_id} onfocus='todo_initial_content($(this).text())' onblur='todo_edited_content($(this).text())'></div>`;
+        var task = `<div class='task' contentEditable='true' id=${todo_id} onfocus='todo_initial_content($(this).text())' onblur='todo_edited_content($(this))'></div>`;
         var task = $(task).text(new_task_content);
         console.log(task);
 
@@ -492,22 +520,22 @@ $(".txtb").on("keyup", function (e) {
           }
         });
 
-        var isClicked = true;
+        var important_clicked = false;
         //star
         var star = $(
           `<span id='star_${todo_id}'><i class='far fa-star'></i></span>`
         ).click(function () {
           var p = $(this).parent();
 
-          if (isClicked) {
+          if (important_clicked == false) {
             $(this)
               .children(".fa-star")
               .removeClass("far fa-star")
               .addClass("fas fa-star");
             p.css("background", "#371F54");
-            isClicked = false;
-            console.log(isClicked);
-            var important = 0;
+            important_clicked = true;
+            console.log(important_clicked);
+            var important = 1;
             console.log(important);
           } else {
             $(this)
@@ -515,9 +543,9 @@ $(".txtb").on("keyup", function (e) {
               .removeClass("fas fa-star")
               .addClass("far fa-star");
             p.css("background", "#81589f9d");
-            isClicked = true;
-            console.log(isClicked);
-            var important = 1;
+            important_clicked = false;
+            console.log(important_clicked);
+            var important = 0;
             console.log(important);
           }
 
@@ -526,14 +554,14 @@ $(".txtb").on("keyup", function (e) {
           console.log(important);
           console.log(todo_id);
 
-          //update task status
+          //update task important
           var url = "/todo/" + category_id;
           console.log(url);
           fetch(url, {
             method: "PUT",
             body: JSON.stringify({
               todo_id: todo_id,
-              important: important,
+              important: important
             }),
             headers: {
               "Content-Type": "application/json",
@@ -569,13 +597,15 @@ function todo_initial_content(value) {
 
 //todo_edited_content
 function todo_edited_content(value) {
-  var edited_content = value.replace(/~/g, "");
+  console.log(value);
+  var content = value.text();
+  var todo_id = value.attr("id");
+  var edited_content = content.replace(/~/g, "");
   console.log(edited_content);
   console.log(initial_content);
 
   if (edited_content !== initial_content) {
     console.log("New data when content change.");
-    var todo_id = $(this).attr("id");
     console.log(todo_id);
 
     var url = "/todo/" + category_id;
