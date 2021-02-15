@@ -47,9 +47,8 @@ function get_todo() {
         var todo_id = result[i].id;
         var content = result[i].content;
         var status = result[i].status;
-        
 
-        var task = `<div class='task' contentEditable='true' id=${todo_id} onfocus='todo_initial_content($(this).text())' onblur='todo_edited_content($(this).text())'></div>`;
+        var task = `<div class='task' id=${todo_id} ></div>`;
 
         //delete
         var del = $("<i class='fas fa-trash-alt'></i>").click(function () {
@@ -81,7 +80,6 @@ function get_todo() {
         });
 
         //check
-
         var check = $("<i class='fas fa-check'></i>").click(function () {
           var p = $(this).parent();
 
@@ -248,17 +246,13 @@ function get_todo() {
         });
 
         // del,check,star,cal,calendar
+        console.log('content : ', content);
+        var task = $(task).html(`<span class='content' contentEditable='true' onfocus='todo_initial_content($(this).text())' onblur='todo_edited_content($(this).text(), ${todo_id})'>${content}</span>`);
+        task.append(del, check, star, cal, calendar);
 
         if (status === false) {
-          var task = $(task).text(content);
-          console.log(task[0]);
-          task.append(del, check, star, cal, calendar);
-          console.log(task[0]);
           $(".notcomp").append(task);
         } else {
-          var task = $(task).text(content);
-          task.append(del, check, star, cal, calendar);
-          console.log(task);
           $(".comp").append(task);
         }
 
@@ -343,13 +337,10 @@ $(".txtb").on("keyup", function (e) {
         return type.json();
       })
       .then(function (result) {
-        console.log(result);
-        console.log(result.result["todo_id"]);
         var todo_id = result.result["todo_id"];
 
-        var task = `<div class='task' contentEditable='true' id=${todo_id} onfocus='todo_initial_content($(this).text())' onblur='todo_edited_content($(this).text())'></div>`;
-        var task = $(task).text(new_task_content);
-        console.log(task);
+        var task = `<div class='task' id=${todo_id} ></div>`;
+        var task = $(task).html(`<span class='content' contentEditable='true' onfocus='todo_initial_content($(this).text())' onblur='todo_edited_content($(this).text(), ${todo_id})'>${new_task_content}</span>`);
 
         //delete
         var del = $("<i class='fas fa-trash-alt'></i>").click(function () {
@@ -541,15 +532,14 @@ function todo_initial_content(value) {
 }
 
 //todo_edited_content
-function todo_edited_content(value) {
+function todo_edited_content(value, todo_id) {
   var edited_content = value.replace(/~/g, "");
-  console.log(edited_content);
-  console.log(initial_content);
+  console.log('edited_content : ', edited_content);
+  console.log('initial_content : ', initial_content);
 
   if (edited_content !== initial_content) {
     console.log("New data when content change.");
-    var todo_id = $(this).attr("id");
-    console.log(todo_id);
+    console.log('todo_id : ', todo_id);
 
     var url = "/todo/" + category_id;
 
