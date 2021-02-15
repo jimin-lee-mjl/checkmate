@@ -17,17 +17,65 @@ console.log(category_color);
 
 //get category_name
 $(document).ready(get_category_name());
-
-//get todo
 get_todo();
+get_color();
 
+//get category_name
 function get_category_name() {
   console.log("category_name : " + category_name);
   document.querySelector("header").innerHTML = `
-          <h1 class="screen-header__title" id="category_title" contentEditable="true" style="color:${category_color}">${category_name}</h1>
+          <h1 class="screen-header__title" id="category_title" contentEditable="true" style="color:#${category_color};">${category_name}</h1>
           <span id="span_category_delete_btn" style="margin-left:10px; display:none;"><i class="fas fa-trash-alt" id="category_delete_btn"></i></span>
         `;
 }
+
+//get category_color
+function get_color() {
+  console.log(category_color);
+  document.querySelector(".color_picker").innerHTML = `
+    <input id='color_picker' type='color' value='#${category_color}'>
+  `;
+}
+
+$(document).ready(function() {
+  $("#color_picker_btn").click(function() { 
+      $(".color_picker").toggle();
+  });
+});
+
+//update category_color => PUT
+$("#color_picker").change(function(){
+  new_category_color = $("#color_picker").val().replace('#', '');
+  console.log(new_category_color);
+  var url = "/todo/";
+
+  fetch(url, {
+    method: "PUT",
+    body: JSON.stringify({
+      category_id: category_id,
+      color: new_category_color
+    }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then(function (type) {
+      return type.json();
+    })
+    .then(function (result) {
+      console.log(result);
+      console.log(result.result.color)
+      console.log(location.href);
+      
+      var oldUrl = new URL(location.href);
+      var params = new URLSearchParams(oldUrl.search);
+      params.set('category_color', result.result.color);
+      var newURL = params.toString();
+      console.log(newURL);
+
+      location.href = "tasks?"+ newURL;
+    });
+});
 
 //get todo -> GET
 function get_todo() {
@@ -127,7 +175,6 @@ function get_todo() {
         });
 
         //calendar
-        var isClicked = true;
         var isCalClicked = true;
         var cal =
           "<span style='display:none;'><input class='cal' style='margin-left: 10px;' type='text' id='from_" +
@@ -359,8 +406,6 @@ $("#category_title")
         }); 
     }
   });
-
-var isClicked = true;
 
 // enter 키 -> task 추가 -> POST
 $(".txtb").on("keyup", function (e) {
