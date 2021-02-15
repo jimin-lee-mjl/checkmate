@@ -20,7 +20,7 @@ class Category(db.Model):
       id = db.Column(db.Integer, primary_key=True)
       name = db.Column(db.String(45), nullable=False)
       color = db.Column(db.String(45))
-      user_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=True)
+      user_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=False)
 
 class TodoList(db.Model):
       id = db.Column(db.Integer, primary_key=True)
