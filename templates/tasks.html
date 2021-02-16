@@ -1,17 +1,17 @@
 {% extends 'sidebar.html' %} {% block header %}
 <title>✍Todolist</title>
-<link
-  rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.css"
-/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.css"/>
 <link rel="stylesheet" href="{{ url_for('static', filename='tasks.css') }}" />
-<link
-  rel="stylesheet"
-  href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
-/>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
+
 {% endblock %} {% block content %}
 <div>
+  <div class="color_picker_div" style="position: absolute; right: 110px; top: 40px; align-items: center; justify-content: center;">
+    <i type="button" class="fas fa-palette" id="color_picker_btn"style="font-size: 40px; padding-bottom: 10px; color: #371F54;"></i>
+    <div class="color_picker" style="display: none;"></div>
+  </div>
   <header class="screen-header"></header>
+
   <div class="container">
     <input type="text" class="txtb" placeholder="➕ Add a task" />
 

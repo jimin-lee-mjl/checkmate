@@ -51,13 +51,15 @@ function create_personal_list() {
 
   // create new list -> post to db
   var url = "/todo/";
-  var randomColor = Math.floor(Math.random() * 16777215).toString(16);
+  var randomColor = "#".concat(
+    Math.floor(Math.random() * 16777215).toString(16)
+  );
 
   fetch(url, {
     method: "POST",
     body: JSON.stringify({
       name: "New_list",
-      color: randomColor
+      color: randomColor,
     }),
     headers: {
       "Content-Type": "application/json",
@@ -68,8 +70,12 @@ function create_personal_list() {
     })
     .then(function (result) {
       console.log(result);
-      console.log(result.result.id);
-      window.location.reload();
+      var id = result.result.id;
+      var name = result.result.name;
+      var color = result.result.color;
+      new_url = `tasks?category_id=${id}&category_name=${name}&category_color=${color}`;
+      console.log(new_url);
+      window.location.href = new_url;
     });
 }
 
