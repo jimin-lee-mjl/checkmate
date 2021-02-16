@@ -68,8 +68,12 @@ function create_personal_list() {
     })
     .then(function (result) {
       console.log(result);
-      console.log(result.result.id);
-      window.location.reload();
+      var id = result.result.id;
+      var name = result.result.name;
+      var color = result.result.color;
+      new_url = `tasks?category_id=${id}&category_name=${name}&category_color=${color}`;
+      console.log(new_url);
+      window.location.href = new_url;
     });
 }
 
