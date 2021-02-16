@@ -3,9 +3,9 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash
 from flask_login import UserMixin
 from config import DB_CONNECT
-from sqlalchemy.orm import relationship
+from datetime import date
 
-current_app.config["SQLALCHEMY_DATABASE_URI"] = f"mysql://{DB_CONNECT['username']}:{DB_CONNECT['password']}@{DB_CONNECT['server']}:3306/{DB_CONNECT['dbname']}"
+current_app.config["SQLALCHEMY_DATABASE_URI"] = f"mysql://{DB_CONNECT['username']}:{DB_CONNECT['password']}@{DB_CONNECT['server']}:3306/{DB_CONNECT['dbname']}?charset=utf8"
 current_app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(current_app)
 
@@ -20,7 +20,8 @@ class Category(db.Model):
       id = db.Column(db.Integer, primary_key=True)
       name = db.Column(db.String(45), nullable=False)
       color = db.Column(db.String(45))
-      user_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=True)
+      user_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=False)
+      todos = db.relationship('TodoList', backref='_category', passive_deletes=True)
 
 class TodoList(db.Model):
       id = db.Column(db.Integer, primary_key=True)
@@ -30,19 +31,21 @@ class TodoList(db.Model):
       status = db.Column(db.Boolean, default=False)
       important = db.Column(db.Boolean, default=False)
       user_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=False)
-      category_id = db.Column(db.Integer,db.ForeignKey(Category.id), default=1)
-      category = relationship("Category")
+      category_id = db.Column(db.Integer,db.ForeignKey(Category.id, ondelete='CASCADE'), default=1)
+      category = db.relationship("Category")
 # status -> doing:false(0), done:true(1)
 
 def init_db():
       db.init_app(current_app)
       db.drop_all()
       db.create_all()
-      sample_user = User(username="lana", email="lana@lana.com", password=generate_password_hash('lanalana', method='sha256'))
+      sample_user = User(
+            username="lana", email="lana@lana.com", password=generate_password_hash('lanalana', method='sha256')
+      )
       db.session.add(sample_user)
       db.session.commit()
-      sample_category = Category(name="mine", user_id=1)
-      sample_category2 = Category(name="hola", user_id=1)
+      sample_category = Category(name="mine", color="#82589F", user_id=1)
+      sample_category2 = Category(name="hola", color="#FFC312", user_id=1)
       db.session.add(sample_category)
       db.session.add(sample_category2)
       db.session.commit()

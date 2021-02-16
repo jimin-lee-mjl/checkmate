@@ -17,10 +17,10 @@ console.log(category_color);
 
 //get category_name
 $(document).ready(get_category_name());
-
-//get todo
 get_todo();
+get_color();
 
+//get category_name
 function get_category_name() {
   console.log("category_name : " + category_name);
   document.querySelector("header").innerHTML = `
@@ -84,6 +84,7 @@ function get_todo() {
         var todo_id = result[i].id;
         var content = result[i].content;
         var status = result[i].status;
+        var important = result[i].important;
 
         var task = `<div class='task' id=${todo_id} ></div>`;
 
@@ -228,22 +229,22 @@ function get_todo() {
           }
 
         });
-
+        
         //star
         var star = $(
-          `<span id='star_${todo_id}'><i class='far fa-star'></i></span>`
+          `<span class='important' id='star_${todo_id}'><i class='far fa-star'></i></span>`
         ).click(function () {
           var p = $(this).parent();
 
-          if (isClicked) {
+          if (important_clicked == false) {
             $(this)
               .children(".fa-star")
               .removeClass("far fa-star")
               .addClass("fas fa-star");
             p.css("background", "#371F54");
-            isClicked = false;
-            console.log(isClicked);
-            var important = 0;
+            important_clicked = true;
+            console.log(important_clicked);
+            var important = 1;
             console.log(important);
           } else {
             $(this)
@@ -251,9 +252,9 @@ function get_todo() {
               .removeClass("fas fa-star")
               .addClass("far fa-star");
             p.css("background", "#81589f9d");
-            isClicked = true;
-            console.log(isClicked);
-            var important = 1;
+            important_clicked = false;
+            console.log(important_clicked);
+            var important = 0;
             console.log(important);
           }
 
@@ -262,7 +263,7 @@ function get_todo() {
           console.log(important);
           console.log(todo_id);
 
-          //update task status
+          //update task important
           var url = "/todo/" + category_id;
           console.log(url);
           fetch(url, {
@@ -292,6 +293,33 @@ function get_todo() {
           $(".notcomp").append(task);
         } else {
           $(".comp").append(task);
+        }
+
+        //get important
+        console.log(star);
+        var p = $(star).parent();
+        console.log(p);
+
+        if (important) {
+          $(star)
+            .children(".fa-star")
+            .removeClass("far fa-star")
+            .addClass("fas fa-star");
+          p.css("background", "#371F54");
+          important_clicked = true;
+          console.log(important_clicked);
+          var important = 1;
+          console.log(important);
+        } else {
+          $(star)
+            .children(".fa-star")
+            .removeClass("fas fa-star")
+            .addClass("far fa-star");
+          p.css("background", "#81589f9d");
+          important_clicked = false;
+          console.log(important_clicked);
+          var important = 0;
+          console.log(important);
         }
 
         fn_init(todo_id);
@@ -497,22 +525,22 @@ $(".txtb").on("keyup", function (e) {
 
         });
 
-        var isClicked = true;
+        var important_clicked = false;
         //star
         var star = $(
           `<span id='star_${todo_id}'><i class='far fa-star'></i></span>`
         ).click(function () {
           var p = $(this).parent();
 
-          if (isClicked) {
+          if (important_clicked == false) {
             $(this)
               .children(".fa-star")
               .removeClass("far fa-star")
               .addClass("fas fa-star");
             p.css("background", "#371F54");
-            isClicked = false;
-            console.log(isClicked);
-            var important = 0;
+            important_clicked = true;
+            console.log(important_clicked);
+            var important = 1;
             console.log(important);
           } else {
             $(this)
@@ -520,9 +548,9 @@ $(".txtb").on("keyup", function (e) {
               .removeClass("fas fa-star")
               .addClass("far fa-star");
             p.css("background", "#81589f9d");
-            isClicked = true;
-            console.log(isClicked);
-            var important = 1;
+            important_clicked = false;
+            console.log(important_clicked);
+            var important = 0;
             console.log(important);
           }
 
@@ -531,14 +559,14 @@ $(".txtb").on("keyup", function (e) {
           console.log(important);
           console.log(todo_id);
 
-          //update task status
+          //update task important
           var url = "/todo/" + category_id;
           console.log(url);
           fetch(url, {
             method: "PUT",
             body: JSON.stringify({
               todo_id: todo_id,
-              important: important,
+              important: important
             }),
             headers: {
               "Content-Type": "application/json",
