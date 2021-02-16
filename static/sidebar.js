@@ -72,7 +72,9 @@ function create_personal_list() {
       console.log(result);
       var id = result.result.id;
       var name = result.result.name;
-      var color = result.result.color;
+      var color = result.result.color.replace('#', '');
+      console.log(color);
+
       new_url = `tasks?category_id=${id}&category_name=${name}&category_color=${color}`;
       console.log(new_url);
       window.location.href = new_url;
@@ -122,7 +124,7 @@ function get_category() {
       for (var i = 0; i < result.length; i++) {
         var name = result[i].name;
         var id = result[i].id;
-        var color = result[i].color;
+        var color = result[i].color.replace('#', '');
         console.log(name);
 
         // get titles
