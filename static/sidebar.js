@@ -75,9 +75,14 @@ function create_personal_list() {
       var color = result.result.color.replace('#', '');
       console.log(color);
 
-      new_url = `tasks?category_id=${id}&category_name=${name}&category_color=${color}`;
+      var now_url = new URL(location.href);
+      var base_url = now_url.origin;
+      console.log(now_url);
+      console.log(base_url);
+
+      new_url = `/tasks?category_id=${id}&category_name=${name}&category_color=${color}`;
       console.log(new_url);
-      window.location.href = new_url;
+      window.location.href = base_url+new_url;
     });
 }
 
