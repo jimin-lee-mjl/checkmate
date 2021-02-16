@@ -38,7 +38,9 @@ def init_db():
       db.init_app(current_app)
       db.drop_all()
       db.create_all()
-      sample_user = User(username="lana", email="lana@lana.com", password=generate_password_hash('lanalana', method='sha256'))
+      sample_user = User(
+            username="lana", email="lana@lana.com", password=generate_password_hash('lanalana', method='sha256')
+      )
       db.session.add(sample_user)
       db.session.commit()
       sample_category = Category(name="mine", user_id=1)
