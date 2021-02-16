@@ -1,27 +1,4 @@
 // delete request
-function deleteTodos(url, category_id) {
-  fetch(url+category_id)
-    .then(function(type) {
-      return type.json();
-    })
-      .then(function(result) {
-        const todos = result.result;
-        for (let i=0; i<todos.length; i++) {
-          const option = {
-            method: "DELETE",
-            body: JSON.stringify({
-              todo_id: todos[i].id,
-            }),
-            headers: {
-              "Content-Type": "application/json",
-            },
-          };
-
-          fetch(url+category_id, option)
-        }
-      })
-}
-
 function deleteCategory(url, category_id) {
   const option = {
     method: "DELETE",
@@ -53,7 +30,6 @@ function handleDelCategoryBtn() {
   
   if (delCategoryBtn) {
     delCategoryBtn.addEventListener("click", function() {
-      deleteTodos(URL, category_id);
       deleteCategory(URL, category_id);
     })
   }

@@ -13,7 +13,7 @@ app.config['SECRET_KEY'] = SECRET_KEY
 @app.route('/') 
 @login_required
 def dashboard():
-  return render_template('dashboard.html')
+  return dash.print_dashboard()
 
 @app.route('/tasks') 
 @login_required
