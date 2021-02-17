@@ -45,7 +45,7 @@ $(document).ready(function() {
 
 //update category_color => PUT
 $("#color_picker").change(function(){
-  new_category_color = $("#color_picker").val().replace('#', '');
+  new_category_color = $("#color_picker").val();
   console.log(new_category_color);
   var url = "/todo/";
 
@@ -64,12 +64,14 @@ $("#color_picker").change(function(){
     })
     .then(function (result) {
       console.log(result);
-      console.log(result.result.color)
+      console.log(result.result.color);
       console.log(location.href);
+      
+      var color = result.result.color.replace('#', '');
       
       var oldUrl = new URL(location.href);
       var params = new URLSearchParams(oldUrl.search);
-      params.set('category_color', result.result.color);
+      params.set('category_color', color);
       var newURL = params.toString();
       console.log(newURL);
 
