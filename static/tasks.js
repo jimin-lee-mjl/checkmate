@@ -24,25 +24,21 @@ get_color();
 function get_category_name() {
   console.log("category_name : " + category_name);
   document.querySelector("header").innerHTML = `
-          <h1 class="screen-header__title" id="category_title" contentEditable="true" style="color:#${category_color};">${category_name}</h1>
+          <input class='screen-header__title' type='text' id="category_title" value='${category_name}' style="color:${category_color}" />
           <span id="span_category_delete_btn" style="margin-left:10px; display:none;"><i class="fas fa-trash-alt" id="category_delete_btn"></i></span>
         `;
 }
 
-//get category_color
-function get_color() {
-  console.log(category_color);
-  document.querySelector(".color_picker").innerHTML = `
-    <input id='color_picker' type='color' value='#${category_color}'>
-  `;
-}
+$('#category_title').css('width', $('#category_title').val().length * 20 + 50);
+$('#category_title').keyup(resizeInput);
 
-$(document).ready(function() {
-  $("#color_picker_btn").click(function() { 
-      $(".color_picker").toggle();
-  });
-});
+function resizeInput() {
+  $(this).css('width', $(this).val().length * 20 + 50);
+  
+  if (event.keyCode == 13 && $("#category_title").val() != "") {
+      var url = "/todo/";
 
+<<<<<<< HEAD
 //update category_color => PUT
 $("#color_picker").change(function(){
   new_category_color = $("#color_picker").val();
@@ -78,6 +74,36 @@ $("#color_picker").change(function(){
       location.href = "tasks?"+ newURL;
     });
 });
+=======
+      fetch(url, {
+        method: "PUT",
+        body: JSON.stringify({
+          category_id: category_id,
+          name: $("#category_title").val(),
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then(function (type) {
+          return type.json();
+        })
+        .then(function (result) {
+          console.log(result);
+          console.log(result.result.name)
+          console.log(location.href);
+          
+          var oldUrl = new URL(location.href);
+          var params = new URLSearchParams(oldUrl.search);
+          params.set('category_name', result.result.name);
+          var newURL = params.toString();
+          console.log(newURL);
+
+          location.href = "tasks?"+ newURL;
+        }); 
+  }
+}
+>>>>>>> cd1b68e0043108458bc4e43d87c90673e088d139
 
 //get todo -> GET
 function get_todo() {
@@ -92,7 +118,6 @@ function get_todo() {
       console.log(result);
 
       // get content
-
       for (var i = 0; i < result.length; i++) {
         var todo_id = result[i].id;
         var content = result[i].content;
@@ -131,6 +156,7 @@ function get_todo() {
         });
 
         //check
+
         var check = $("<i class='fas fa-check'></i>").click(function () {
           var p = $(this).parent();
 
@@ -298,7 +324,7 @@ function get_todo() {
 
         // del,check,star,cal,calendar
         console.log('content : ', content);
-        var task = $(task).html(`<span class='content' contentEditable='true' onfocus='todo_initial_content($(this).text())' onblur='todo_edited_content($(this).text(), ${todo_id})'>${content}</span>`);
+        var task = $(task).html(`<input class='content' type='text' value='${content}' onkeyup='contentKeyup($(this).val(), ${todo_id})' onfocus='todo_initial_content($(this).val())' onblur='todo_edited_content($(this).val(), ${todo_id})'/>`);
         task.append(del, check, star, cal, calendar);
 
         if (status === false) {
@@ -342,9 +368,9 @@ function get_todo() {
 // edit_category_title -> PUT
 $("#category_title")
   .focus(function () {
-    $(this).data("initialText", $(this).html());
-    console.log($("#category_title").html());
-    $("#span_category_delete_btn").css("display", "");
+    $(this).data("initialText", $(this).val());
+    console.log($("#category_title").val());
+    $("#span_category_delete_btn").css("display", "");    
   })
   // When you leave an item...
   .blur(function () {
@@ -352,12 +378,12 @@ $("#category_title")
 
     $("#span_category_delete_btn").delay(3000).fadeOut();
 
-    if ($(this).data("initialText") !== $(this).html()) {
+    if ($(this).data("initialText") !== $(this).val()) {
       // ... do something.
       console.log("New data when content change.");
-      console.log($(this).html());
+      console.log($(this).val());
 
-      var category_title = $(this).html();
+      var category_title = $(this).val();
       console.log(category_title);
       console.log(category_id);
       var url = "/todo/";
@@ -391,6 +417,12 @@ $("#category_title")
     }
   });
 
+function contentKeyup(val, todo_id) {
+  if (event.keyCode == 13 && $(".content").val() != "") {
+    todo_edited_content(val, todo_id);
+  }
+}
+
 // enter 키 -> task 추가 -> POST
 $(".txtb").on("keyup", function (e) {
   //13  means enter button
@@ -416,7 +448,7 @@ $(".txtb").on("keyup", function (e) {
         var todo_id = result.result["todo_id"];
 
         var task = `<div class='task' id=${todo_id} ></div>`;
-        var task = $(task).html(`<span class='content' contentEditable='true' onfocus='todo_initial_content($(this).text())' onblur='todo_edited_content($(this).text(), ${todo_id})'>${new_task_content}</span>`);
+        var task = $(task).html(`<input class='content' type='text' value='${new_task_content}' onkeyup='contentKeyup($(this).val(), ${todo_id})' onfocus='todo_initial_content($(this).val())' onblur='todo_edited_content($(this).val(), ${todo_id})'/>`);
 
         //delete
         var del = $("<i class='fas fa-trash-alt'></i>").click(function () {
@@ -810,57 +842,3 @@ var del = $("<i class='fas fa-trash-alt'></i>").click(function () {
       console.log(result);
     });
 });
-
-// star 선언
-var star = $(`<span id='star_${id}'><i class='far fa-star'></i></span>`).click(
-  function () {
-    var p = $(this).parent();
-
-    if (isClicked) {
-      $(this)
-        .children(".fa-star")
-        .removeClass("far fa-star")
-        .addClass("fas fa-star");
-      p.css("background", "#371F54");
-      isClicked = false;
-      console.log(isClicked);
-      var important = 0;
-      console.log(important);
-    } else {
-      $(this)
-        .children(".fa-star")
-        .removeClass("fas fa-star")
-        .addClass("far fa-star");
-      p.css("background", "#81589f9d");
-      isClicked = true;
-      console.log(isClicked);
-      var important = 1;
-      console.log(important);
-    }
-
-    var todo_id = p.attr("id");
-    console.log(p);
-    console.log(important);
-    console.log(todo_id);
-
-    //update task status
-    var url = "/todo/" + category_id;
-    console.log(url);
-    fetch(url, {
-      method: "PUT",
-      body: JSON.stringify({
-        todo_id: todo_id,
-        important: important,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then(function (type) {
-        return type.json();
-      })
-      .then(function (result) {
-        console.log(result);
-      });
-  }
-);
