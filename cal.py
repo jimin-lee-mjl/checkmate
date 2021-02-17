@@ -39,6 +39,5 @@ def get_todo_cal():
             "important": is_important,
             "color" : todoList.category.color
         }
-        print(todoList.start_date.strftime("%Y-%m-%d"))
         a.append((hi))
     return json.dumps(a)
