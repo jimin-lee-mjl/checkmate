@@ -4,7 +4,7 @@ from db import TodoList, db
 from flask import jsonify,Blueprint, render_template
 from flask_mysqldb import MySQL,MySQLdb #pip install flask-mysqldb https://github.com/alexferl/flask-mysqldb
 from flask_login import current_user, login_required
-from datetime import datetime
+from datetime import datetime,timedelta
 
 bp = Blueprint("dashboard", __name__, url_prefix="/dashboard")
 
@@ -70,16 +70,17 @@ def get_important_todo():
 
 def get_upcoming_todo(): 
     todoListCal = TodoList.query.filter_by(user_id=current_user.id).all()
-    today_date = int(datetime.now().strftime("%Y%m%d"))
+    today_date = datetime.now().strftime("%Y%m%d")
+    day_before = (datetime.now()-timedelta(days=1)).strftime("%Y%m%d")
     a = []
     for todoList in todoListCal:
         end_date = todoList.end_date
         if todoList.status == 0 and end_date != None:
-            if int(str(end_date).replace('-','')) == today_date or int(str(end_date).replace('-','')) == today_date-1:
+            if str(end_date).replace('-','') == today_date or str(end_date).replace('-','')== day_before:
                 hi = {
-                "title":todoList.content,
-                "start": todoList.start_date,
-                "end":todoList.end_date
+                    "title":todoList.content,
+                    "start": todoList.start_date,
+                    "end":todoList.end_date
                 }
                 a.append((hi))
     return a

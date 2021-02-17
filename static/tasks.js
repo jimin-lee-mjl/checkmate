@@ -24,7 +24,7 @@ get_color();
 function get_category_name() {
   console.log("category_name : " + category_name);
   document.querySelector("header").innerHTML = `
-          <input class='screen-header__title' type='text' id="category_title" value='${category_name}' style="color:${category_color}" />
+          <input class='screen-header__title' type='text' id="category_title" value='${category_name}' style="color:#${category_color}" />
           <span id="span_category_delete_btn" style="margin-left:10px; display:none;"><i class="fas fa-trash-alt" id="category_delete_btn"></i></span>
         `;
 }
@@ -37,8 +37,24 @@ function resizeInput() {
   
   if (event.keyCode == 13 && $("#category_title").val() != "") {
       var url = "/todo/";
+  }
+}
 
-<<<<<<< HEAD
+//get category_color
+function get_color() {
+  console.log(category_color);
+  document.querySelector(".color_picker").innerHTML = `
+    <input id='color_picker' type='color' value='#${category_color}'>
+  `;
+}
+
+$(document).ready(function() {
+  $("#color_picker_btn").click(function() { 
+      $(".color_picker").toggle();
+  });
+});
+
+
 //update category_color => PUT
 $("#color_picker").change(function(){
   new_category_color = $("#color_picker").val();
@@ -74,36 +90,6 @@ $("#color_picker").change(function(){
       location.href = "tasks?"+ newURL;
     });
 });
-=======
-      fetch(url, {
-        method: "PUT",
-        body: JSON.stringify({
-          category_id: category_id,
-          name: $("#category_title").val(),
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then(function (type) {
-          return type.json();
-        })
-        .then(function (result) {
-          console.log(result);
-          console.log(result.result.name)
-          console.log(location.href);
-          
-          var oldUrl = new URL(location.href);
-          var params = new URLSearchParams(oldUrl.search);
-          params.set('category_name', result.result.name);
-          var newURL = params.toString();
-          console.log(newURL);
-
-          location.href = "tasks?"+ newURL;
-        }); 
-  }
-}
->>>>>>> cd1b68e0043108458bc4e43d87c90673e088d139
 
 //get todo -> GET
 function get_todo() {
