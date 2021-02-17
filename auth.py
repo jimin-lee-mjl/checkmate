@@ -51,7 +51,7 @@ def signup():
             new_user = User(username = form.username.data, email = form.email.data, password = hashed_pw)
             db.session.add(new_user)
             db.session.commit()
-            new_category = Category(name='New_list', user_id=new_user.id)
+            new_category = Category(name='New_list', user_id=new_user.id, color='#82589F')
             db.session.add(new_category)
             db.session.commit()
             return redirect(url_for('auth.login'))
