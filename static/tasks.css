@@ -33,6 +33,7 @@ header{
 
 .container{
   max-width: 800px;
+  min-width: 800px;
   margin: auto;
   padding: 10px;
 }
@@ -53,7 +54,7 @@ header{
   outline: none;
   color: white;
   font-size: 90%;
-  width: 34%;
+  width: 51%;
 }
 
 h3{
