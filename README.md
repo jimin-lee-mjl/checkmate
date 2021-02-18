@@ -1,5 +1,7 @@
 # 프로젝트 소개
 
+### [프로젝트 주소로 이동](http://20.194.22.157/)
+
 ### [기획서 링크](https://kdt-gitlab.elice.io/Jungin/mini-project2/-/wikis/%EA%B8%B0%ED%9A%8D%EC%84%9C)
  
 ### 개발 환경
