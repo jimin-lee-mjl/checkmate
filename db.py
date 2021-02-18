@@ -17,14 +17,14 @@ class User(UserMixin, db.Model):
 
 class Category(db.Model):
       id = db.Column(db.Integer, primary_key=True)
-      name = db.Column(db.String(45), nullable=False)
-      color = db.Column(db.String(45))
+      name = db.Column(db.String(10), nullable=False)
+      color = db.Column(db.String(20))
       user_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=False)
       todos = db.relationship('TodoList', backref='_category', passive_deletes=True)
 
 class TodoList(db.Model):
       id = db.Column(db.Integer, primary_key=True)
-      content = db.Column(db.Text, default="To do something")
+      content = db.Column(db.String(20), default="To do something")
       start_date = db.Column(db.Date, default=db.func.now())
       end_date = db.Column(db.Date, nullable=True)
       status = db.Column(db.Boolean, default=False)
