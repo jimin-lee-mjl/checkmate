@@ -3,7 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, login_user, logout_user, login_required
 from authlib.integrations.flask_client import OAuth
 from form import LoginForm, SignupForm
-from db import User, db, Category
+from db import User, db, Category, createTutorial
 from config import OAUTH_CONFIG
 
 oauth = OAuth(current_app)
@@ -51,7 +51,8 @@ def signup():
             new_user = User(username = form.username.data, email = form.email.data, password = hashed_pw)
             db.session.add(new_user)
             db.session.commit()
-            new_category = Category(name='New_list', user_id=new_user.id, color='#82589F')
+            createTutorial(new_user.id)
+            new_category = Category(name='New_list', user_id=new_user.id, color='#FFC312')
             db.session.add(new_category)
             db.session.commit()
             return redirect(url_for('auth.login'))
