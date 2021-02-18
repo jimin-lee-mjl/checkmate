@@ -24,16 +24,22 @@ get_color();
 function get_category_name() {
   console.log("category_name : " + category_name);
   document.querySelector("header").innerHTML = `
-          <input class='screen-header__title' type='text' id="category_title" value='${category_name}' style="color:#${category_color}" />
-          <span id="span_category_delete_btn" style="margin-left:10px; display:none;"><i class="fas fa-trash-alt" id="category_delete_btn"></i></span>
+          <input class='screen-header__title' type='text' id="category_title" value='${category_name}' style="color:#${category_color}" maxlength='10' />
+          <span id="span_category_delete_btn" style="margin-left:10px; cursor:pointer; display:none;"><i class="fas fa-trash-alt" id="category_delete_btn"></i></span>
+
         `;
 }
 
-$('#category_title').css('width', $('#category_title').val().length * 20 + 50);
+
+$('#category_title').css('width', $('#category_title').val().length * 23 + 50);
 $('#category_title').keyup(resizeInput);
 
 function resizeInput() {
   $(this).css('width', $(this).val().length * 20 + 50);
+
+  if ($(this).val().length > $(this).attr('maxlength')) {
+    $(this).val($(this).val().substr(0, $(this).attr('maxlength')));
+  }
   
   if (event.keyCode == 13 && $("#category_title").val() != "") {
       var url = "/todo/";
@@ -310,7 +316,7 @@ function get_todo() {
 
         // del,check,star,cal,calendar
         console.log('content : ', content);
-        var task = $(task).html(`<input class='content' type='text' value='${content}' onkeyup='contentKeyup($(this).val(), ${todo_id})' onfocus='todo_initial_content($(this).val())' onblur='todo_edited_content($(this).val(), ${todo_id})'/>`);
+        var task = $(task).html(`<input class='content' type='text' value='${content}' onkeyup='contentKeyup($(this).val(), ${todo_id})' onfocus='todo_initial_content($(this).val())' onblur='todo_edited_content($(this).val(), ${todo_id})' maxlength='20' />`);
         task.append(del, check, star, cal, calendar);
 
         if (status === false) {
@@ -404,6 +410,12 @@ $("#category_title")
   });
 
 function contentKeyup(val, todo_id) {
+  var content = $(`#${todo_id}`).children('input.content');
+
+  if (content.val().length > content.attr('maxlength')) {
+    content.val(content.val().substr(0, content.attr('maxlength')));
+  }
+
   if (event.keyCode == 13 && $(".content").val() != "") {
     todo_edited_content(val, todo_id);
   }
@@ -411,6 +423,10 @@ function contentKeyup(val, todo_id) {
 
 // enter 키 -> task 추가 -> POST
 $(".txtb").on("keyup", function (e) {
+  if ($(".txtb").val().length > $(".txtb").attr('maxlength')) {
+    $(".txtb").val($(".txtb").val().substr(0, $(".txtb").attr('maxlength')));
+  }
+
   //13  means enter button
   if (e.keyCode == 13 && $(".txtb").val() != "") {
     var new_task_content = $(".txtb").val();
