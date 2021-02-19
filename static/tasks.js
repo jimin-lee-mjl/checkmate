@@ -30,7 +30,6 @@ function get_category_name() {
         `;
 }
 
-
 $('#category_title').css('width', $('#category_title').val().length * 23 + 50);
 $('#category_title').keyup(resizeInput);
 
@@ -316,7 +315,7 @@ function get_todo() {
 
         // del,check,star,cal,calendar
         console.log('content : ', content);
-        var task = $(task).html(`<input class='content' type='text' value='${content}' onkeyup='contentKeyup($(this).val(), ${todo_id})' onfocus='todo_initial_content($(this).val())' onblur='todo_edited_content($(this).val(), ${todo_id})' maxlength='20' />`);
+        var task = $(task).html(`<input class='content' type='text' value='${content}' onkeyup='contentKeyup($(this).val(), ${todo_id})' onfocus='todo_initial_content($(this).val())' onblur='todo_edited_content($(this).val(), ${todo_id})' maxlength='30' />`);
         task.append(del, check, star, cal, calendar);
 
         if (status === false) {
@@ -450,7 +449,7 @@ $(".txtb").on("keyup", function (e) {
         var todo_id = result.result["todo_id"];
 
         var task = `<div class='task' id=${todo_id} ></div>`;
-        var task = $(task).html(`<input class='content' type='text' value='${new_task_content}' onkeyup='contentKeyup($(this).val(), ${todo_id})' onfocus='todo_initial_content($(this).val())' onblur='todo_edited_content($(this).val(), ${todo_id})'/>`);
+        var task = $(task).html(`<input class='content' type='text' value='${new_task_content}' onkeyup='contentKeyup($(this).val(), ${todo_id})' onfocus='todo_initial_content($(this).val())' onblur='todo_edited_content($(this).val(), ${todo_id})' maxlength='30' />`);
 
         //delete
         var del = $("<i class='fas fa-trash-alt'></i>").click(function () {
@@ -677,6 +676,7 @@ function fn_init(id) {
   var setSdate, setEdate;
   $("#from_" + id).datepicker({
     dateFormat: "yy-mm-dd",
+    autoSize: true,
     minDate: 0,
     onSelect: function (selectDate) {
       var stxt = selectDate.split("-");
@@ -731,6 +731,7 @@ function fn_init(id) {
 
   $("#to_" + id).datepicker({
     dateFormat: "yy-mm-dd",
+    autoSize: true,
     minDate: 0,
     onSelect: function (selectDate) {
       setEdate = selectDate;
