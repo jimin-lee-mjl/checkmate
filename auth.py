@@ -52,9 +52,6 @@ def signup():
             db.session.add(new_user)
             db.session.commit()
             createTutorial(new_user.id)
-            new_category = Category(name='New_list', user_id=new_user.id, color='#FFC312')
-            db.session.add(new_category)
-            db.session.commit()
             return redirect(url_for('auth.login'))
     return render_template('signup.html', form=form)
 
