@@ -1,7 +1,10 @@
 {% extends 'sidebar.html' %} {% block content %}
-
-<title>Dashboard</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='dash.css') }}" />
+<script>
+  setTitle();
+  function setTitle(){document.title="Checkmate | Dashbaord";}
+</script>
+
 <body class=body>
   <!-- 랜덤메세지 -->
   <div class="today"></div>
