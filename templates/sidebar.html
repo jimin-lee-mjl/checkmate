@@ -9,9 +9,9 @@
 
     {% block header %}{% endblock %}
     <link rel="stylesheet" href="{{ url_for('static', filename='sidebar.css') }}"/>
-    <title>Sidebar sub menus</title>
     <link rel="shortcut icon" href={{url_for('static', filename='favicon.ico')}} type="image/x-icon">
     <link rel="icon" href={{url_for('static', filename='favicon.ico')}} type="image/x-icon">
+    <title>CheckMate</title>
   </head>
   <body id="body-pd">
     <div class="l-navbar expander" id="navbar">
@@ -23,7 +23,7 @@
               class="nav__toggle"
               id="nav-toggle"
             ></ion-icon>
-            <a href="#" class="nav__logo">TO DO LIST</a>
+            <a href="#" class="nav__logo">CHECKMATE</a>
           </div>
           <div class="nav__list">
             <a href="#" class="nav__link active" onclick="location.href='/dashboard'">
@@ -48,17 +48,17 @@
 
             <hr size="1" color="white" noshade />
 
-            <!-- 설정 -->
-            <!-- <a href="#" class="nav__link">
-              <ion-icon name="settings-outline" class="nav__icon"></ion-icon>
-              <span class="nav__name">Settings</span>
-            </a> -->
           </div>
         </div>
         <div>
+
           <a href="#" class="nav__link" id="profile" onclick="location.href='/myprofile'">
             <ion-icon name="person-circle-outline" class="nav__icon"></ion-icon>
             <span class="nav__name">My profile</span>
+          </a>
+          <a href="#" class="nav__link" id="feedback" onclick="location.href='/feedback'">
+            <ion-icon name="chatbox-ellipses-outline" class="nav__icon"></ion-icon>
+            <span class="nav__name">Feedback</span>
           </a>
           <a href="#" class="nav__link" onclick="location.href='/auth/logout'">
             <ion-icon name="log-out-outline" class="nav__icon"></ion-icon>

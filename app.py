@@ -29,6 +29,11 @@ def return_data():
 def myprofile():
   return render_template('profile.html')
 
+@app.route('/feedback') 
+@login_required
+def feedback():
+  return render_template('feedback.html')
+
 with app.app_context():
   import db
   db.init_db()
