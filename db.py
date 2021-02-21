@@ -3,8 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash
 from flask_login import UserMixin
 from config import DB_CONNECT
-
-current_app.config["SQLALCHEMY_DATABASE_URI"] = f"mysql://{DB_CONNECT['username']}:{DB_CONNECT['password']}@{DB_CONNECT['server']}:3306/{DB_CONNECT['dbname']}?charset=utf8mb4"
+from datetime import datetime
+current_app.config["SQLALCHEMY_DATABASE_URI"] = f"mysql://{DB_CONNECT['username']}:{DB_CONNECT['password']}@{DB_CONNECT['server']}:3306/{DB_CONNECT['dbname']}?charset=utf8"
 current_app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(current_app)
 
@@ -24,8 +24,8 @@ class Category(db.Model):
 
 class TodoList(db.Model):
       id = db.Column(db.Integer, primary_key=True)
-      content = db.Column(db.String(30), default="To do something")
-      start_date = db.Column(db.Date, default=db.func.now())
+      content = db.Column(db.Text, default="To do something")
+      start_date = db.Column(db.Date, default=datetime.utcnow())
       end_date = db.Column(db.Date, nullable=True)
       status = db.Column(db.Boolean, default=False)
       important = db.Column(db.Boolean, default=False)
