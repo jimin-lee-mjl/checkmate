@@ -1,8 +1,12 @@
 {% extends 'sidebar.html' %} {% block header %}
-<title>✍Todolist</title>
+<title>할일친구 체크메이트</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.css"/>
 <link rel="stylesheet" href="{{ url_for('static', filename='tasks.css') }}" />
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
+<script>
+  setTitle();
+  function setTitle(){document.title="Checkmate | Todos";}
+</script>
 
 {% endblock %} {% block content %}
 <div>
@@ -13,8 +17,8 @@
   <header class="screen-header"></header>
 
   <div class="container">
-    <input type="text" class="txtb" placeholder="➕ Add a task" />
-
+    <input type="text" class="txtb" placeholder="➕ Add a task (Up to 30 characters)" maxlength="30" />
+    
     <div class="notcomp">
       <h3>To do</h3>
     </div>
