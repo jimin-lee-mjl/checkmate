@@ -15,6 +15,13 @@ header {
   font-size: 32px;
   font-weight: 600;
 }
+.dash_container {
+  max-width: 1400px;
+  padding-left: 50px;
+  padding-right: 50px;
+  margin-left: auto;
+  margin-right: auto;
+}
 
 .container {
   max-width: 800px;
@@ -65,12 +72,13 @@ h3 {
 /* progress bar */
 
 .progress {
+  flex-direction: row;
   background-color: #d8d8d8;
   border-radius: 20px;
-  position: relative;
+  /* position: relative; */
   margin: 15px 0;
   height: 30px;
-  width: 300px;
+  width: 100%;
 }
 
 .progress-done {
@@ -78,7 +86,6 @@ h3 {
   box-shadow: 0 3px 3px -5px #ffc312, 0 2px 5px #ffc312;
   border-radius: 20px;
   color: #fff;
-  display: flex;
   align-items: center;
   justify-content: center;
   height: 100%;
@@ -196,13 +203,13 @@ table.UpTable td {
 
 /* Slideshow container */
 .slideshow-container {
-  max-width: 1100px;
-  max-height: 250px;
+  max-width: 1600px;
+  max-height: 380px;
   position: relative;
-  margin: auto;
+  margin: 0 20px;
 }
 .slideshow-container .mySlides img {
-  height: 250px;
+  height: auto;
 }
 
 /* Hide the images by default */

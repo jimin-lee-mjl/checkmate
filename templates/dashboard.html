@@ -4,8 +4,9 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='dash.css') }}" />
 <body class=body>
   <!-- 랜덤메세지 -->
-  <div class="today"></div>
-  <h1 style="margin-left: 5%";>Dash Board</h1>
+  <div class="dash_container">
+     <div class="today"></div>
+  <h1 style="margin-left: 5%; ";>Dash Board</h1>
 </br>
 
   <!-- 이미지슬라이드 -->
@@ -13,28 +14,26 @@
 
     <!-- Full-width images with number and caption text -->
     <div class="mySlides fade">
-      <div class="numbertext">1 / 4</div>
-      <img src="{{ url_for('static', filename='/img/todo.png') }}" style="width:100%">
-      <!-- <div class="text">ACNE STUDIO</div> -->
+      <div class="numbertext">1 / 2</div>
+      <a href="https://www.notion.so/Checkmate-6a72263d5de7411ea170b490aa89fbc6" target="_blank"><img src="{{ url_for('static', filename='/img/Hello.png') }}" style="width:100%"></a>
     </div>
 
     <div class="mySlides fade">
-      <div class="numbertext">2 / 4</div>
-      <img src="https://todo-list-dev.vercel.app/images/bg-desktop-light.jpg" style="width:100%">
-      <!-- <div class="text">ACNE STUDIO</div> -->
+      <div class="numbertext">2 / 2</div>
+      <img src="{{ url_for('static', filename='/img/event.png') }}" style="width:100%">
     </div>
 
-    <div class="mySlides fade">
+    <!-- <div class="mySlides fade">
       <div class="numbertext">3 / 4</div>
       <img src="https://divisare-res.cloudinary.com/images/f_auto,q_auto,w_800/v1491425434/cqxjhpdmepxto0nudsok/acne-studios-acne-studio-potsdamer-strasse.jpg" style="width:100%">
-      <!-- <div class="text">ACNE STUDIO</div> -->
-    </div>
+      <div class="text">ACNE STUDIO</div>
+    </div> -->
 
-    <div class="mySlides fade">
+    <!-- <div class="mySlides fade">
       <div class="numbertext">4 / 4</div>
       <img src="https://divisare-res.cloudinary.com/images/f_auto,q_auto,w_800/v1491425434/coct9kmra7uhmeu4cxto/acne-studios-acne-studio-potsdamer-strasse.jpg" style="width:100%">
-      <!-- <div class="text">ACNE STUDIO</div> -->
-    </div>
+      <div class="text">ACNE STUDIO</div>
+    </div> -->
 
 
     <!-- Next and previous buttons -->
@@ -47,8 +46,8 @@
   <div style="text-align:center">
     <span class="dot" onclick="currentSlide(0)"></span>
     <span class="dot" onclick="currentSlide(1)"></span>
-    <span class="dot" onclick="currentSlide(2)"></span>
-    <span class="dot" onclick="currentSlide(3)"></span>
+    <!-- <span class="dot" onclick="currentSlide(2)"></span> -->
+    <!-- <span class="dot" onclick="currentSlide(3)"></span> -->
 
   </div>
     <!-- 오늘일정 & 진행롤 -->
@@ -56,9 +55,13 @@
     {% for progress in progress %}
     <div class="col">
       <h3 id="col-text">Today's Todo</h3>
-      <div class="progress" id="col-text">
-        <div class="progress-done" data-done="{{progress['progress']}}">{{progress['progress']}}%</div>
-      </div>
+      <div style="display:flex; flex-direction:row;"> 
+        <div class="progress" id="col-text">
+          <!-- <div class="progress-done" data-done="{{progress['progress']}}">{{progress['progress']}}%</div> -->
+          <div class="progress-done" data-done="{{progress['progress']}}"></div>
+        </div>
+        <div style= "margin: 15px 15px;">{{progress['progress']}}%</div>
+    </div>
       {% for im in today_list %}
       <li id="col-text">{{im['title']}}</li>
       {% endfor %}
@@ -66,7 +69,7 @@
   <br />
   {% endfor %}
 
-  <!-- 중요일정 -->
+  <!-- 중요일정 --> 
   <table
     colspan="3"
     class="customTable"
@@ -82,8 +85,8 @@
     </thead>
     <tbody>
       <tr>
-        <td><strong>Content</strong></td>
-        <td colspan="2"><strong>Due_date</strong></td>
+        <td><strong>To do</strong></td>
+        <td colspan="2"><strong>Due date</strong></td>
       </tr>
       {% for im in important_list %}
       <tr>
@@ -104,8 +107,8 @@
     </thead>
     <tbody>
       <tr>
-        <td><strong>Content</strong></td>
-        <td colspan="2"><strong>Due_date</strong></td>
+        <td><strong>To do</strong></td>
+        <td colspan="2"><strong>Due date</strong></td>
       </tr>
       {% for im in upcoming_list %}
       <tr>
@@ -116,6 +119,8 @@
     </tbody>
   </table>
 </div>
+</div>
+ 
 </body>
 <script src="{{ url_for('static', filename='dash.js') }}"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>

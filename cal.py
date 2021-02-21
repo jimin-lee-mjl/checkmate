@@ -17,10 +17,9 @@ def calendar():
     return render_template("calendar.html")
 
 @bp.route('/datacal')
-@login_required
 def get_todo_cal():
     todoListCal =  TodoList.query.filter_by(user_id=current_user.id).all()
-    a = []
+    data = []
     is_important = ''
     color = ''
     for todoList in todoListCal:
@@ -31,13 +30,13 @@ def get_todo_cal():
 
         if todoList.end_date!=None:
             end_date = todoList.end_date + timedelta(days=1)
-
-        hi = {
-            "title":todoList.content,
-            "start": todoList.start_date.strftime("%Y-%m-%d"),
-            "end":  end_date.strftime("%Y-%m-%d") if todoList.end_date!=None else None,
-            "important": is_important,
-            "color" : todoList.category.color
-        }
-        a.append((hi))
-    return json.dumps(a)
+        if todoList.status==0:
+            col = {
+                "title":todoList.content,
+                "start": todoList.start_date.strftime("%Y-%m-%d"),
+                "end":  end_date.strftime("%Y-%m-%d") if todoList.end_date!=None else None,
+                "important": is_important,
+                "color" : todoList.category.color
+            }
+            data.append((col))
+    return json.dumps(data)
