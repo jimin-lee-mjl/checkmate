@@ -17,7 +17,9 @@ parser.add_argument('new_password')
 class Email(Resource):
     def get(self):
         req_user = User.query.filter_by(id = current_user.id).first()
-        return jsonify(status = 'success', result = {'id':req_user.id, 'username':req_user.username, 'email':req_user.email})
+        return jsonify(status = 'success', result = {
+            'id':req_user.id, 'username':req_user.username, 'email':req_user.email
+        })
 
     def put(self):
         args = parser.parse_args()
@@ -39,9 +41,11 @@ class Password(Resource):
         if check_password_hash(req_user.password, args['cur_password']):
             req_user.password = generate_password_hash(args['new_password'], method='sha256')
             db.session.commit()
-            return jsonify(status = 'success', result = {'username':req_user.username, 'password':'Successfully changed'})
+            return jsonify(status = 'success', result = {
+                'username':req_user.username, 'success_msg':'비밀번호가 변경되었습니다.'
+            })
         else:
-            return jsonify(status = 'failed', result = {'error_msg':'Incorrect password'})
+            return jsonify(status = 'failed', result = {'error_msg':'비밀번호가 틀렸습니다.'})
 
 
 api.add_resource(Email, '/email')
