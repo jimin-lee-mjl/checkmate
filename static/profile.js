@@ -51,12 +51,12 @@ function edit_email(){
         .then(function (result){
             console.log(result);
             if (result.status == 'success') {
-                var success_msg = "Successfully changed";
+                var success_msg = "이메일이 변경되었습니다.";
                 var email = result.result.email;
                 console.log(email);
                 alert(success_msg);
             } else {
-                var error_msg = result.result.error_msg;
+                var error_msg = "이메일 형식이 유효하지 않습니다.";
                 alert(error_msg);
             }   
         });
@@ -68,7 +68,7 @@ function change_password(){
     console.log(cur_password);
     console.log(new_password);
     if (new_password.length < 8) {
-        var error_msg = "FIELD MUST BE BETWEEN 8 AND 80 CHARACTERS LONG.";
+        var error_msg = "비밀번호는 8자 이상이어야 합니다.";
         return alert(error_msg);
     } else {
         var url = "/profile/password";
@@ -88,7 +88,7 @@ function change_password(){
             .then(function (result){
                 console.log(result);
                 if (result.status == 'success') {
-                    var success_msg = result.result.password;
+                    var success_msg = result.result.success_msg;
                     alert(success_msg);
                 } else {
                     var error_msg = result.result.error_msg;

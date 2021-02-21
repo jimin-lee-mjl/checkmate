@@ -117,6 +117,13 @@ else if (window.location.pathname == "/myprofile") {
   current_location.classList.add("active");
 }
 
+// settings
+else if (window.location.pathname == "/feedback") {
+  var current_location = document.getElementById("feedback");
+  linkColor.forEach((l) => l.classList.remove("active"));
+  current_location.classList.add("active");
+}
+
 //get_category
 function get_category() {
   var url = "/todo";
