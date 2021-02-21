@@ -12,7 +12,7 @@ bp = Blueprint("dashboard", __name__, url_prefix="/dashboard")
 
 def get_today_todo(): 
     todoListCal = TodoList.query.filter_by(user_id=current_user.id).all()
-    today_date = datetime.utcnow().strftime("%Y%m%d")
+    today_date = (datetime.utcnow()+timedelta(hours=9)).strftime("%Y%m%d")
     data = []
     for todoList in todoListCal:
         start_date = str(todoList.start_date).replace('-','')
@@ -29,7 +29,7 @@ def get_today_todo():
 
 def get_progress():
     todoListCal = TodoList.query.filter_by(user_id=current_user.id).all()
-    today_date = datetime.utcnow().strftime("%Y%m%d")
+    today_date = (datetime.utcnow()+timedelta(hours=9)).strftime("%Y%m%d")
     data = []
     doing = 0
     done = 0
@@ -70,13 +70,13 @@ def get_important_todo():
 
 def get_upcoming_todo(): 
     todoListCal = TodoList.query.filter_by(user_id=current_user.id).all()
-    today_date = datetime.utcnow().strftime("%Y%m%d")
-    day_before = (datetime.utcnow()-timedelta(days=1)).strftime("%Y%m%d")
+    today_date = (datetime.utcnow()+timedelta(hours=9)).strftime("%Y%m%d")
+    day_after = (datetime.utcnow()+timedelta(hours=9)+timedelta(days=1)).strftime("%Y%m%d")
     data = []
-    for todoList in todoListCal:
+    for todoList in todoListCal:   
         end_date = todoList.end_date
         if todoList.status == 0 and end_date != None:
-            if str(end_date).replace('-','') == today_date or str(end_date).replace('-','')== day_before:
+            if str(end_date).replace('-','') == today_date or str(end_date).replace('-','')== day_after:
                 col = {
                     "title":todoList.content,
                     "start": todoList.start_date,
