@@ -9,8 +9,8 @@
 
     {% block header %}{% endblock %}
     <link rel="stylesheet" href="{{ url_for('static', filename='sidebar.css') }}"/>
-    <link rel="shortcut icon" href={{url_for('static', filename='favicon.ico')}} type="image/x-icon">
-    <link rel="icon" href={{url_for('static', filename='favicon.ico')}} type="image/x-icon">
+    <link rel="shortcut icon" href={{url_for('static', filename='img/favicon.ico')}} type="image/x-icon">
+    <link rel="icon" href={{url_for('static', filename='img/favicon.ico')}} type="image/x-icon">
     <title>CheckMate</title>
   </head>
   <body id="body-pd">
@@ -18,12 +18,13 @@
       <nav class="nav">
         <div>
           <div class="nav__brand">
-            <ion-icon
+            <a href="/"><img class="sidebar_logo" src="../static/img/logo.png"></a>
+            <!-- <ion-icon
               name="menu-outline"
               class="nav__toggle"
               id="nav-toggle"
             ></ion-icon>
-            <a href="#" class="nav__logo">CHECKMATE</a>
+            <a href="#" class="nav__logo">CHECKMATE</a> -->
           </div>
           <div class="nav__list">
             <a href="#" class="nav__link active" onclick="location.href='/dashboard'">

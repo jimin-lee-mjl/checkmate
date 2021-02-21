@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../static/login.css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700,800&display=swap" rel="stylesheet">
-    <link rel="shortcut icon" href={{url_for('static', filename='favicon.ico')}} type="image/x-icon">
-    <link rel="icon" href={{url_for('static', filename='favicon.ico')}} type="image/x-icon">
+    <link rel="shortcut icon" href={{url_for('static', filename='img/favicon.ico')}} type="image/x-icon">
+    <link rel="icon" href={{url_for('static', filename='img/favicon.ico')}} type="image/x-icon">
     <script>
       setTitle();
       function setTitle(){document.title="Checkmate | Login";}
@@ -51,14 +51,13 @@
         </div>
     
         <div class="sub-cont">
-          <div class="img" style="background-color:#dfc3ed;">
+          <div class="img"x>
             <!-- <style>
                 .img {
                     background-image: url( "../static/login_images/bg.jpg" );
                 }
             </style> -->
             <div class="img-text m-up">
-              <h2>New here?</h2>
               <!-- <p>Sign up and discover ssgreat amount of new opportunities!</p> -->
             </div>
             <div class="img-btn" onclick="location.href='/auth/signup'">

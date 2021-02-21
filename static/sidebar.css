@@ -46,6 +46,13 @@ a{
 }
 
 /*===== l NAV =====*/
+
+.sidebar_logo{
+  object-fit: cover;
+  width: 160px;
+  margin-left: 20px;
+}
+
 .l-navbar{
   position: fixed;
   top: 0;
