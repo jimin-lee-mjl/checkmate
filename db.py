@@ -37,7 +37,7 @@ class TodoList(db.Model):
 def createTutorial(user_id):
       tutorial = Category(name="Tutorial", color="#82589F", user_id=user_id)
       addTask = TodoList(content="할 일 추가하기➕", user_id=user_id)
-      addCalendar = TodoList(content="날짜 지정하기📅", user_id=user_id)
+      addCalendar = TodoList(content="날짜 지정하기📅", user_id=user_id, end_date=db.func.now())
       addStar = TodoList(content="중요 표시하기⭐", important=True, user_id=user_id)
       checkTask = TodoList(content="완료 표시하기✔", status=True, user_id=user_id)
       changeColor = TodoList(content="카테고리 테마색 바꾸기🎨", user_id=user_id)
