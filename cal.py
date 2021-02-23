@@ -20,14 +20,8 @@ def calendar():
 def get_todo_cal():
     todoListCal =  TodoList.query.filter_by(user_id=current_user.id).all()
     data = []
-    is_important = ''
     color = ''
     for todoList in todoListCal:
-        if todoList.status==0 and todoList.important == 1:
-            is_important = "important"
-        else:
-            is_important = ''
-
         if todoList.end_date!=None:
             end_date = todoList.end_date + timedelta(days=1)
         if todoList.status==0:
@@ -35,8 +29,8 @@ def get_todo_cal():
                 "title":todoList.content,
                 "start": todoList.start_date.strftime("%Y-%m-%d"),
                 "end":  end_date.strftime("%Y-%m-%d") if todoList.end_date!=None else None,
-                "important": is_important,
+                "important": todoList.important,
                 "color" : todoList.category.color
             }
-            data.append((col))
+            data.append(col)
     return json.dumps(data)

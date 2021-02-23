@@ -21,6 +21,12 @@
         today = yyyy + "-" + mm + "-" + dd;
 
         var calendar = new FullCalendar.Calendar(calendarEl, {
+          dayMaxEventRows: true, // for all non-TimeGrid views
+          views: {
+            timeGrid: {
+              dayMaxEventRows: 6, // adjust to 6 only for timeGridWeek/timeGridDay
+            },
+          },
           headerToolbar: {
             left: "prev,next",
             center: "title",
