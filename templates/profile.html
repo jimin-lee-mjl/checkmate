@@ -25,16 +25,16 @@
                 <div class="div_email">
                     <span>EMAIL</span>
                     <div class="profile_data" id="original_email"></div>
-                    <input type="button" class="button" id="edit_email_btn" value="change email" style="width: 260px; cursor : pointer;">
+                    <input type="button" class="button" id="edit_email_btn" value="EMAIL 변경" style="width: 260px; cursor : pointer;">
                 </div>
                 <div class="div_new_email">
-                    <span id="new_email">NEW EMAIL</span>
+                    <span id="new_email">새로운 EMAIL</span>
                     <div class="profile_data" id="new_email">
                         <input type="text" class="inputbox" id="input_new_email">
                     </div>
                     <input
-                        type="button"  class="button" id="save_email_btn" value="SAVE"
-                        style="width: 100px; background: #f1c40f; color: darkblue; cursor: pointer;"
+                        type="button"  class="button" id="save_email_btn" value="저장"
+                        style="width: 100px; background: #f1c40f; color: #371F54; cursor: pointer;"
                         onclick="edit_email()">
                 </div>
             </label>
@@ -42,34 +42,25 @@
         
         <div>
             <label id="label_password">
-                <input type="button"  class="button" id="change_password_btn" value="change password" style="width:260px; cursor: pointer;">
+                <input type="button"  class="button" id="change_password_btn" value="비밀번호 변경" style="width:260px; cursor: pointer;">
                     <div class="div_change_password">
                         
-                        <span>current password</span>
+                        <span>현재 비밀번호</span>
                         <div class="profile_data">
                             <input type="password" class="inputbox" id="input_cur_password">
                         </div>
 
-                        <span>new password</span>
+                        <span>새로운 비밀번호</span>
                         <div class="profile_data"><input type="password" class="inputbox" id="input_new_password"></div>
                         <input
-                            type="button" class="button" id="save_password_btn" value="SAVE"
-                            style="width: 100px; background: #f1c40f; color: darkblue; cursor: pointer;"
+                            type="button" class="button" id="save_password_btn" value="저장"
+                            style="width: 100px; background: #f1c40f; color: #371F54; cursor: pointer;"
                             onclick="change_password()">
                     </div>
             </label>
         </div>
         
     </form>
-    <button>튜토리얼 닫기</button>
-
-    <div class="modal">
-    <div class="modal_content">
-        <button id="tutor_close_btn">튜토리얼 닫기</button>
-        <h2 style="padding-top: 40px; color:white;">Tutorial</h2>
-        <img src="../static/login_images/tutorial.png" style="width: 1200px;vertical-align: middle;padding-top: 40px;padding-left: 80px;">
-    </div>
-    </div>
 
 </div>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>

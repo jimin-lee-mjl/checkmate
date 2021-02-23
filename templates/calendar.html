@@ -1,17 +1,16 @@
-{% extends 'sidebar.html' %}
-{% block content %}
-<link href="{{ url_for('static', filename='fullcalendar.min.css') }}" rel='stylesheet' />
-<link href="{{ url_for('static', filename='font-awesome-4.7.0/css/font-awesome.min.css') }}" rel='stylesheet' />
-<link href="{{ url_for('static', filename='fullcalendar.print.css') }}" rel='stylesheet' media='print' />
-<script src="{{ url_for('static', filename='lib/moment.min.js') }}"></script>
-<script src="{{ url_for('static', filename='lib/jquery.min.js') }}"></script>
-<script src="{{ url_for('static', filename='fullcalendar.min.js') }}"></script>
-<link href="https://fonts.googleapis.com/css?family=PT+Serif" rel="stylesheet">
-<title>할일친구 체크메이트</title>
-
-
-<script>
-	if (localStorage) {
+{% extends 'sidebar.html' %} {% block content %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link
+      href="{{ url_for('static', filename='/cal/main.css')}}"
+      rel="stylesheet"
+    />
+    <script src="{{ url_for('static', filename='/cal/main.js')}}"></script>
+    <script src="{{ url_for('static', filename='lib/jquery.min.js') }}"></script>
+    <script>
+	  if (localStorage) {
 		var visits_cal = localStorage.getItem('visits_cal');
 		console.log(visits_cal);
 		if (visits_cal == null) {
@@ -21,151 +20,59 @@
 		} else {
 			localStorage.setItem("visits_cal", "visited");
 		}
-	}
+	  }
 
-	$(document).ready(function () {
-		var today = new Date();
-		var dd = String(today.getDate()).padStart(2, '0');
-		var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-		var yyyy = today.getFullYear();
+      document.addEventListener("DOMContentLoaded", function () {
+        var calendarEl = document.getElementById("calendar");
 
-		today = yyyy + '-' + mm + '-' + dd;
-		
-		$('#calendar').fullCalendar({
-			header: {
-				left: 'prev,next today',
-				center: 'title',
-				right: 'month'
-			},
-			defaultDate: today,
-			editable: true,
-			eventLimit: true,
-			events: {
-				url: 'data',
-				error: function () {
-					$('#script-warning').show();
-				}
-			},
-			loading: function (bool) {
-				$('#loading').toggle(bool);
-			}
-		});
-		var x = document.getElementsByClassName("fc-today-button");
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, "0");
+        var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+        var yyyy = today.getFullYear();
 
-		Array.prototype.forEach.call(x, function (y) {
-			// Do stuff here
-			console.log(y);
-			y.style.display = "none";
-		});
+        today = yyyy + "-" + mm + "-" + dd;
 
-		var y = document.getElementsByClassName("fc-month-button");
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+          headerToolbar: {
+            left: "prev,next",
+            center: "title",
+            right: "",
+          },
+          initialDate: today,
+          navLinks: true, // can click day/week names to navigate views
+          businessHours: true, // display business hours
+          editable: true,
+          selectable: true,
+          events: {
+            url: "data",
+            failure: function () {},
+          },
+          loading: function (bool) {},
+        });
 
-		Array.prototype.forEach.call(y, function (z) {
-			// Do stuff here
-			console.log(z);
-			z.style.display = "none";
-		});
-	});
+        calendar.render();
+      });
+    </script>
+    <style>
+      body {
+        /* margin: 40px 10px; */
+        margin-top: 30px;
+        margin-left: 10%;
+        padding: 0px;
+        font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+        font-size: 14px;
+      }
 
-	function onlyImportant() {
-		var x = document.getElementsByClassName("fc-event");
+      #calendar {
+        max-width: 930px;
+        max-height: 900px;
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="calendar"></div>
+  </body>
 
-		Array.prototype.forEach.call(x, function (y) {
-			// Do stuff here
-			console.log(y);
-			y.style.display = "none";
-		});
-
-		var z = document.getElementsByClassName("fc-event important");
-		Array.prototype.forEach.call(z, function (a) {
-			// Do stuff here
-			console.log(a);
-			a.style.display = "block";
-		});
-
-
-		// console.log(x);
-		// x.map((e) => {
-		// 	console.log(e);
-		// 	e.style.display = "none";
-		// });
-	}
-
-	function viewAll() {
-		var x = document.getElementsByClassName("fc-event");
-
-		Array.prototype.forEach.call(x, function (y) {
-			// Do stuff here
-			console.log(y);
-			y.style.display = "block";
-		});
-	}
-</script>
-
-<style>
-	body {
-		margin: 0;
-		padding: 0;
-		font-size: 14px;
-	}
-
-	#script-warning {
-		display: none;
-		background: #eee;
-		border-bottom: 1px solid #ddd;
-		padding: 0 10px;
-		line-height: 40px;
-		text-align: center;
-		font-weight: bold;
-		font-size: 12px;
-		color: red;
-	}
-
-	#loading {
-		display: none;
-		position: absolute;
-		top: 10px;
-		right: 10px;
-	}
-
-	#calendar {
-		max-width: 900px;
-		margin: 10px auto;
-		padding: 70px 10px;
-	}
-</style>
-
-<link href="{{ url_for('static', filename='sukeesh.css') }}" rel='stylesheet' />
-
-</head>
-
-<body>
-	<div id="Yo">
-		<font color="#82589F">
-
-			<div style="width: 100%;overflow: hidden; margin-top: 1px; margin-left: 2px;">
-				<font size="20" color="#f8f8f8"></font>
-				<div id="rightPanel" style="margin-left: 100px; margin-top: 0px;">
-
-					<div id='loading'>loading...</div>
-
-					<div id='calendar'>
-						<div style="margin-left: auto; margin-right: auto;">
-							<button id="important-button" onclick="onlyImportant()"
-								style="position: absolute; box-shadow: inset 0 1px 0 rgb(255 255 255 / 20%), 0 1px 2px rgb(0 0 0 / 5%); top: 81px; margin-left: 90px; padding: 8px 12px; border-radius: 4px; border: 1px solid; border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25); background-image: linear-gradient(to bottom, #fff, #e6e6e6);">ONLY
-								IMPORTANT</button>
-
-							<button id="important-button" onclick="viewAll()"
-								style="position: absolute; box-shadow: inset 0 1px 0 rgb(255 255 255 / 20%), 0 1px 2px rgb(0 0 0 / 5%); top: 81px; margin-left: 250px; padding: 8px 12px; border-radius: 4px; border: 1px solid; border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25); background-image: linear-gradient(to bottom, #fff, #e6e6e6);">VIEW
-								ALL</button>
-						</div>
-					</div>
-				</div>
-
-			</div>
-
-		</font>
-	</div>
-</body>
-
-{% endblock %}
+  {% endblock %}
+</html>

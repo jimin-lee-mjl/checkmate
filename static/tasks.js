@@ -1,15 +1,28 @@
-//
+//show tutorial 
 if (localStorage) {
   var visits_tasks = localStorage.getItem('visits_tasks');
   console.log(visits_tasks);
   if (visits_tasks == null) {
-    alert("welcome");
+    console.log("welcome!")
+    tutorial();
     localStorage.setItem("visits_tasks", "first_visit");
     var visits_tasks = localStorage.getItem('visits_tasks');
   } else {
     localStorage.setItem("visits_tasks", "visited");
   }
 }
+
+function tutorial () {
+  $(document).ready(function(){
+      $(".modal").fadeIn();
+  });
+}
+
+$(function(){ 
+  $("#tutor_close_btn").click(function(){
+    $(".modal").fadeOut();
+  });
+})
 
 //get clicked category_id, category_names
 function getParameterByName(name) {
