@@ -10,17 +10,6 @@
     <script src="{{ url_for('static', filename='/cal/main.js')}}"></script>
     <script src="{{ url_for('static', filename='lib/jquery.min.js') }}"></script>
     <script>
-	  if (localStorage) {
-		var visits_cal = localStorage.getItem('visits_cal');
-		console.log(visits_cal);
-		if (visits_cal == null) {
-			alert("welcome");
-			localStorage.setItem("visits_cal", "first_visit");
-			var visits_cal = localStorage.getItem('visits_cal');
-		} else {
-			localStorage.setItem("visits_cal", "visited");
-		}
-	  }
 
       document.addEventListener("DOMContentLoaded", function () {
         var calendarEl = document.getElementById("calendar");
