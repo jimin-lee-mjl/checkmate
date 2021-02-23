@@ -20,7 +20,6 @@ def calendar():
 def get_todo_cal():
     todoListCal =  TodoList.query.filter_by(user_id=current_user.id).all()
     data = []
-    color = ''
     for todoList in todoListCal:
         if todoList.end_date!=None:
             end_date = todoList.end_date + timedelta(days=1)
