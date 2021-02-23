@@ -1,3 +1,16 @@
+//
+if (localStorage) {
+  var visits_tasks = localStorage.getItem('visits_tasks');
+  console.log(visits_tasks);
+  if (visits_tasks == null) {
+    alert("welcome");
+    localStorage.setItem("visits_tasks", "first_visit");
+    var visits_tasks = localStorage.getItem('visits_tasks');
+  } else {
+    localStorage.setItem("visits_tasks", "visited");
+  }
+}
+
 //get clicked category_id, category_names
 function getParameterByName(name) {
   name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");

@@ -5,5 +5,17 @@
 <script>
     setTitle();
     function setTitle(){document.title="Checkmate | Feedback";}
+    
+    if (localStorage) {
+        var visits_feedback = localStorage.getItem('visits_feedback');
+        console.log(visits_feedback);
+        if (visits_feedback == null) {
+            alert("welcome");
+            localStorage.setItem("visits_feedback", "first_visit");
+            var visits_feedback = localStorage.getItem('visits_feedback');
+        } else {
+            localStorage.setItem("visits_feedback", "visited");
+        }
+    }
 </script>
 {% endblock %}

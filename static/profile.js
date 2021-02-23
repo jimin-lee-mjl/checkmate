@@ -1,3 +1,34 @@
+if (localStorage) {
+    var visits_profile = localStorage.getItem('visits_profile');
+    console.log(visits_profile);
+    if (visits_profile == null) {
+      alert("welcome");
+      localStorage.setItem("visits_profile", "first_visit");
+      var visits_profile = localStorage.getItem('visits_profile');
+    } else {
+      localStorage.setItem("visits_profile", "visited");
+    }
+}
+
+tutorial();
+function tutorial () {
+    $(document).ready(function(){
+        $(".modal").fadeIn();
+    });
+}
+
+$(function(){ 
+
+    $("button").click(function(){
+      $(".modal").fadeIn();
+    });
+    
+    $(".modal_content").click(function(){
+      $(".modal").fadeOut();
+    });
+    
+});
+
 get_profile();
 
 $(document).ready(function() {

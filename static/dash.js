@@ -1,3 +1,15 @@
+if (localStorage) {
+  var visits_dash = localStorage.getItem('visits_dash');
+  console.log(visits_dash);
+  if (visits_dash == null) {
+    alert("welcome");
+    localStorage.setItem("visits_dash", "first_visit");
+    var visits_dash = localStorage.getItem('visits_dash');
+  } else {
+    localStorage.setItem("visits_dash", "visited");
+  }
+}
+
 var todayContainer = document.querySelector(".today");
 var d = new Date();
 var weekday = new Array(7);
