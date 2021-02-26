@@ -58,11 +58,14 @@ def get_important_todo():
     todoListCal = TodoList.query.filter_by(user_id=current_user.id).all()
     data = []
     for todoList in todoListCal:
+        end_date = todoList.end_date
+        if todoList.end_date == None:
+            end_date = ""
         if todoList.status==0 and todoList.important == 1:
             col = {
                 "title":todoList.content,
                 "start": todoList.start_date,
-                "end":todoList.end_date
+                "end":end_date
             }
             data.append(col)
     return data
@@ -80,7 +83,7 @@ def get_upcoming_todo():
                 col = {
                     "title":todoList.content,
                     "start": todoList.start_date,
-                    "end":todoList.end_date
+                    "end":end_date
                 }
                 data.append(col)
     return data
