@@ -21,6 +21,7 @@ def tasks():
   return render_template('tasks.html')
 
 @app.route('/calendar/data')
+@login_required
 def return_data():
     return cal.get_todo_cal()
 
