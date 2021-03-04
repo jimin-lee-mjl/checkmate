@@ -1,5 +1,19 @@
 {% extends "bootstrap/base.html" %} {% import "bootstrap/wtf.html" as wtf %} {%
 block head %} {{ super() }}
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=G-GFHR05JEN4"
+></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+
+  gtag("config", "G-GFHR05JEN4");
+</script>
 <meta charset="UTF-8" />
 <meta property="og:title" content="Checkmate" />
 <meta property="og:description" content="나만의 할 일 친구 체크메이트" />
@@ -22,7 +36,7 @@ filename='img/favicon.ico')}} type="image/x-icon">
     document.title = "Checkmate | Login";
   }
 </script>
-{% endblock %} {% block content %}
+  {% endblock %} {% block content %}
 <div class="cont">
   <div class="form sign-in" style="padding-top: 50px" ;>
     <form action="/auth/login" method="POST">
