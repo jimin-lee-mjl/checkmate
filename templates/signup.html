@@ -1,71 +1,96 @@
-{% extends "bootstrap/base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
+{% extends "bootstrap/base.html" %} {% import "bootstrap/wtf.html" as wtf %} {%
+block head %} {{ super() }}
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=G-GFHR05JEN4"
+></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
 
-{% block head %}
-{{ super() }}
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="../static/login.css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700,800&display=swap" rel="stylesheet">
-    <style>
-      .flashes {
-        color: red;
-      }
-    </style>
-    <link rel="shortcut icon" href={{url_for('static', filename='img/favicon.ico')}} type="image/x-icon">
-    <link rel="icon" href={{url_for('static', filename='img/favicon.ico')}} type="image/x-icon">
-    <script>
-        setTitle();
-        function setTitle(){document.title="Checkmate | Signup";}
-    </script>
-{% endblock %}
-
-{% block content %}
-    <div cont>
-        <div class="cont s-signup">
-            <div class="sub-cont">
-                <div class="img" id="signup-img">
-                <!-- <style>
+  gtag("config", "G-GFHR05JEN4");
+</script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" type="text/css" href="../static/login.css" />
+<link
+  href="https://fonts.googleapis.com/css?family=Nunito:400,600,700,800&display=swap"
+  rel="stylesheet"
+/>
+<style>
+  .flashes {
+    color: red;
+  }
+</style>
+<link rel="shortcut icon" href={{url_for('static', filename='img/favicon.ico')}}
+type="image/x-icon"> <link rel="icon" href={{url_for('static',
+filename='img/favicon.ico')}} type="image/x-icon">
+<script>
+  setTitle();
+  function setTitle() {
+    document.title = "Checkmate | Signup";
+  }
+</script>
+{% endblock %} {% block content %}
+<div cont>
+  <div class="cont s-signup">
+    <div class="sub-cont">
+      <div class="img" id="signup-img">
+        <!-- <style>
                     .img {
                         background-image: url( "../static/login_images/bg.jpg");
                     }
                 </style> -->
-                    <div class="img-text m-in">
-                    </div>
-                    <div class="img-btn" id="to_signin_btn" onclick="location.href='/auth/login'">
-                        <span class="m-in">Sign In</span>
-                    </div>
-                </div>
-                <div class="form sign-up" style="padding-top: 50px";>
-                    <form action="/auth/signup" method="POST">
-                        <h2>Sign Up</h2>
-                        {{ form.hidden_tag() }}
-                        <label>
-                            <span>{{ wtf.form_field(form.username) }}</span>
-                        </label>
-                        <label>
-                            <span>{{ wtf.form_field(form.email) }}</span>
-                        </label>
-                        <label>
-                            <span>{{ wtf.form_field(form.password) }}</span>
-                        </label>
-                        <button class="submit">Sign Up Now</button>
-                    </form>
+        <div class="img-text m-in"></div>
+        <div
+          class="img-btn"
+          id="to_signin_btn"
+          onclick="location.href='/auth/login'"
+        >
+          <span class="m-in">Sign In</span>
+        </div>
+      </div>
+      <div class="form sign-up" style="padding-top: 50px" ;>
+        <form action="/auth/signup" method="POST">
+          <h2>Sign Up</h2>
+          {{ form.hidden_tag() }}
+          <label>
+            <span>{{ wtf.form_field(form.username) }}</span>
+          </label>
+          <label>
+            <span>{{ wtf.form_field(form.email) }}</span>
+          </label>
+          <label>
+            <span>{{ wtf.form_field(form.password) }}</span>
+          </label>
+          <button class="submit">Sign Up Now</button>
+        </form>
 
-                    {% with errors = get_flashed_messages(category_filter=["auth_error"]) %}
-                        {% if errors %}
-                            {% for msg in errors%}
-                            <div class="alert alert-danger alert-dismissible show" role="alert" style="text-align: center;">
-                                <span>{{ msg }}</span>
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="width: 50px; padding-bottom: 15px;">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            {% endfor %}
-                        {% endif %}
-                    {% endwith %}
-            
-                <!-- <div class="social-media">
+        {% with errors = get_flashed_messages(category_filter=["auth_error"]) %}
+        {% if errors %} {% for msg in errors%}
+        <div
+          class="alert alert-danger alert-dismissible show"
+          role="alert"
+          style="text-align: center"
+        >
+          <span>{{ msg }}</span>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="alert"
+            aria-label="Close"
+            style="width: 50px; padding-bottom: 15px"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        {% endfor %} {% endif %} {% endwith %}
+
+        <!-- <div class="social-media">
                     <ul>
                     <li><img src="../static/login_images/facebook.png"></li>
                     <li><img src="../static/login_images/twitter.png"></li>
@@ -73,8 +98,8 @@
                     <li><img src="../static/login_images/instagram.png"></li>
                     </ul>
                 </div> -->
-                </div>
-            </div>
-        </div>
-    </div>    
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
