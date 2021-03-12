@@ -12,7 +12,7 @@
   <!-- 랜덤메세지 -->
   <div class="dash_container">
      <div class="today"></div>
-  <h1 style="margin-left: 5%; ";>Dash Board</h1>
+  <h1 style="margin-left: 5%;">Dash Board</h1>
 </br>
 
   <!-- 이미지슬라이드 -->
@@ -60,7 +60,7 @@
     <div class="row">
     {% for progress in progress %}
     <div class="col">
-      <h3 id="col-text">Today's Todo</h3>
+      <h3 id="col-text" style="text-align:center"; >📅 오늘의 일정</h3>
       <div style="display:flex; flex-direction:row;"> 
         <div class="progress" id="col-text">
           <!-- <div class="progress-done" data-done="{{progress['progress']}}">{{progress['progress']}}%</div> -->
@@ -84,15 +84,15 @@
     <thead>
       <tr>
         <th colspan="3">
-          <h3 id="table-text">⭐ Important Todo </h3>
+          <h3 id="table-text" style="text-align:center"; >⭐ 중요 일정</h3>
           </th>
         </th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td><strong>To do</strong></td>
-        <td colspan="2"><strong>Due date</strong></td>
+        <td><strong>일정</strong></td>
+        <td colspan="2"><strong>기간</strong></td>
       </tr>
       {% for im in important_list %}
       <tr>
@@ -108,13 +108,13 @@
   <table class="UpTable">
     <thead>
       <tr>
-        <th colspan="3"><h3 id="table-text-up" >🚨 Upcoming Todo </h3></th>
+        <th colspan="3"><h3 id="table-text-up" style="text-align:center"; >🚨 다가오는 일정 </h3></th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td><strong>To do</strong></td>
-        <td colspan="2"><strong>Due date</strong></td>
+        <td><strong>일정</strong></td>
+        <td colspan="2"><strong>기간</strong></td>
       </tr>
       {% for im in upcoming_list %}
       <tr>
