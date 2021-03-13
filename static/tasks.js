@@ -50,10 +50,12 @@ get_color();
 function get_category_name() {
   console.log("category_name : " + category_name);
   document.querySelector("header").innerHTML = `
-          <input class='screen-header__title' type='text' id="category_title" value='${category_name}' style="color:#${category_color}" maxlength='10' />
+          <div class="tooltip">
+          <input class='screen-header__title' type='text' id="category_title" value='${category_name}' style="color:#${category_color};" maxlength='10'/>
+          <span class="tooltiptext">카테고리 수정</span>
           <span id="span_category_delete_btn" style="margin-left:10px; cursor:pointer; display:none;"><i class="fas fa-trash-alt" id="category_delete_btn"></i></span>
-
-        `;
+          </div>
+          `;
 }
 
 $('#category_title').css('width', $('#category_title').val().length * 23 + 50);
