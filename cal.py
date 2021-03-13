@@ -31,5 +31,6 @@ def get_todo_cal():
                 "important": todoList.important,
                 "color" : todoList.category.color
             }
+            print(col)
             data.append(col)
     return json.dumps(data)

@@ -7,10 +7,16 @@
       href="{{ url_for('static', filename='/cal/main.css')}}"
       rel="stylesheet"
     />
+    <script>
+      setTitle();
+      function setTitle() {
+        document.title = "Checkmate | Calendar";
+      }
+    </script>
+    <script src="{{ url_for('static', filename='/cal/locales/ko.js')}}"></script>
     <script src="{{ url_for('static', filename='/cal/main.js')}}"></script>
     <script src="{{ url_for('static', filename='lib/jquery.min.js') }}"></script>
     <script>
-
       document.addEventListener("DOMContentLoaded", function () {
         var calendarEl = document.getElementById("calendar");
 
@@ -22,6 +28,7 @@
         today = yyyy + "-" + mm + "-" + dd;
 
         var calendar = new FullCalendar.Calendar(calendarEl, {
+          locale: "ko",
           dayMaxEventRows: true, // for all non-TimeGridf views
           views: {
             timeGrid: {

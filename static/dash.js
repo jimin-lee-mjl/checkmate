@@ -1,52 +1,51 @@
-//show tutorial 
+//show tutorial
 if (localStorage) {
-  var visits_dashboard = localStorage.getItem('visits_dashboard');
+  var visits_dashboard = localStorage.getItem("visits_dashboard");
   console.log(visits_dashboard);
   if (visits_dashboard == null) {
-    console.log("welcome!")
+    console.log("welcome!");
     tutorial();
     localStorage.setItem("visits_dashboard", "first_visit");
-    var visits_dashboard = localStorage.getItem('visits_dashboard');
+    var visits_dashboard = localStorage.getItem("visits_dashboard");
   } else {
     localStorage.setItem("visits_dashboard", "visited");
   }
 }
 
-function tutorial () {
-  $(document).ready(function(){
-      $(".modal").fadeIn();
-      show_tutorial_slides(tutor_slideIndex);
+function tutorial() {
+  $(document).ready(function () {
+    $(".modal").fadeIn();
+    show_tutorial_slides(tutor_slideIndex);
   });
 }
 
-$(function(){ 
-  $("#tutor_close_btn").click(function(){
+$(function () {
+  $("#tutor_close_btn").click(function () {
     $(".modal").fadeOut();
   });
-})
+});
 
 var todayContainer = document.querySelector(".today");
 var d = new Date();
 var weekday = new Array(7);
-weekday[0] = "Sunday 🖖";
-weekday[1] = "Monday 💪😀";
-weekday[2] = "Tuesday 😜";
-weekday[3] = "Wednesday 😌☕️";
-weekday[4] = "Thursday 🤗";
-weekday[5] = "Friday 🍻";
-weekday[6] = "Saturday 😴";
+weekday[0] = "일요일이네 🖖";
+weekday[1] = "월요일이라니 💪😀";
+weekday[2] = "화요일 😜";
+weekday[3] = "수요일 😌☕️";
+weekday[4] = "목요일 🤗";
+weekday[5] = "불타는 금요일 🍻";
+weekday[6] = "토요일~! 😴";
 
 var n = weekday[d.getDay()];
 
 var randomWordArray = Array(
-  "Oh my, it's ",
-  "Whoop, it's ",
-  "Happy ",
-  "Seems it's ",
-  "Awesome, it's ",
-  "Have a nice ",
-  "Happy fabulous ",
-  "Enjoy your "
+  "오늘은? ",
+  "헐 벌써... ",
+  "행복한~ ",
+  "최고의 ",
+  "오예~~ ",
+  "오늘도 힘내자! ",
+  "즐거운 "
 );
 var randomWord =
   randomWordArray[Math.floor(Math.random() * randomWordArray.length)];
