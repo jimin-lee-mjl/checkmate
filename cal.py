@@ -13,6 +13,7 @@ from datetime import timedelta
 bp = Blueprint("calendar", __name__, url_prefix="/calendar")
 
 @bp.route('/')
+@login_required
 def calendar():
     return render_template("calendar.html")
 

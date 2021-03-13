@@ -1,6 +1,26 @@
+import re
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField
-from wtforms.validators import InputRequired, Email, Length
+from wtforms.validators import InputRequired, Email, Length, ValidationError
+
+
+def check_password(form, field):
+    password = field.data
+    min_length = 8
+    alphabet = re.compile(
+      '[a-zA-Z0-9]+'
+      )
+    special = re.compile('\W+')
+    is_alphabet = alphabet.search(password)
+    is_special = special.search(password)
+    if len(password) < min_length or not is_alphabet or not is_special:
+        raise ValidationError(
+            '비밀번호는 8자 이상의 알파벳, 숫자 중 한 가지와 특수문자의 조합이어야 합니다.'
+        )
+    else:
+        pass
+
+
 
 class LoginForm(FlaskForm):
     username = StringField(
@@ -27,5 +47,8 @@ class SignupForm(FlaskForm):
     )
     password = PasswordField(
         'password', 
-        validators=[InputRequired(), Length(min=8, max=80, message="비밀번호는 8자 이상입니다.")]
+        validators=[
+            InputRequired(),
+            check_password
+        ]
     )

@@ -3,15 +3,10 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from werkzeug.security import generate_password_hash
 from flask_login import UserMixin
-from config import DB_CONNECT
+from config import DB_URI
 from datetime import datetime,timedelta
 
-current_app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://{}:{}@{}:3306/{}?charset=utf8mb4".format(
-      DB_CONNECT['username'],
-      DB_CONNECT['password'],
-      DB_CONNECT['server'],
-      DB_CONNECT['dbname']
-)
+current_app.config["SQLALCHEMY_DATABASE_URI"] = DB_URI
 current_app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(current_app)
 migrate = Migrate(current_app, db)
