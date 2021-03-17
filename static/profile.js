@@ -8,6 +8,10 @@ $(document).ready(function() {
     $("#change_password_btn").click(function() { 
         $(".div_change_password").toggle();
     });
+
+    $("#withdrawal_btn").click(function() { 
+        handleWithdrawalBtn();
+    });
 });
 
 //get profile
@@ -142,4 +146,63 @@ function change_password(){
                 }   
             });
     }
+}
+
+
+function handleWithdrawalBtn() {
+    console.log('handleWithdrawalBtn!!');
+}
+
+
+function handleWithdrawalBtn() {
+    Swal.fire({
+        title: '정말 탈퇴하시려고요?',
+        text: '두 번 세 번 생각해보세요 ㅠㅠ',
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: `네`,
+        denyButtonText: `아뇨`,
+        customClass: {
+            cancelButton: 'order-1 right-gap',
+            confirmButton: 'order-2',
+            denyButton: 'order-3',
+        }
+      }).then((result) => {
+        if (result.isConfirmed) {
+            withdrawUser();
+        } else if (result.isDenied) {
+            Swal.fire('휴 우리 더 오래 만나요!! XDXD', '', 'success');
+        }
+      })
+}
+
+
+function withdrawUser() {
+    const URL = '/profile/withdrawal'
+    const option = {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    }
+
+    fetch(URL, option)
+        .then(function(type) {
+            return type.json();
+        })
+            .then(function(result) {
+                console.log(result);
+                if (result.status === 'success') {
+                    Swal.fire({
+                        title: '정상적으로 탈퇴되었습니다.', 
+                        text: '2초 뒤에 로그인 화면으로 이동합니다.', 
+                        icon: 'success',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                    setTimeout(() => location.replace('/auth/login'), 2000);
+                } else {
+                    Swal.fire('오류가 발생했습니다.', '', 'error');
+                }
+            })
 }

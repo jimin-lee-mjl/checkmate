@@ -14,6 +14,7 @@ parser.add_argument('email')
 parser.add_argument('cur_password')
 parser.add_argument('new_password')
 
+
 class Email(Resource):
     def get(self):
         req_user = User.query.filter_by(id = current_user.id).first()
@@ -34,6 +35,7 @@ class Email(Resource):
         except EmailNotValidError as e:
             return jsonify(status = 'failed', result = {'error_msg':str(e)})
 
+
 class Password(Resource):
     def put(self):
         args = parser.parse_args()
@@ -48,5 +50,13 @@ class Password(Resource):
             return jsonify(status = 'failed', result = {'error_msg':'비밀번호가 틀렸습니다.'})
 
 
+class Withdrawal(Resource):
+    def delete(self):
+        db.session.delete(current_user)
+        db.session.commit()
+        return jsonify(status = 'success')
+
+
 api.add_resource(Email, '/email')
 api.add_resource(Password, '/password')
+api.add_resource(Withdrawal, '/withdrawal')
