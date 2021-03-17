@@ -156,16 +156,18 @@ function handleWithdrawalBtn() {
 
 function handleWithdrawalBtn() {
     Swal.fire({
-        title: '정말 탈퇴하시려고요?',
+        title: '정말 탈퇴하시려고요? 거짓말...',
         text: '두 번 세 번 생각해보세요 ㅠㅠ',
+        position: 'center',
         showDenyButton: true,
-        showCancelButton: true,
+        showCancelButton: false,
+        focusDeny: true,
+        reverseButtons: true,
         confirmButtonText: `네`,
         denyButtonText: `아뇨`,
         customClass: {
-            cancelButton: 'order-1 right-gap',
-            confirmButton: 'order-2',
-            denyButton: 'order-3',
+            confirmButton: 'order-1',
+            denyButton: 'order-2'
         }
       }).then((result) => {
         if (result.isConfirmed) {
