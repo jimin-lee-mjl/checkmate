@@ -54,10 +54,28 @@ function edit_email(){
                 var success_msg = "이메일이 변경되었습니다.";
                 var email = result.result.email;
                 console.log(email);
-                alert(success_msg);
+                //alert(success_msg);
+
+                //Sweetalert2
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: success_msg,
+                    showConfirmButton: false,
+                    timer: 1000
+                })
             } else {
                 var error_msg = "이메일 형식이 유효하지 않습니다.";
-                alert(error_msg);
+                //alert(error_msg);
+
+                //Sweetalert2
+                Swal.fire({
+                    position: 'center',
+                    icon: 'warning',
+                    title: error_msg,
+                    showConfirmButton: false,
+                    timer: 1000
+                })
             }   
         });
 }
@@ -69,7 +87,17 @@ function change_password(){
     console.log(new_password);
     if (new_password.length < 8) {
         var error_msg = "비밀번호는 8자 이상이어야 합니다.";
-        return alert(error_msg);
+        
+        //Sweetalert2
+        Swal.fire({
+            position: 'center',
+            icon: 'warning',
+            title: error_msg,
+            showConfirmButton: false,
+            timer: 1000
+        })
+
+        return;
     } else {
         var url = "/profile/password";
         fetch(url, {
@@ -89,10 +117,28 @@ function change_password(){
                 console.log(result);
                 if (result.status == 'success') {
                     var success_msg = result.result.success_msg;
-                    alert(success_msg);
+                    //alert(success_msg);
+
+                    //Sweetalert2
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: success_msg,
+                        showConfirmButton: false,
+                        timer: 1000
+                    })
                 } else {
                     var error_msg = result.result.error_msg;
-                    alert(error_msg);
+                    //alert(error_msg);
+
+                    //Sweetalert2
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'warning',
+                        title: error_msg,
+                        showConfirmButton: false,
+                        timer: 1000
+                    })
                 }   
             });
     }

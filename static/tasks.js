@@ -270,14 +270,28 @@ function get_todo() {
           if(p.attr("style").includes('none')) {
             
             if(from == '') {
-              alert("시작일을 입력해주세요.");
+              //Sweetalert2
+              Swal.fire({
+                position: 'center',
+                icon: 'info',
+                title: '시작일을 입력해주세요',
+                showConfirmButton: false,
+                timer: 1000
+              })
               p.css("display", "inline");
               $("#from_" + arr[1]).focus();
               return;
             }
 
             if(to == '') {
-              alert("종료일을 입력해주세요.");
+              //Sweetalert2
+              Swal.fire({
+                position: 'center',
+                icon: 'info',
+                title: '종료일을 입력해주세요',
+                showConfirmButton: false,
+                timer: 1000
+              })
               p.css("display", "inline");
               $("#to_" + arr[1]).focus();
               return;
@@ -575,14 +589,28 @@ $(".txtb").on("keyup", function (e) {
           if(p.attr("style").includes('none')) {
             
             if(from == '') {
-              alert("시작일을 입력해주세요.");
+              //Sweetalert2
+              Swal.fire({
+                position: 'center',
+                icon: 'info',
+                title: '시작일을 입력해주세요',
+                showConfirmButton: false,
+                timer: 1000
+              })
               p.css("display", "inline");
               $("#from_" + arr[1]).focus();
               return;
             }
 
             if(to == '') {
-              alert("종료일을 입력해주세요.");
+              //Sweetalert2
+              Swal.fire({
+                position: 'center',
+                icon: 'info',
+                title: '종료일을 입력해주세요',
+                showConfirmButton: false,
+                timer: 1000
+              })
               p.css("display", "inline");
               $("#to_" + arr[1]).focus();
               return;
@@ -707,35 +735,23 @@ function fn_init(id) {
     autoSize: true,
     minDate: 0,
     onSelect: function (selectDate) {
-      // var stxt = selectDate.split("-");
-      // stxt[1] = stxt[1] - 1;
-      // var sdate = new Date(stxt[0], stxt[1], stxt[2]);
-      // var edate = new Date(stxt[0], stxt[1], stxt[2]);
-      // edate.setDate(sdate.getDate() + rangeDate);
-      // $("#to_" + id).datepicker("option", {
-      //   minDate: selectDate,
-      //   beforeShow: function () {
-      //     $("#to_" + id).datepicker("option", "maxDate", edate);
-      //     setSdate = selectDate;
-      //     //console.log(setSdate)
-      //   },
-      // });
+      var stxt = selectDate.split("-");
+      stxt[1] = stxt[1] - 1;
+      var sdate = new Date(stxt[0], stxt[1], stxt[2]);
+      var edate = new Date(stxt[0], stxt[1], stxt[2]);
+      edate.setDate(sdate.getDate() + rangeDate);
+      $("#to_" + id).datepicker("option", {
+        minDate: selectDate,
+        beforeShow: function () {
+          $("#to_" + id).datepicker("option", "maxDate", edate);
+          setSdate = selectDate;
+          //console.log(setSdate)
+        },
+      });
       //to 설정
 
       var arr = $(this).attr("id").split("_");
       var todo_id = arr[1];
-
-      //시작일
-      var from = $(this).val();
-
-      //종료일
-      var to = $("#to_"+id).val();
-
-      if(Number(from.replaceAll("-","")) > Number(to.replaceAll("-",""))) {
-        alert("종료일("+ to +") 이전으로 시작일을 다시 선택해주세요.");
-        $(this).focus();
-        return;
-      }
 
       //save date
       var url = "/todo/" + category_id;
@@ -755,12 +771,27 @@ function fn_init(id) {
         .then(function (result) {
           console.log(result);
           if(result.status == 'success') {
-            alert("저장되었습니다.");
+
+            //Sweetalert2
+            Swal.fire({
+              position: 'center',
+              icon: 'success',
+              title: '저장되었습니다',
+              showConfirmButton: false,
+              timer: 1000
+            })
 
             $('.task').remove();
             get_todo();
           } else {
-            alert("저장에 실패하였습니다.");
+            //Sweetalert2
+            Swal.fire({
+              position: 'center',
+              icon: 'error',
+              title: '저장에 실패하였습니다',
+              showConfirmButton: false,
+              timer: 1000
+            })
           }
         });
     },
@@ -778,18 +809,6 @@ function fn_init(id) {
 
       var arr = $(this).attr("id").split("_");
       var todo_id = arr[1];
-
-      //시작일
-      var from = $("#from_"+id).val();
-
-      //종료일
-      var to = $(this).val();
-
-      if(Number(from.replaceAll("-","")) > Number(to.replaceAll("-",""))) {
-        alert("시작일("+ from +") 이후로 종료일을 다시 선택해주세요.");
-        $(this).focus();
-        return;
-      }
 
       //save date
       var url = "/todo/" + category_id;
@@ -809,12 +828,27 @@ function fn_init(id) {
         .then(function (result) {
             console.log(result);
             if(result.status == 'success') {
-              alert("저장되었습니다.");
+
+              //Sweetalert2
+              Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: '저장되었습니다',
+                showConfirmButton: false,
+                timer: 1000
+              })
 
               $('.task').remove();
               get_todo();
             } else {
-              alert("저장에 실패하였습니다.");
+              //Sweetalert2
+              Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: '저장에 실패하였습니다',
+                showConfirmButton: false,
+                timer: 1000
+              })
             }
             
         });
