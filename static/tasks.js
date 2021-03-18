@@ -270,14 +270,28 @@ function get_todo() {
           if(p.attr("style").includes('none')) {
             
             if(from == '') {
-              alert("시작일을 입력해주세요.");
+              //Sweetalert2
+              Swal.fire({
+                position: 'center',
+                icon: 'info',
+                title: '시작일을 입력해주세요',
+                showConfirmButton: false,
+                timer: 1000
+              })
               p.css("display", "inline");
               $("#from_" + arr[1]).focus();
               return;
             }
 
             if(to == '') {
-              alert("종료일을 입력해주세요.");
+              //Sweetalert2
+              Swal.fire({
+                position: 'center',
+                icon: 'info',
+                title: '종료일을 입력해주세요',
+                showConfirmButton: false,
+                timer: 1000
+              })
               p.css("display", "inline");
               $("#to_" + arr[1]).focus();
               return;
@@ -575,14 +589,28 @@ $(".txtb").on("keyup", function (e) {
           if(p.attr("style").includes('none')) {
             
             if(from == '') {
-              alert("시작일을 입력해주세요.");
+              //Sweetalert2
+              Swal.fire({
+                position: 'center',
+                icon: 'info',
+                title: '시작일을 입력해주세요',
+                showConfirmButton: false,
+                timer: 1000
+              })
               p.css("display", "inline");
               $("#from_" + arr[1]).focus();
               return;
             }
 
             if(to == '') {
-              alert("종료일을 입력해주세요.");
+              //Sweetalert2
+              Swal.fire({
+                position: 'center',
+                icon: 'info',
+                title: '종료일을 입력해주세요',
+                showConfirmButton: false,
+                timer: 1000
+              })
               p.css("display", "inline");
               $("#to_" + arr[1]).focus();
               return;
@@ -743,12 +771,27 @@ function fn_init(id) {
         .then(function (result) {
           console.log(result);
           if(result.status == 'success') {
-            alert("저장되었습니다.");
+
+            //Sweetalert2
+            Swal.fire({
+              position: 'center',
+              icon: 'success',
+              title: '저장되었습니다',
+              showConfirmButton: false,
+              timer: 1000
+            })
 
             $('.task').remove();
             get_todo();
           } else {
-            alert("저장에 실패하였습니다.");
+            //Sweetalert2
+            Swal.fire({
+              position: 'center',
+              icon: 'error',
+              title: '저장에 실패하였습니다',
+              showConfirmButton: false,
+              timer: 1000
+            })
           }
         });
     },
@@ -785,12 +828,27 @@ function fn_init(id) {
         .then(function (result) {
             console.log(result);
             if(result.status == 'success') {
-              alert("저장되었습니다.");
+
+              //Sweetalert2
+              Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: '저장되었습니다',
+                showConfirmButton: false,
+                timer: 1000
+              })
 
               $('.task').remove();
               get_todo();
             } else {
-              alert("저장에 실패하였습니다.");
+              //Sweetalert2
+              Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: '저장에 실패하였습니다',
+                showConfirmButton: false,
+                timer: 1000
+              })
             }
             
         });
