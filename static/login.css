@@ -35,11 +35,14 @@ input, button{
   width: 640px;
   height: 100%;
   padding: 50px 30px;
+  overflow: scroll;
   -webkit-transition:-webkit-transform 1.2s ease-in-out;
   transition: -webkit-transform 1.2s ease-in-out;
   transition: transform 1.2s ease-in-out;
   transition: transform 1.2s ease-in-out, -webkit-transform 1.2s ease-in-out;
 }
+
+::-webkit-scrollbar { width: 0px; }
 
 h2{
   width: 100%;
@@ -316,4 +319,9 @@ button{
 .cont.s-signup .sign-up{
   -webkit-transform:translate3d(0, 0, 0);
           transform:translate3d(0, 0, 0);
+}
+
+button:disabled {
+  background: #ccc;
+  pointer-events: none;
 }

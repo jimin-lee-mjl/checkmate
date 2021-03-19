@@ -1,16 +1,8 @@
-body{
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: white;
+.form {
+  padding-top: 80px;
 }
 
 form{
-  position: relative;
-  width: 640px;
-  height: 100%;
   padding: 30px;
 }
 
@@ -31,7 +23,7 @@ form{
   font-family: 'Nunito', sans-serif; 
 }
 
-label span{
+.label span{
   font-size: 20px;
   font-weight: 600;
   color: #505f75;
