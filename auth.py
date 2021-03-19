@@ -94,10 +94,10 @@ def authorize():
         login_user(new_user)
     else:
         login_user(exist_user)
-    return redirect(url_for('tasks'))
+    return redirect(url_for('dashboard'))
 
 @bp.route('/logout')
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('tasks'))
+    return redirect(url_for('auth.login'))
