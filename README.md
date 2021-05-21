@@ -1,4 +1,5 @@
 # 프로젝트 소개
+본 프로젝트는 elice X K-digital Training에서 진행한 웹서비스 제작 팀 프로젝트 입니다. ([깃랩 링크](https://kdt-gitlab.elice.io/Jungin/mini-project2))
 
 ### [프로젝트 주소로 이동](http://20.194.22.157/)
 
