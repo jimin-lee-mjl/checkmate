@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" type="text/css" href="../static/profile.css">
 <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700,800&display=swap" rel="stylesheet">
+<script>
+    setTitle();
+    function setTitle(){document.title="Checkmate | Profile";}
+</script>
 
 <div class="form">
     <h2>My profile</h2>
@@ -21,16 +25,16 @@
                 <div class="div_email">
                     <span>EMAIL</span>
                     <div class="profile_data" id="original_email"></div>
-                    <input type="button" class="button" id="edit_email_btn" value="change email" style="width: 260px;">
+                    <input type="button" class="button" id="edit_email_btn" value="EMAIL 변경" style="width: 260px; cursor : pointer;">
                 </div>
                 <div class="div_new_email">
-                    <span id="new_email">NEW EMAIL</span>
+                    <span id="new_email">새로운 EMAIL</span>
                     <div class="profile_data" id="new_email">
                         <input type="text" class="inputbox" id="input_new_email">
                     </div>
                     <input
-                        type="button"  class="button" id="save_email_btn" value="SAVE"
-                        style="width: 100px; background: #f1c40f; color: darkblue;"
+                        type="button"  class="button" id="save_email_btn" value="저장"
+                        style="width: 100px; background: #f1c40f; color: #371F54; cursor: pointer;"
                         onclick="edit_email()">
                 </div>
             </label>
@@ -38,19 +42,19 @@
         
         <div>
             <label id="label_password">
-                <input type="button"  class="button" id="change_password_btn" value="change password" style="width:260px;">
+                <input type="button"  class="button" id="change_password_btn" value="비밀번호 변경" style="width:260px; cursor: pointer;">
                     <div class="div_change_password">
                         
-                        <span>current password</span>
+                        <span>현재 비밀번호</span>
                         <div class="profile_data">
                             <input type="password" class="inputbox" id="input_cur_password">
                         </div>
 
-                        <span>new password</span>
+                        <span>새로운 비밀번호</span>
                         <div class="profile_data"><input type="password" class="inputbox" id="input_new_password"></div>
                         <input
-                            type="button" class="button" id="save_password_btn" value="SAVE"
-                            style="width: 100px; background: #f1c40f; color: darkblue;"
+                            type="button" class="button" id="save_password_btn" value="저장"
+                            style="width: 100px; background: #f1c40f; color: #371F54; cursor: pointer;"
                             onclick="change_password()">
                     </div>
             </label>

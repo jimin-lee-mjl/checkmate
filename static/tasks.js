@@ -1,3 +1,29 @@
+//show tutorial 
+if (localStorage) {
+  var visits_tasks = localStorage.getItem('visits_tasks');
+  console.log(visits_tasks);
+  if (visits_tasks == null) {
+    console.log("welcome!")
+    tutorial();
+    localStorage.setItem("visits_tasks", "first_visit");
+    var visits_tasks = localStorage.getItem('visits_tasks');
+  } else {
+    localStorage.setItem("visits_tasks", "visited");
+  }
+}
+
+function tutorial () {
+  $(document).ready(function(){
+      $(".modal").fadeIn();
+  });
+}
+
+$(function(){ 
+  $("#tutor_close_btn").click(function(){
+    $(".modal").fadeOut();
+  });
+})
+
 //get clicked category_id, category_names
 function getParameterByName(name) {
   name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -17,17 +43,84 @@ console.log(category_color);
 
 //get category_name
 $(document).ready(get_category_name());
-
-//get todo
 get_todo();
+get_color();
 
+//get category_name
 function get_category_name() {
   console.log("category_name : " + category_name);
   document.querySelector("header").innerHTML = `
-          <h1 class="screen-header__title" id="category_title" contentEditable="true" style="color:${category_color}">${category_name}</h1>
-          <span id="span_category_delete_btn" style="margin-left:10px; display:none;"><i class="fas fa-trash-alt" id="category_delete_btn"></i></span>
+          <input class='screen-header__title' type='text' id="category_title" value='${category_name}' style="color:#${category_color}" maxlength='10' />
+          <span id="span_category_delete_btn" style="margin-left:10px; cursor:pointer; display:none;"><i class="fas fa-trash-alt" id="category_delete_btn"></i></span>
+
         `;
 }
+
+$('#category_title').css('width', $('#category_title').val().length * 23 + 50);
+$('#category_title').keyup(resizeInput);
+
+function resizeInput() {
+  $(this).css('width', $(this).val().length * 20 + 50);
+
+  if ($(this).val().length > $(this).attr('maxlength')) {
+    $(this).val($(this).val().substr(0, $(this).attr('maxlength')));
+  }
+  
+  if (event.keyCode == 13 && $("#category_title").val() != "") {
+      var url = "/todo/";
+  }
+}
+
+//get category_color
+function get_color() {
+  console.log(category_color);
+  document.querySelector(".color_picker").innerHTML = `
+    <input id='color_picker' type='color' value='#${category_color}'>
+  `;
+}
+
+$(document).ready(function() {
+  $("#color_picker_btn").click(function() { 
+      $(".color_picker").toggle();
+  });
+});
+
+
+//update category_color => PUT
+$("#color_picker").change(function(){
+  new_category_color = $("#color_picker").val();
+  console.log(new_category_color);
+  var url = "/todo/";
+
+  fetch(url, {
+    method: "PUT",
+    body: JSON.stringify({
+      category_id: category_id,
+      color: new_category_color
+    }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then(function (type) {
+      return type.json();
+    })
+    .then(function (result) {
+      console.log(result);
+      console.log(result.result.color);
+      console.log(location.href);
+      
+      var color = result.result.color.replace('#', '');
+      
+      var oldUrl = new URL(location.href);
+      var params = new URLSearchParams(oldUrl.search);
+      params.set('category_color', color);
+      var newURL = params.toString();
+      console.log(newURL);
+
+      location.href = "tasks?"+ newURL;
+    });
+});
 
 //get todo -> GET
 function get_todo() {
@@ -42,13 +135,13 @@ function get_todo() {
       console.log(result);
 
       // get content
-
       for (var i = 0; i < result.length; i++) {
         var todo_id = result[i].id;
         var content = result[i].content;
         var status = result[i].status;
+        var important = result[i].important;
 
-        var task = `<div class='task' contentEditable='true' id=${todo_id} onfocus='todo_initial_content($(this).text())' onblur='todo_edited_content($(this).text())'></div>`;
+        var task = `<div class='task' id=${todo_id} ></div>`;
 
         //delete
         var del = $("<i class='fas fa-trash-alt'></i>").click(function () {
@@ -127,7 +220,6 @@ function get_todo() {
 
         //calendar
         var isClicked = true;
-        var isCalClicked = true;
         var cal =
           "<span style='display:none;'><input class='cal' style='margin-left: 10px;' type='text' id='from_" +
           todo_id +
@@ -169,58 +261,45 @@ function get_todo() {
             }
           }
 
-          if (
-            $("#from_" + arr[1]).val() == "" ||
-            $("#from_" + arr[1]).val() == undefined
-          ) {
-            if (
-              $("#to_" + arr[1]).val() == "" ||
-              $("#to_" + arr[1]).val() == undefined
-            ) {
+          var from = $("#from_" + arr[1]).val();
+          var to = $("#to_" + arr[1]).val();
+
+          //달력을 닫았을 때
+          if(p.attr("style").includes('none')) {
+            
+            if(from == '') {
+              alert("시작일을 입력해주세요.");
+              p.css("display", "inline");
+              $("#from_" + arr[1]).focus();
               return;
             }
-          } else if (
-            $("#from_" + arr[1]).val() != "" &&
-            $("#to_" + arr[1]).val() != ""
-          ) {
-            if (isCalClicked) {
-              alert("캘린더에 저장되었습니다.");
-              isCalClicked = false;
+
+            if(to == '') {
+              alert("종료일을 입력해주세요.");
+              p.css("display", "inline");
+              $("#to_" + arr[1]).focus();
+              return;
             }
-          } else {
-            if ($("#from_" + arr[1]).val() != "") {
-              if ($("#to_" + arr[1]).val() == "") {
-                alert("종료일을 입력하세요.");
-                p.css("display", "");
-                return;
-              }
-            }
+
           }
 
-          if ($("to_" + arr[1]).val() != "") {
-            if ($("#from_" + arr[1]).val() == "") {
-              alert("시작일을 입력하세요.");
-              p.css("display", "");
-              return;
-            }
-          }
         });
-
+        
         //star
         var star = $(
-          `<span id='star_${todo_id}'><i class='far fa-star'></i></span>`
+          `<span class='important' id='star_${todo_id}'><i class='far fa-star'></i></span>`
         ).click(function () {
           var p = $(this).parent();
 
-          if (isClicked) {
+          if (important_clicked == false) {
             $(this)
               .children(".fa-star")
               .removeClass("far fa-star")
               .addClass("fas fa-star");
             p.css("background", "#371F54");
-            isClicked = false;
-            console.log(isClicked);
-            var important = 0;
+            important_clicked = true;
+            console.log(important_clicked);
+            var important = 1;
             console.log(important);
           } else {
             $(this)
@@ -228,9 +307,9 @@ function get_todo() {
               .removeClass("fas fa-star")
               .addClass("far fa-star");
             p.css("background", "#81589f9d");
-            isClicked = true;
-            console.log(isClicked);
-            var important = 1;
+            important_clicked = false;
+            console.log(important_clicked);
+            var important = 0;
             console.log(important);
           }
 
@@ -239,7 +318,7 @@ function get_todo() {
           console.log(important);
           console.log(todo_id);
 
-          //update task status
+          //update task important
           var url = "/todo/" + category_id;
           console.log(url);
           fetch(url, {
@@ -261,18 +340,41 @@ function get_todo() {
         });
 
         // del,check,star,cal,calendar
+        console.log('content : ', content);
+        var task = $(task).html(`<input class='content' type='text' value='${content}' onkeyup='contentKeyup($(this).val(), ${todo_id})' onfocus='todo_initial_content($(this).val())' onblur='todo_edited_content($(this).val(), ${todo_id})' maxlength='30' />`);
+        task.append(del, check, star, cal, calendar);
 
         if (status === false) {
-          var task = $(task).text(content);
-          console.log(task[0]);
-          task.append(del, check, star, cal, calendar);
-          console.log(task[0]);
           $(".notcomp").append(task);
         } else {
-          var task = $(task).text(content);
-          task.append(del, check, star, cal, calendar);
-          console.log(task);
           $(".comp").append(task);
+        }
+
+        //get important
+        console.log(star);
+        var p = $(star).parent();
+        console.log(p);
+
+        if (important) {
+          $(star)
+            .children(".fa-star")
+            .removeClass("far fa-star")
+            .addClass("fas fa-star");
+          p.css("background", "#371F54");
+          important_clicked = true;
+          console.log(important_clicked);
+          var important = 1;
+          console.log(important);
+        } else {
+          $(star)
+            .children(".fa-star")
+            .removeClass("fas fa-star")
+            .addClass("far fa-star");
+          p.css("background", "#81589f9d");
+          important_clicked = false;
+          console.log(important_clicked);
+          var important = 0;
+          console.log(important);
         }
 
         fn_init(todo_id);
@@ -283,9 +385,9 @@ function get_todo() {
 // edit_category_title -> PUT
 $("#category_title")
   .focus(function () {
-    $(this).data("initialText", $(this).html());
-    console.log($("#category_title").html());
-    $("#span_category_delete_btn").css("display", "");
+    $(this).data("initialText", $(this).val());
+    console.log($("#category_title").val());
+    $("#span_category_delete_btn").css("display", "");    
   })
   // When you leave an item...
   .blur(function () {
@@ -293,12 +395,12 @@ $("#category_title")
 
     $("#span_category_delete_btn").delay(3000).fadeOut();
 
-    if ($(this).data("initialText") !== $(this).html()) {
+    if ($(this).data("initialText") !== $(this).val()) {
       // ... do something.
       console.log("New data when content change.");
-      console.log($(this).html());
+      console.log($(this).val());
 
-      var category_title = $(this).html();
+      var category_title = $(this).val();
       console.log(category_title);
       console.log(category_id);
       var url = "/todo/";
@@ -332,10 +434,24 @@ $("#category_title")
     }
   });
 
-var isClicked = true;
+function contentKeyup(val, todo_id) {
+  var content = $(`#${todo_id}`).children('input.content');
+
+  if (content.val().length > content.attr('maxlength')) {
+    content.val(content.val().substr(0, content.attr('maxlength')));
+  }
+
+  if (event.keyCode == 13 && $(".content").val() != "") {
+    todo_edited_content(val, todo_id);
+  }
+}
 
 // enter 키 -> task 추가 -> POST
 $(".txtb").on("keyup", function (e) {
+  if ($(".txtb").val().length > $(".txtb").attr('maxlength')) {
+    $(".txtb").val($(".txtb").val().substr(0, $(".txtb").attr('maxlength')));
+  }
+
   //13  means enter button
   if (e.keyCode == 13 && $(".txtb").val() != "") {
     var new_task_content = $(".txtb").val();
@@ -356,13 +472,10 @@ $(".txtb").on("keyup", function (e) {
         return type.json();
       })
       .then(function (result) {
-        console.log(result);
-        console.log(result.result["todo_id"]);
         var todo_id = result.result["todo_id"];
 
-        var task = `<div class='task' contentEditable='true' id=${todo_id} onfocus='todo_initial_content($(this).text())' onblur='todo_edited_content($(this).text())'></div>`;
-        var task = $(task).text(new_task_content);
-        console.log(task);
+        var task = `<div class='task' id=${todo_id} ></div>`;
+        var task = $(task).html(`<input class='content' type='text' value='${new_task_content}' onkeyup='contentKeyup($(this).val(), ${todo_id})' onfocus='todo_initial_content($(this).val())' onblur='todo_edited_content($(this).val(), ${todo_id})' maxlength='30' />`);
 
         //delete
         var del = $("<i class='fas fa-trash-alt'></i>").click(function () {
@@ -438,8 +551,6 @@ $(".txtb").on("keyup", function (e) {
             });
         });
 
-        var isCalClicked = true;
-
         //calendar
         var cal =
           "<span style='display:none;'><input style='margin-left: 10px;' type='text' id='from_" +
@@ -455,59 +566,46 @@ $(".txtb").on("keyup", function (e) {
           var p = $("#from_" + arr[1]).parent();
           p.toggle();
 
-          if (
-            $("#from_" + arr[1]).val() == "" ||
-            $("#from_" + arr[1]).val() == undefined
-          ) {
-            if (
-              $("#to_" + arr[1]).val() == "" ||
-              $("#to_" + arr[1]).val() == undefined
-            ) {
+          var from = $("#from_" + arr[1]).val();
+          var to = $("#to_" + arr[1]).val();
+
+          //달력을 닫았을 때
+          if(p.attr("style").includes('none')) {
+            
+            if(from == '') {
+              alert("시작일을 입력해주세요.");
+              p.css("display", "inline");
+              $("#from_" + arr[1]).focus();
               return;
             }
-          } else if (
-            $("#from_" + arr[1]).val() != "" &&
-            $("#to_" + arr[1]).val() != ""
-          ) {
-            if (isCalClicked) {
-              alert("저장되었습니다.");
-              isCalClicked = false;
+
+            if(to == '') {
+              alert("종료일을 입력해주세요.");
+              p.css("display", "inline");
+              $("#to_" + arr[1]).focus();
+              return;
             }
-          } else {
-            if ($("#from_" + arr[1]).val() != "") {
-              if ($("#to_" + arr[1]).val() == "") {
-                alert("종료일을 입력하세요.");
-                p.css("display", "");
-                return;
-              }
-            }
+
           }
 
-          if ($("to_" + arr[1]).val() != "") {
-            if ($("#from_" + arr[1]).val() == "") {
-              alert("시작일을 입력하세요.");
-              p.css("display", "");
-              return;
-            }
-          }
         });
 
-        var isClicked = true;
+        var important_clicked = false;
         //star
         var star = $(
           `<span id='star_${todo_id}'><i class='far fa-star'></i></span>`
         ).click(function () {
           var p = $(this).parent();
 
-          if (isClicked) {
+          if (important_clicked == false) {
             $(this)
               .children(".fa-star")
               .removeClass("far fa-star")
               .addClass("fas fa-star");
             p.css("background", "#371F54");
-            isClicked = false;
-            console.log(isClicked);
-            var important = 0;
+            important_clicked = true;
+            console.log(important_clicked);
+            var important = 1;
             console.log(important);
           } else {
             $(this)
@@ -515,9 +613,9 @@ $(".txtb").on("keyup", function (e) {
               .removeClass("fas fa-star")
               .addClass("far fa-star");
             p.css("background", "#81589f9d");
-            isClicked = true;
-            console.log(isClicked);
-            var important = 1;
+            important_clicked = false;
+            console.log(important_clicked);
+            var important = 0;
             console.log(important);
           }
 
@@ -526,14 +624,14 @@ $(".txtb").on("keyup", function (e) {
           console.log(important);
           console.log(todo_id);
 
-          //update task status
+          //update task important
           var url = "/todo/" + category_id;
           console.log(url);
           fetch(url, {
             method: "PUT",
             body: JSON.stringify({
               todo_id: todo_id,
-              important: important,
+              important: important
             }),
             headers: {
               "Content-Type": "application/json",
@@ -564,19 +662,19 @@ $(".txtb").on("keyup", function (e) {
 //todo_initial_content
 function todo_initial_content(value) {
   initial_content = value.replace(/~/g, "");
+  console.log('todo_initial_content');
   console.log(initial_content);
 }
 
 //todo_edited_content
-function todo_edited_content(value) {
+function todo_edited_content(value, todo_id) {
   var edited_content = value.replace(/~/g, "");
-  console.log(edited_content);
-  console.log(initial_content);
+  console.log('edited_content : ', edited_content);
+  console.log('initial_content : ', initial_content);
 
   if (edited_content !== initial_content) {
     console.log("New data when content change.");
-    var todo_id = $(this).attr("id");
-    console.log(todo_id);
+    console.log('todo_id : ', todo_id);
 
     var url = "/todo/" + category_id;
 
@@ -604,6 +702,7 @@ function fn_init(id) {
   var setSdate, setEdate;
   $("#from_" + id).datepicker({
     dateFormat: "yy-mm-dd",
+    autoSize: true,
     minDate: 0,
     onSelect: function (selectDate) {
       var stxt = selectDate.split("-");
@@ -641,12 +740,25 @@ function fn_init(id) {
         })
         .then(function (result) {
           console.log(result);
+          if(result.status == 'success') {
+            alert("저장되었습니다.");
+
+            $('.task').remove();
+            get_todo();
+          } else {
+            alert("저장에 실패하였습니다.");
+          }
         });
     },
     //from 선택되었을 때
   });
+
+  $("#from_" + id).datepicker('setDate', 'today');
+
   $("#to_" + id).datepicker({
     dateFormat: "yy-mm-dd",
+    autoSize: true,
+    minDate: 0,
     onSelect: function (selectDate) {
       setEdate = selectDate;
 
@@ -669,10 +781,20 @@ function fn_init(id) {
           return type.json();
         })
         .then(function (result) {
-          console.log(result);
+            console.log(result);
+            if(result.status == 'success') {
+              alert("저장되었습니다.");
+
+              $('.task').remove();
+              get_todo();
+            } else {
+              alert("저장에 실패하였습니다.");
+            }
+            
         });
-    },
+    }
   });
+
 }
 
 // check 선언
@@ -749,57 +871,3 @@ var del = $("<i class='fas fa-trash-alt'></i>").click(function () {
       console.log(result);
     });
 });
-
-// star 선언
-var star = $(`<span id='star_${id}'><i class='far fa-star'></i></span>`).click(
-  function () {
-    var p = $(this).parent();
-
-    if (isClicked) {
-      $(this)
-        .children(".fa-star")
-        .removeClass("far fa-star")
-        .addClass("fas fa-star");
-      p.css("background", "#371F54");
-      isClicked = false;
-      console.log(isClicked);
-      var important = 0;
-      console.log(important);
-    } else {
-      $(this)
-        .children(".fa-star")
-        .removeClass("fas fa-star")
-        .addClass("far fa-star");
-      p.css("background", "#81589f9d");
-      isClicked = true;
-      console.log(isClicked);
-      var important = 1;
-      console.log(important);
-    }
-
-    var todo_id = p.attr("id");
-    console.log(p);
-    console.log(important);
-    console.log(todo_id);
-
-    //update task status
-    var url = "/todo/" + category_id;
-    console.log(url);
-    fetch(url, {
-      method: "PUT",
-      body: JSON.stringify({
-        todo_id: todo_id,
-        important: important,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then(function (type) {
-        return type.json();
-      })
-      .then(function (result) {
-        console.log(result);
-      });
-  }
-);

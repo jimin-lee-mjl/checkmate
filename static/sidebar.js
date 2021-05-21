@@ -51,13 +51,15 @@ function create_personal_list() {
 
   // create new list -> post to db
   var url = "/todo/";
-  var randomColor = Math.floor(Math.random() * 16777215).toString(16);
+  var randomColor = "#".concat(
+    Math.floor(Math.random() * 16777215).toString(16)
+  );
 
   fetch(url, {
     method: "POST",
     body: JSON.stringify({
       name: "New_list",
-      color: randomColor
+      color: randomColor,
     }),
     headers: {
       "Content-Type": "application/json",
@@ -68,8 +70,19 @@ function create_personal_list() {
     })
     .then(function (result) {
       console.log(result);
-      console.log(result.result.id);
-      window.location.reload();
+      var id = result.result.id;
+      var name = result.result.name;
+      var color = result.result.color.replace('#', '');
+      console.log(color);
+
+      var now_url = new URL(location.href);
+      var base_url = now_url.origin;
+      console.log(now_url);
+      console.log(base_url);
+
+      new_url = `/tasks?category_id=${id}&category_name=${name}&category_color=${color}`;
+      console.log(new_url);
+      window.location.href = base_url+new_url;
     });
 }
 
@@ -104,6 +117,13 @@ else if (window.location.pathname == "/myprofile") {
   current_location.classList.add("active");
 }
 
+// settings
+else if (window.location.pathname == "/feedback") {
+  var current_location = document.getElementById("feedback");
+  linkColor.forEach((l) => l.classList.remove("active"));
+  current_location.classList.add("active");
+}
+
 //get_category
 function get_category() {
   var url = "/todo";
@@ -116,7 +136,7 @@ function get_category() {
       for (var i = 0; i < result.length; i++) {
         var name = result[i].name;
         var id = result[i].id;
-        var color = result[i].color;
+        var color = result[i].color.replace('#', '');
         console.log(name);
 
         // get titles

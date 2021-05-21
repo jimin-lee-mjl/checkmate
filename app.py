@@ -13,7 +13,7 @@ app.config['SECRET_KEY'] = SECRET_KEY
 @app.route('/') 
 @login_required
 def dashboard():
-  return render_template('dashboard.html')
+  return dash.print_dashboard()
 
 @app.route('/tasks') 
 @login_required
@@ -21,6 +21,7 @@ def tasks():
   return render_template('tasks.html')
 
 @app.route('/calendar/data')
+@login_required
 def return_data():
     return cal.get_todo_cal()
 
@@ -28,6 +29,11 @@ def return_data():
 @login_required
 def myprofile():
   return render_template('profile.html')
+
+@app.route('/feedback') 
+@login_required
+def feedback():
+  return render_template('feedback.html')
 
 with app.app_context():
   import db
@@ -46,8 +52,5 @@ with app.app_context():
   app.register_blueprint(dash.bp)
 
   import profile
-  app.register_blueprint(profile.bp)
-
-
-    
+  app.register_blueprint(profile.bp) 
 

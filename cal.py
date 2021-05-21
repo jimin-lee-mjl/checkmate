@@ -7,9 +7,9 @@ from flask import current_app
 from flask import Blueprint
 from flask import render_template, redirect, url_for, current_app
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import LoginManager, login_user, logout_user, login_required
+from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from form import LoginForm, SignupForm
-import sys
+from datetime import timedelta
 bp = Blueprint("calendar", __name__, url_prefix="/calendar")
 
 @bp.route('/')
@@ -17,25 +17,20 @@ def calendar():
     return render_template("calendar.html")
 
 @bp.route('/datacal')
-#@login_required
 def get_todo_cal():
-    todoListCal = TodoList.query.all()
-    a = []
-    is_important = ''
-    color = ''
+    todoListCal =  TodoList.query.filter_by(user_id=current_user.id).all()
+    data = []
     for todoList in todoListCal:
-        if todoList.status==0 and todoList.important == 1:
-            is_important = "important"
-        else:
-            is_important = ''
-
-        hi = {
-        "title":todoList.content,
-        "start": todoList.start_date,
-        "end":todoList.end_date,
-        "important": is_important,
-        "color" : todoList.category.color
-        }
-        a.append((hi))
-    #print(json.dumps(a), file=sys.stdout)
-    return json.dumps(a)
+        if todoList.end_date!=None:
+            end_date = todoList.end_date + timedelta(days=1)
+        if todoList.status==0:
+            col = {
+                "title":todoList.content,
+                "start": todoList.start_date.strftime("%Y-%m-%d"),
+                "end":  end_date.strftime("%Y-%m-%d") if todoList.end_date!=None else None,
+                "important": todoList.important,
+                "color" : todoList.category.color
+            }
+            print(col)
+            data.append(col)
+    return json.dumps(data)
