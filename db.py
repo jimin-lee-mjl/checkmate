@@ -6,7 +6,7 @@ from werkzeug.security import generate_password_hash
 from flask_login import UserMixin
 from datetime import datetime,timedelta
 
-current_app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('CLEARDB_DATABASE_URL')
+current_app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('DATABASE_URL')
 current_app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(current_app)
 migrate = Migrate(current_app, db)
