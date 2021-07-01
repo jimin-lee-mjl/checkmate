@@ -1,14 +1,14 @@
+import os
 import json
 import sys
 from flask import Flask, render_template, redirect, url_for, jsonify, request, flash
 from flask_bootstrap import Bootstrap
 from flask_login import login_required, current_user
-from config import SECRET_KEY
 
 app = Flask(__name__)
 
 bootstrap = Bootstrap(app)
-app.config['SECRET_KEY'] = SECRET_KEY
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 
 @app.route('/') 
 @login_required

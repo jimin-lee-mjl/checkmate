@@ -1,7 +1,7 @@
 # 프로젝트 소개
 본 프로젝트는 elice X K-digital Training에서 진행한 웹서비스 제작 팀 프로젝트 입니다. ([깃랩 링크](https://kdt-gitlab.elice.io/Jungin/mini-project2))
 
-### [프로젝트 주소로 이동](http://20.194.22.157/)
+### [프로젝트 바로가기](https://checkmate-todo.herokuapp.com/)
 
 ### [기획서 링크](https://kdt-gitlab.elice.io/Jungin/mini-project2/-/wikis/%EA%B8%B0%ED%9A%8D%EC%84%9C)
  

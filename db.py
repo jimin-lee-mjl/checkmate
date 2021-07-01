@@ -1,12 +1,12 @@
+import os
 from flask import current_app
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from werkzeug.security import generate_password_hash
 from flask_login import UserMixin
-from config import DB_URI
 from datetime import datetime,timedelta
 
-current_app.config["SQLALCHEMY_DATABASE_URI"] = DB_URI
+current_app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('CLEARDB_DATABASE_URL')
 current_app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(current_app)
 migrate = Migrate(current_app, db)
@@ -60,18 +60,3 @@ def createTutorial(user_id):
 def init_db():
       db.init_app(current_app)
       db.create_all()
-      # sample_user = User(
-      #       username="lana", email="lana@lana.com", password=generate_password_hash("lanalana", method="sha256")
-      # )
-      # db.session.add(sample_user)
-      # db.session.commit()
-      # sample_category = Category(name="mine", color="#82589F", user_id=1)
-      # sample_category2 = Category(name="hola", color="#FFC312", user_id=1)
-      # db.session.add(sample_category)
-      # db.session.add(sample_category2)
-      # db.session.commit()
-      # sample_todo = TodoList(content="task1", user_id=1, category_id=1)
-      # sample_todo2 = TodoList(content="task2", user_id=1, category_id=2)
-      # db.session.add(sample_todo)
-      # db.session.add(sample_todo2)
-      # db.session.commit()

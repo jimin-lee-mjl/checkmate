@@ -1,10 +1,10 @@
+import os
 from flask import Blueprint, render_template, redirect, url_for, current_app, request, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, login_user, logout_user, login_required
 from authlib.integrations.flask_client import OAuth
 from form import LoginForm, SignupForm
 from db import User, db, Category, createTutorial
-from config import OAUTH_CONFIG
 
 oauth = OAuth(current_app)
 bp = Blueprint("auth", __name__, url_prefix="/auth")
@@ -22,8 +22,8 @@ error_msgs = {
 
 google = oauth.register(
     name='google',
-    client_id=OAUTH_CONFIG['client_id'],
-    client_secret=OAUTH_CONFIG['client_secret'],
+    client_id=os.environ.get('OAUTH_CLIENT_ID'),
+    client_secret=os.environ.get('OAUTH_CLIENT_SECRET'),
     access_token_url='https://accounts.google.com/o/oauth2/token',
     access_token_params=None,
     authorize_url='https://accounts.google.com/o/oauth2/auth',
